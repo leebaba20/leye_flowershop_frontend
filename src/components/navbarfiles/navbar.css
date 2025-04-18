@@ -1,0 +1,85 @@
+/* Logo */
+.navbar img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Navbar container */
+  .navbar {
+    background-color: #8989e6;
+    padding: 0.5rem 1rem;
+  }
+  
+  /* Navbar links */
+  .nav-link {
+    color: whitesmoke !important;
+    font-size: 17px;
+  }
+  
+  /* Optional: Active link highlight */
+  /* 
+  .active {
+    color: red !important;
+  }
+  */
+  
+  /* Toggler icon for small screens */
+  .navbar-toggler-icon {
+    background-color: whitesmoke !important;
+  }
+  
+  /* Toggler button */
+  .navbar-toggler {
+    margin-right: 1rem; /* responsive-friendly spacing */
+  }
+  
+  /* Navbar anchor tags */
+  .navbar a {
+    text-decoration: none;
+    color: rgb(47, 82, 88);
+    font-size: 17px !important;
+  }
+  
+  /* Cart icon */
+  .cart {
+    color: orange;
+    font-size: 1.8rem !important;
+  }
+  
+  /* Cart badge or number */
+  .cartnumber {
+    color: rgb(47, 82, 88);
+  }
+  
+  /* Navbar branding text */
+  .navbar h5 {
+    color: rgb(47, 82, 88);
+    font-size: 1.2rem !important;
+    margin-left: 10px;
+    font-weight: 600;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 576px) {
+    .navbar a {
+      font-size: 15px !important;
+    }
+  
+    .navbar h5 {
+      font-size: 1rem !important;
+    }
+  
+    .cart {
+      font-size: 1.5rem !important;
+    }
+  
+    .navbar-toggler {
+      margin-right: 0.5rem;
+    }
+  
+    .navbar img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
