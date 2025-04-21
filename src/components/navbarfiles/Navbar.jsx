@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BsCart4 } from 'react-icons/bs'; // ✅ Fix: this line was missing
+import { BsCart4 } from 'react-icons/bs';
+import { useCart } from '../../context/CartContext'; // ✅ Corrected import path
 import LOGO from '../../assets/image/page-loader.gif';
 import './navbar.css';
 
 const Navbar = () => {
+    const { cart } = useCart();
+
     return (
         <div className='down'>
             <nav className="navbar fixed-top">
@@ -40,7 +43,7 @@ const Navbar = () => {
                                 <li className="nav-item">
                                     <Link to='/cart'>
                                         <BsCart4 className="cart" />
-                                        <sup><span className="cartnumber">0</span></sup>
+                                        <sup><span className="cartnumber">{cart.length}</span></sup>
                                     </Link>
                                 </li>
                             </ul>
