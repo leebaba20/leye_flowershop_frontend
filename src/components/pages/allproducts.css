@@ -1,0 +1,130 @@
+/* AllProducts.css */
+
+.all-products {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 10px 15px;
+  font-size: 16px;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.collections {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+/* Style individual card if needed */
+.collections .card {
+  transition: transform 0.3s ease;
+}
+.collections .card:hover {
+  transform: translateY(-5px);
+}
+
+/* Heading styles */
+.all-products h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.all-products p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Form wrapper */
+.search-form {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+/* Search input */
+.search-bar {
+  flex: 1;
+  padding: 12px 45px 12px 15px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s ease;
+}
+
+.search-bar:focus {
+  border-color: #8bc34a;
+}
+
+/* Optional: search icon on the right */
+.search-form::after {
+  content: '🔍';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 18px;
+  color: #999;
+}
+.view-more-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.view-more-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #ff4081; /* You can customize this color */
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.view-more-button:hover {
+  background-color: #e73370; /* Slightly darker on hover */
+}
+
+
+/* Responsive tweaks */
+@media screen and (max-width: 768px) {
+  .search-bar {
+    max-width: 100%;
+    font-size: 14px;
+  }
+
+  .all-products h1 {
+    font-size: 2rem;
+  }
+
+  .all-products p {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .collections {
+    grid-template-columns: 1fr;
+  }
+}

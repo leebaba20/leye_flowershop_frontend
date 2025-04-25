@@ -1,0 +1,321 @@
+{
+  "products": [
+    {
+      "id": 9,
+      "img": "./image/flower9.jpeg",
+      "name": "Sunrise Bloom",
+      "category": ["latest", "peony"],
+      "new_price": 1000,
+      "old_price": 1500,
+      "description": "Radiant peonies with golden undertones, perfect for cheerful arrangements."
+    },
+    {
+      "id": 10,
+      "img": "./image/flower10.jpeg",
+      "name": "Moonlit Rose",
+      "category": ["bestseller", "rose"],
+      "new_price": 1200,
+      "old_price": 1700,
+      "description": "Classic white roses glowing under moonlight—elegance redefined."
+    },
+    {
+      "id": 11,
+      "img": "./image/flower11.jpeg",
+      "name": "Velvet Petal",
+      "category": ["bestseller", "orchid"],
+      "new_price": 800,
+      "old_price": 1200,
+      "description": "Graceful orchid petals with a soft velvet touch."
+    },
+    {
+      "id": 12,
+      "img": "./image/flower12.jpeg",
+      "name": "Amber Blossom",
+      "category": ["bestseller", "lily"],
+      "new_price": 900,
+      "old_price": 1300,
+      "description": "Glowing lilies with amber tones to warm any bouquet."
+    },
+    {
+      "id": 13,
+      "img": "./image/flower13.jpeg",
+      "name": "Crimson Whisper",
+      "category": ["latest", "tulip"],
+      "new_price": 1100,
+      "old_price": 1600,
+      "description": "Deep red tulips that whisper timeless romance."
+    },
+    {
+      "id": 14,
+      "img": "./image/flower14.jpeg",
+      "name": "Blush Pearl",
+      "category": ["bestseller", "lily"],
+      "new_price": 950,
+      "old_price": 1400,
+      "description": "Gentle blush tones with a luxurious, pearly finish."
+    },
+    {
+      "id": 15,
+      "img": "./image/flower15.jpeg",
+      "name": "Lavender Dream",
+      "category": ["bestseller", "amber blossom"],
+      "new_price": 1050,
+      "old_price": 1550,
+      "description": "Soothing lavender blooms that bring calm and charm."
+    },
+    {
+      "id": 16,
+      "img": "./image/flower16.jpeg",
+      "name": "Golden Breeze",
+      "category": ["latest", "lily"],
+      "new_price": 1150,
+      "old_price": 1650,
+      "description": "Bright marigold-inspired lilies full of energy and joy."
+    },
+    {
+      "id": 17,
+      "img": "./image/flower17.jpeg",
+      "name": "Midnight Flora",
+      "category": ["bestseller", "tulip"],
+      "new_price": 1050,
+      "old_price": 1550,
+      "description": "Dark tulips that bloom under twilight—mysterious and elegant."
+    },
+    {
+      "id": 18,
+      "img": "./image/flower18.jpeg",
+      "name": "Sapphire Bloom",
+      "category": ["bestseller", "peony"],
+      "new_price": 2150,
+      "old_price": 2650,
+      "description": "Striking sapphire-toned peonies for a bold statement."
+    },
+    {
+      "id": 19,
+      "img": "./image/flower19.jpeg",
+      "name": "Coral Sunset",
+      "category": ["bestseller", "lily"],
+      "new_price": 1340,
+      "old_price": 1450,
+      "description": "Sunset-colored petals with a lively coral twist."
+    },
+    {
+      "id": 20,
+      "img": "./image/flower20.jpg",
+      "name": "Mystic Daisy",
+      "category": ["latest", "rose"],
+      "new_price": 3150,
+      "old_price": 3650,
+      "description": "Simple daisies with a mysterious edge, perfect for minimalists."
+    },
+    {
+      "id": 21,
+      "img": "./image/flower21.jpg",
+      "name": "Orchid Mirage",
+      "category": ["bestseller", "orchid"],
+      "new_price": 1750,
+      "old_price": 1850,
+      "description": "Delicate orchids with a dreamlike, iridescent shimmer."
+    },
+    {
+      "id": 22,
+      "img": "./image/flower22.jpg",
+      "name": "Pink Aurora",
+      "category": ["latest", "orchid"],
+      "new_price": 5150,
+      "old_price": 5650,
+      "description": "Aurora-inspired pink blooms that light up any room."
+    },
+    {
+      "id": 23,
+      "img": "./image/flower23.jpg",
+      "name": "Eternal Spring",
+      "category": ["latest", "amber blossom"],
+      "new_price": 3250,
+      "old_price": 3350,
+      "description": "Pastel blossoms that embody eternal springtime vibes."
+    },
+    {
+      "id": 24,
+      "img": "./image/flower24.jpg",
+      "name": "Bluebell Sky",
+      "category": ["bestseller", "tulip"],
+      "new_price": 4050,
+      "old_price": 4350,
+      "description": "Serene blue flowers inspired by crisp morning skies."
+    },
+    {
+      "id": 25,
+      "img": "./image/flower25.jpg",
+      "name": "Scarlet Halo",
+      "category": ["bestseller", "amber blossom"],
+      "new_price": 6050,
+      "old_price": 6650,
+      "description": "Fiery red petals encircled by a golden halo—a floral masterpiece."
+    },
+    {
+      "id": 26,
+      "img": "./image/flower26.jpg",
+      "name": "Orchid Flame",
+      "category": ["latest", "orchid"],
+      "new_price": 2850,
+      "old_price": 3250,
+      "description": "Intense orange orchids radiating passion and energy."
+    },
+    {
+      "id": 27,
+      "img": "./image/flower27.jpg",
+      "name": "Lily Frost",
+      "category": ["latest", "lily"],
+      "new_price": 2450,
+      "old_price": 2950,
+      "description": "Icy white lilies with a crisp and modern feel."
+    },
+    {
+      "id": 28,
+      "img": "./image/flower28.jpg",
+      "name": "Petal Blush",
+      "category": ["bestseller", "peony"],
+      "new_price": 2650,
+      "old_price": 3050,
+      "description": "Peachy blush peonies with luxurious ruffled layers."
+    },
+    {
+      "id": 29,
+      "img": "./image/flower29.jpg",
+      "name": "Twilight Orchid",
+      "category": ["latest", "orchid"],
+      "new_price": 3350,
+      "old_price": 3850,
+      "description": "Mysterious orchids in shades of violet and indigo."
+    },
+    {
+      "id": 30,
+      "img": "./image/flower30.jpg",
+      "name": "Meadow Bloom",
+      "category": ["latest", "peony"],
+      "new_price": 2950,
+      "old_price": 3450,
+      "description": "Wild peonies in soft pastel tones from the spring meadow."
+    },
+    {
+      "id": 31,
+      "img": "./image/flower31.jpg",
+      "name": "Celestial Rose",
+      "category": ["latest", "rose"],
+      "new_price": 3550,
+      "old_price": 3850,
+      "description": "Roses kissed by starlight—ideal for celestial-inspired themes."
+    },
+    {
+      "id": 32,
+      "img": "./image/flower32.jpg",
+      "name": "Lavender Bliss",
+      "category": ["latest", "amber blossom"],
+      "new_price": 3850,
+      "old_price": 4350,
+      "description": "Soft lavender petals for a calming and romantic feel."
+    },
+    {
+      "id": 33,
+      "img": "./image/flower33.jpg",
+      "name": "Golden Petal",
+      "category": ["bestseller", "rose"],
+      "new_price": 3950,
+      "old_price": 4450,
+      "description": "Golden-hued roses representing opulence and celebration."
+    },
+    {
+      "id": 34,
+      "img": "./image/flower34.jpg",
+      "name": "Citrine Charm",
+      "category": ["bestseller", "amber blossom"],
+      "new_price": 4250,
+      "old_price": 4750,
+      "description": "Amber blossoms glowing with sunny, citrusy energy."
+    },
+    {
+      "id": 35,
+      "img": "./image/flower35.jpg",
+      "name": "Pearl Lily",
+      "category": ["latest", "lily"],
+      "new_price": 3450,
+      "old_price": 3950,
+      "description": "Lily petals with a pearl-like luster—perfect for weddings."
+    },
+    {
+      "id": 40,
+      "img": "./image/flower40.jpg",
+      "name": "Rose Dusk",
+      "category": ["bestseller", "rose"],
+      "new_price": 4550,
+      "old_price": 4950,
+      "description": "Dusky pink roses with hints of sunset and evening calm."
+    }
+  ],
+  "latestcollections": [
+    {
+      "id": 1,
+      "img": "./image/flower1.jpg",
+      "name": "Crimson Charm",
+      "category": ["latest", "rose"],
+      "new_price": 1000,
+      "old_price": 1500,
+      "description": "A rich red rose full of charm and classic elegance."
+    },
+    {
+      "id": 2,
+      "img": "./image/flower2.jpeg",
+      "name": "Peach Blossom",
+      "category": ["bestseller", "amber blossom"],
+      "new_price": 1200,
+      "old_price": 1700,
+      "description": "Delicate peach-toned blossoms that add warmth to any floral setting."
+    },
+    {
+      "id": 3,
+      "img": "./image/flower3.jpeg",
+      "name": "Twilight Tulip",
+      "category": ["latest", "tulip"],
+      "new_price": 800,
+      "old_price": 1200,
+      "description": "Elegant tulips with twilight hues, perfect for evening bouquets."
+    },
+    {
+      "id": 4,
+      "img": "./image/flower4.jpeg",
+      "name": "Golden Lily",
+      "category": ["bestseller", "lily"],
+      "new_price": 900,
+      "old_price": 1300,
+      "description": "A brilliant golden lily, symbolizing joy, success, and prosperity."
+    },
+    {
+      "id": 5,
+      "img": "./image/flower5.jpeg",
+      "name": "Flame Orchid",
+      "category": ["latest", "orchid"],
+      "new_price": 1100,
+      "old_price": 1600,
+      "description": "Orchids in fiery red-orange tones, ideal for passionate expressions."
+    },
+    {
+      "id": 6,
+      "img": "./image/flower6.jpeg",
+      "name": "Snow Tulip",
+      "category": ["bestseller", "tulip"],
+      "new_price": 950,
+      "old_price": 1400,
+      "description": "Pristine white tulips that embody peace, grace, and simplicity."
+    },
+    {
+      "id": 7,
+      "img": "./image/flower7.jpeg",
+      "name": "Blush Bloom",
+      "category": ["latest", "peony"],
+      "new_price": 1250,
+      "old_price": 1700,
+      "description": "Peony blooms in soft blush hues for a romantic and feminine touch."
+    }
+  ]
+}

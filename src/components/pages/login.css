@@ -1,0 +1,64 @@
+/* Login page container */
+.login-container {
+    max-width: 500px;
+    margin: 5rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Heading styles */
+  .login-container h1 {
+    font-size: 2.5rem;
+    color: #e91e63;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  /* Login form section */
+  .login-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-form input {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  .login-form button {
+    padding: 1rem;
+    background-color: #e91e63;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-form button:hover {
+    background-color: #d81b60;
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 600px) {
+    .login-container {
+      padding: 1rem;
+    }
+  
+    .login-form input {
+      padding: 0.8rem;
+    }
+  
+    .login-form button {
+      padding: 0.8rem;
+    }
+  }
+  

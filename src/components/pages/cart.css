@@ -64,4 +64,19 @@
     border: none;
     cursor: pointer;
   }
+  .remove-item-btn {
+    background-color: #dc3545; /* Red */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .remove-item-btn:hover {
+    background-color: #c82333; /* Darker red */
+    transform: scale(1.05);
+  }
   

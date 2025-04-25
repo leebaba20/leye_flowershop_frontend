@@ -1,85 +1,118 @@
 /* Logo */
 .navbar img {
-    width: 50px;
-    height: 50px;
-  }
-  
-  /* Navbar container */
-  .navbar {
-    background-color: #8989e6;
-    padding: 0.5rem 1rem;
-  }
-  
-  /* Navbar links */
-  .nav-link {
-    color: whitesmoke !important;
-    font-size: 17px;
-  }
-  
-  /* Optional: Active link highlight */
-  /* 
-  .active {
-    color: red !important;
-  }
-  */
-  
-  /* Toggler icon for small screens */
-  .navbar-toggler-icon {
-    background-color: whitesmoke !important;
-  }
-  
-  /* Toggler button */
-  .navbar-toggler {
-    margin-right: 1rem; /* responsive-friendly spacing */
-  }
-  
-  /* Navbar anchor tags */
+  width: 50px;
+  height: 50px;
+}
+
+/* Navbar container */
+.navbar {
+  background-color: #8989e6; /* Background color of navbar */
+  padding: 0.5rem 1rem;
+}
+
+/* Navbar links */
+.nav-link {
+  color: #100c1f !important; /* New color for nav-link */
+  font-size: 17px;
+  font-weight: 30px; /* Bolder font for links */
+}
+
+/* Toggler icon for small screens */
+.navbar-toggler-icon {
+  background-color: whitesmoke !important;
+}
+
+/* Toggler button */
+.navbar-toggler {
+  margin-right: 1rem; /* responsive-friendly spacing */
+}
+
+/* Navbar anchor tags */
+.navbar a {
+  text-decoration: none;
+  color: #100c1f; /* New color for navbar a */
+  font-size: 17px !important;
+  font-weight: 30px; /* Ensure proper font weight */
+}
+
+/* Cart icon */
+.cart {
+  color: orange;
+  font-size: 2.0rem !important; /* Bigger cart icon */
+}
+
+/* Cart badge or number */
+.cartnumber {
+  color: #100c1f;
+  font-weight: bold;
+}
+
+/* Navbar branding text */
+.navbar h5 {
+  color: #100c1f; /* Branding text color */
+  font-size: 2.0rem !important; /* Increased font size for "Leye Flower Shop" */
+  margin-left: 10px;
+  font-weight: 700; /* Bolder font for navbar branding */
+}
+
+/* User info section (name and icon) */
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Move to the right */
+  margin-right: 10px; /* Space from the right edge */
+  font-size: 1rem;
+  font-weight: bold; /* Bolder font for user info */
+  color: whitesmoke !important; /* Change text color to smokewhite */
+}
+
+.user-name {
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.user-icon {
+  font-size: 1.5rem;
+  color: whitesmoke !important; 
+}
+
+/* Responsive tweaks for smaller screens */
+@media (max-width: 576px) {
+  /* Navbar link font-size */
   .navbar a {
-    text-decoration: none;
-    color: rgb(47, 82, 88);
-    font-size: 17px !important;
+    font-size: 15px !important;
   }
-  
-  /* Cart icon */
-  .cart {
-    color: orange;
-    font-size: 1.8rem !important;
-  }
-  
-  /* Cart badge or number */
-  .cartnumber {
-    color: rgb(47, 82, 88);
-  }
-  
-  /* Navbar branding text */
+
+  /* Branding text font-size */
   .navbar h5 {
-    color: rgb(47, 82, 88);
-    font-size: 1.2rem !important;
-    margin-left: 10px;
-    font-weight: 600;
+    font-size: 1.2rem !important; /* Adjusted font size for smaller screens */
   }
-  
-  /* Responsive tweaks */
-  @media (max-width: 576px) {
-    .navbar a {
-      font-size: 15px !important;
-    }
-  
-    .navbar h5 {
-      font-size: 1rem !important;
-    }
-  
-    .cart {
-      font-size: 1.5rem !important;
-    }
-  
-    .navbar-toggler {
-      margin-right: 0.5rem;
-    }
-  
-    .navbar img {
-      width: 40px;
-      height: 40px;
-    }
+
+  /* Cart icon font-size */
+  .cart {
+    font-size: 1.5rem !important;
   }
-  
+
+  /* Toggler button margin */
+  .navbar-toggler {
+    margin-right: 0.5rem;
+  }
+
+  /* Logo size adjustment for small screens */
+  .navbar img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Navbar for medium screens */
+@media (max-width: 768px) {
+  /* Adjust navbar items for medium screens */
+  .user-info {
+    font-size: 0.9rem;
+  }
+
+  .navbar h5 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { CartContext } from "./CartContextInstance";
+// src/context/CartProvider.jsx
+import React, { useState } from 'react';
+import { CartContext } from './CartContextDefinition';  // Import the context definition
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
@@ -27,11 +28,14 @@ export const CartProvider = ({ children }) => {
     setCart([]);
   };
 
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); // ✅ Calculate total quantity
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
+      value={{ cart, addToCart, removeFromCart, clearCart, totalItems }} // ✅ Add totalItems
     >
       {children}
     </CartContext.Provider>
   );
 };
+

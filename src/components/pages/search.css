@@ -1,0 +1,74 @@
+/* Search page container */
+.collections {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #e91e63;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Styles for individual product card */
+  .card-container .card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .card-container .card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .card-container .card h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 1rem 0;
+  }
+  
+  .card-container .card .price {
+    font-size: 1rem;
+    color: #e91e63;
+  }
+  
+  /* ✅ Add responsive design with media queries */
+  
+  /* Mobile: Single column layout for cards */
+  @media (max-width: 600px) {
+    .collections {
+      padding: 1rem;
+    }
+  
+    h1 {
+      font-size: 1.5rem;
+    }
+  
+    .card-container {
+      grid-template-columns: 1fr; /* Single column for mobile */
+    }
+  
+    .card-container .card {
+      padding: 1rem;
+    }
+  }
+  
+  /* Tablet: Two column layout for cards */
+  @media (max-width: 900px) {
+    .card-container {
+      grid-template-columns: repeat(2, 1fr); /* Two columns */
+    }
+  }
+  
