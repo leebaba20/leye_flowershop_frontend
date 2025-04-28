@@ -306,16 +306,25 @@
       "category": ["bestseller", "tulip"],
       "new_price": 950,
       "old_price": 1400,
-      "description": "Pristine white tulips that embody peace, grace, and simplicity."
+      "description": "A soft white tulip with a snowy elegance perfect for winter celebrations."
     },
     {
       "id": 7,
       "img": "./image/flower7.jpeg",
-      "name": "Blush Bloom",
-      "category": ["latest", "peony"],
-      "new_price": 1250,
+      "name": "Mystic Rose",
+      "category": ["bestseller", "rose"],
+      "new_price": 1200,
       "old_price": 1700,
-      "description": "Peony blooms in soft blush hues for a romantic and feminine touch."
+      "description": "Mysterious dark roses with a hint of midnight allure."
+    },
+    {
+      "id": 8,
+      "img": "./image/flower8.jpeg",
+      "name": "Amber Tulip",
+      "category": ["latest", "tulip"],
+      "new_price": 1400,
+      "old_price": 1800,
+      "description": "Golden-yellow tulips that add vibrancy to any floral arrangement."
     }
   ]
 }

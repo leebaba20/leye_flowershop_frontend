@@ -1,34 +1,50 @@
-import React, { useState, useContext } from 'react';
-import Card from '../commonfiles/Card'; // Import your Card component
-import Products from '../../assets/products'; // Ensure this path and data are correct
-import { Link } from 'react-router-dom'; // Import Link for redirection
+import React, { useState, useEffect } from 'react';
 import './Bestseller.css';
-import { UserContext } from '../../context/UserContext';
+import Card from '../commonfiles/Card'; // Import your Card component
+import latest_collections from '../../assets/New_collections'; // Mock API for latest collections
 
 const Bestseller = () => {
-  const [searchTerm, setSearchTerm] = useState(''); // For search functionality
+  const [bestsellers, setBestsellers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const { user } = useContext(UserContext);  // Get logged-in user from context
+  // Fetch bestsellers (can be similar to how you fetch latest collections)
+  const fetchBestsellers = async () => {
+    try {
+      setLoading(true);
+      setError(null); // Reset any previous errors
+      // Simulating the API call (replace this with your actual API call)
+      const data = latest_collections;  // Assuming 'latest_collections' has the bestsellers data
+      setBestsellers(data); // Set fetched data to state
+    } catch (err) {
+      setError('Failed to fetch bestsellers');
+      console.error('Error fetching bestsellers:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const limitedBestsellers = Products.slice(0, 4); // Limit to 4 items
+  useEffect(() => {
+    fetchBestsellers(); // Fetch data when the component mounts
+  }, []); // Empty dependency array ensures it only runs once
 
-  const filteredBestsellers = limitedBestsellers.filter(item => {
+  // Filter bestsellers based on search term
+  const filteredBestsellers = bestsellers.filter(item => {
     const lowerSearch = searchTerm.toLowerCase();
     return (
       item.name.toLowerCase().includes(lowerSearch) ||
-      item.category?.some(cat => cat.toLowerCase().includes(lowerSearch)) ||
+      (item.category && item.category.some(cat => cat.toLowerCase().includes(lowerSearch))) ||
       (item.description && item.description.toLowerCase().includes(lowerSearch))
     );
   });
 
+  // Limit to first 4 cards
+  const displayedBestsellers = filteredBestsellers.slice(0, 4);
+
   return (
     <div className="new_collections bestseller">
-      {/* Display logged-in user's name or generic greeting */}
-      {user ? (
-        <h1>Welcome back, {user.name} 🌸</h1> // Display logged-in user's name
-      ) : (
-        <h1>Top Rated Picks</h1>
-      )}
+      <h1>Top Rated Picks</h1>
       <p>Curated by our shoppers. Trusted, loved, and re-ordered continuously.</p>
 
       {/* Search Form */}
@@ -42,17 +58,22 @@ const Bestseller = () => {
         />
       </form>
 
+      {/* Display loading or error messages */}
+      {loading && <p>Loading bestsellers...</p>}
+      {error && <p>{error}</p>}
+
+      {/* Display Bestsellers */}
       <div className="collections">
-        {filteredBestsellers.length > 0 ? (
-          filteredBestsellers.map((card) => (
+        {displayedBestsellers.length > 0 ? (
+          displayedBestsellers.map((card) => (
             <Card
-              key={card.id} // Use card.id for a unique key
+              key={card.id}
               id={card.id}
               name={card.name}
               img={card.img}
               new_price={card.new_price}
               old_price={card.old_price}
-              description={card.description} // Pass description to Card
+              description={card.description}
             />
           ))
         ) : (
@@ -61,9 +82,9 @@ const Bestseller = () => {
       </div>
 
       <div className="view-more-container">
-        <Link to="/bestsellers" className="view-more-button">
+        <a href="/bestsellers" className="view-more-button">
           Show More
-        </Link>
+        </a>
       </div>
     </div>
   );

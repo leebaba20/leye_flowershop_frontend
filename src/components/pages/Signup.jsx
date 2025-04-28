@@ -1,11 +1,10 @@
-// src/components/pages/Signup.jsx
 import React, { useState, useContext } from 'react';
 import './signup.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // <-- Added Link import
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/UserContext';
-import { mockSignup } from '../../mocks/mocksApi'
+import { mockSignup } from '../../mocks/mocksApi';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -111,6 +110,7 @@ const Signup = () => {
           <button type="submit" className="btn-submit">Sign Up</button>
         </form>
 
+        {/* Link to the Login page */}
         <p className="text-center mt-3">
           Already have an account?{' '}
           <Link to="/login" className="login-link">Login here</Link>

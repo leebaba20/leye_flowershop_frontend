@@ -24,7 +24,6 @@
   margin-top: 40px;
 }
 
-/* Style individual card if needed */
 .collections .card {
   transition: transform 0.3s ease;
 }
@@ -32,18 +31,19 @@
   transform: translateY(-5px);
 }
 
-/* Heading styles */
-.all-products h1 {
+/* New custom styles for headings */
+.all-products .explore-heading {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 10px;
+  color: #136b16; /* Green for "Explore More" and "All Products" */
 }
 
-.all-products p {
+.all-products .description-text {
   text-align: center;
   font-size: 1.2rem;
-  color: #555;
   margin-bottom: 30px;
+  color: #301111; /* Dark reddish for paragraph */
 }
 
 /* Form wrapper */
@@ -84,6 +84,7 @@
   font-size: 18px;
   color: #999;
 }
+
 .view-more-container {
   text-align: center;
   margin-top: 2rem;
@@ -92,7 +93,7 @@
 .view-more-button {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background-color: #ff4081; /* You can customize this color */
+  background-color: #1a4db0; /* You can customize this color */
   color: white;
   font-weight: bold;
   text-decoration: none;
@@ -103,9 +104,8 @@
 }
 
 .view-more-button:hover {
-  background-color: #e73370; /* Slightly darker on hover */
+  background-color: #100c1f; /* Slightly darker on hover */
 }
-
 
 /* Responsive tweaks */
 @media screen and (max-width: 768px) {

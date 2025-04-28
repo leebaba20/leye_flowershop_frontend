@@ -52,3 +52,22 @@ export const getUser = () => {
   const storedUser = localStorage.getItem("user");
   return storedUser ? JSON.parse(storedUser) : null; // Return the stored user or null if no user is logged in
 };
+
+// Mock Newsletter Subscription function
+export const mockSubscribe = (email) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // Simulate checking if the email is valid
+      if (email) {
+        // Save the email in localStorage (for demonstration purposes)
+        localStorage.setItem("subscribedEmail", email);
+
+        // Resolve the promise with success message
+        resolve({ message: "Subscription successful!" });
+      } else {
+        // Reject if no email is provided
+        reject(new Error("Email is required"));
+      }
+    }, 1000); // Simulated network delay (1 second)
+  });
+};

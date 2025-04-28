@@ -1,3 +1,4 @@
+/* Main container for New Collections (Bestseller section) */
 .new_collections {
   display: flex;
   flex-direction: column;
@@ -8,6 +9,7 @@
   padding: 20px;
 }
 
+/* Header Styling */
 .new_collections h1 {
   color: green;
   font-size: 3rem; /* Adjusted for large screens */
@@ -16,6 +18,7 @@
   text-align: center;
 }
 
+/* Paragraph Styling */
 .new_collections p {
   font-size: 1.25rem;
   color: #301111;
@@ -23,6 +26,7 @@
   text-align: center;
 }
 
+/* Horizontal rule (divider) */
 .new_collections hr {
   width: 200px;
   height: 5px;
@@ -77,9 +81,49 @@
   }
 }
 
+/* Styling for the Bestseller section */
 .bestseller {
   background-color: #bce0ee;
   padding: 10px;
   border-radius: 5px;
   text-align: center;
+  width: 100%; /* Ensure it stretches fully across the container */
+  margin-top: 50px;
+}
+
+/* Card component for each bestseller item */
+.bestseller .card {
+  flex: 1 0 calc(25% - 20px);
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bestseller .card img {
+  width: 100%;
+  border-radius: 8px;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* View More Button */
+.view-more-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.view-more-button {
+  padding: 10px 20px;
+  background-color: #f1c40f;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.view-more-button:hover {
+  background-color: #e67e22;
 }

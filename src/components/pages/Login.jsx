@@ -1,15 +1,14 @@
-// src/pages/login/Login.jsx
 import React, { useState, useContext } from 'react';
 import './login.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // <-- Added Link import
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/UserContext';
-import { mockLogin } from '../../mocks/mocksApi'
+import { mockLogin } from '../../mocks/mocksApi';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(UserContext);
+  const { login } = useContext(UserContext); // Use login from context
 
   const [formData, setFormData] = useState({
     email: '',
@@ -27,24 +26,30 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      // Use the mockLogin function instead of real network request
-      const user = await mockLogin(formData.email, formData.password); // Call mockLogin function
+    // Validate form
+    if (!formData.email || !formData.password) {
+      toast.error('All fields are required');
+      return;
+    }
 
-      // Login the user
+    try {
+      // Call the mockLogin function to simulate the login process
+      const user = await mockLogin(formData.email, formData.password);
+
+      // Login the user after successful login
       login(user);
 
       // Show success message and redirect to homepage
       toast.success('Login successful! Redirecting...', {
         autoClose: 2000,
-        onClose: () => navigate('/'),  // Redirect to homepage or another page
+        onClose: () => navigate('/'), // Redirect to homepage or another page
       });
     } catch (error) {
-      // Handle errors (invalid credentials, etc.)
-      toast.error(error.message);  // Display the error message from the mock API
+      console.error(error);
+      toast.error('Invalid credentials. Please try again.');
     }
 
-    // Clear the form after submitting
+    // Clear the form after submission
     setFormData({
       email: '',
       password: '',
@@ -75,6 +80,12 @@ const Login = () => {
           />
           <button type="submit" className="btn-submit">Login</button>
         </form>
+
+        {/* Link to the Signup page */}
+        <p className="text-center mt-3">
+          Don't have an account?{' '}
+          <Link to="/signup" className="signup-link">Sign up here</Link>
+        </p>
       </div>
     </div>
   );

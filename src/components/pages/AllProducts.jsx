@@ -3,16 +3,15 @@ import Card from '../commonfiles/Card';
 import Products from '../../assets/products';
 import latest_collections from '../../assets/New_collections';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext'; // Import UserContext
+import { UserContext } from '../../context/UserContext'; 
 import './AllProducts.css';
 
 const AllProducts = ({ showLimited = false }) => {
-  const [searchTerm, setSearchTerm] = useState(''); // For search functionality
-  const { user } = useContext(UserContext);  // Get logged-in user from context
+  const [searchTerm, setSearchTerm] = useState('');
+  const { user } = useContext(UserContext);
 
-  const allProducts = [...Products, ...latest_collections];  // Combine both product lists
+  const allProducts = [...Products, ...latest_collections];
 
-  // Filter products based on search term
   const filteredProducts = allProducts.filter((item) => {
     const lowerSearch = searchTerm.toLowerCase();
     return (
@@ -22,19 +21,18 @@ const AllProducts = ({ showLimited = false }) => {
     );
   });
 
-  // Limiting products to display if needed
   const productsToDisplay = showLimited ? filteredProducts.slice(0, 8) : filteredProducts;
 
   return (
     <div className="new_collections all-products">
-      {user ? (
-        <h1>Welcome back, {user.name} 🌸</h1>
-      ) : (
-        <h1>{showLimited ? 'Explore More' : 'All Products'}</h1>
-      )}
-      <p>Discover all our latest products and bestsellers in one place.</p>
+      <h1 className="explore-heading">
+        {user ? `Welcome back, ${user.name} 🌸` : (showLimited ? 'Explore More...' : 'All Products')}
+      </h1>
 
-      {/* Search Form */}
+      <p className="description-text">
+        Discover all our latest products and bestsellers in one place.
+      </p>
+
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
@@ -45,7 +43,6 @@ const AllProducts = ({ showLimited = false }) => {
         />
       </form>
 
-      {/* Display products */}
       <div className="collections">
         {productsToDisplay.length > 0 ? (
           productsToDisplay.map((card) => (
@@ -64,7 +61,6 @@ const AllProducts = ({ showLimited = false }) => {
         )}
       </div>
 
-      {/* Show More button */}
       {showLimited && (
         <div className="view-more-container">
           <Link to="/all-products" className="view-more-button">

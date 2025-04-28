@@ -5,38 +5,31 @@ import Bestseller from '../Bestseller/Bestseller';
 import AllProducts from './AllProducts';
 import Newsletter from '../forms/Newsletter';
 import { UserContext } from '../../context/UserContext';
-import './Home.css'; // Ensure this CSS file is imported
+import './Home.css'; // External CSS
 
 const Home = () => {
-  const { user } = useContext(UserContext);  // Access logged-in user from context
+  const { user } = useContext(UserContext);
 
   return (
     <div className="home-container">
       <Hero />
-      
+
       <div className="welcome-section">
         {user ? (
-          <h2 className="welcome-message">Welcome back, <span className="user-name">{user.name}</span> 🌸</h2>  // Personalized greeting
+          <marquee behavior="scroll" direction="left" scrollamount="6" className="welcome-marquee">
+            WELCOME BACK, <span className="user-name">{user.name.toUpperCase()}</span> 🌸
+          </marquee>
         ) : (
-          <h2 className="welcome-message">Welcome to our Flower Shop! Explore our collection</h2>  // General greeting for guests
+          <marquee behavior="scroll" direction="left" scrollamount="6" className="welcome-marquee">
+            WELCOME TO OUR FLOWER SHOP! EXPLORE OUR COLLECTIONS
+          </marquee>
         )}
       </div>
 
-     
-        <LatestCollections showLimited={true} />
-      
-
-      
-        <Bestseller showLimited={true} />
-      
-
-     
-        <AllProducts showLimited={true} />
-      
-
-      
-        <Newsletter />
-      
+      <LatestCollections showLimited={true} />
+      <Bestseller showLimited={true} />
+      <AllProducts showLimited={true} />
+      <Newsletter />
     </div>
   );
 };

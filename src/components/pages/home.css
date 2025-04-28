@@ -1,74 +1,97 @@
 /* src/components/pages/Home.css */
 
 .home-container {
-    font-family: 'Roboto', sans-serif; /* Changed font to Roboto */
-    margin: 0;
-    padding: 0;
-    color: #333;
-    background-color: #f9f9f9; /* Light background color */
-  }
-  
-  .welcome-section {
-    text-align: center;
-    margin: 40px 0;
-    padding: 20px;
-   
-  }
-  
-  .welcome-message {
-    font-size: 35px; /* Larger text for better visibility */
-    color: #d32f2f; /* Red color for the message */
-    font-weight: 700;
-    text-transform: capitalize;
-    margin: 0;
-  }
-  
-  .user-name {
-    color: #1976d2; /* Blue color for the user's name */
-  }
-  
+  font-family: 'Roboto', sans-serif; /* Using Roboto for a clean look */
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #100c1f /* Cool brown background */
+}
 
-  
+/* Welcome Section */
+.welcome-section {
+  text-align: center;
+  margin: 20px 0 10px; /* Reduced spacing */
+  padding: 10px;
+}
+
+.welcome-marquee {
+  color: #c9c2c2; /* Dark brown text */
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase; /* ALL CAPITALS */
+  letter-spacing: 1.5px;
+}
+
+/* Username inside the welcome message */
+.user-name {
+  color: whitesmoke; /* Deeper brown for the user's name */
+}
+
+/* Section Titles (e.g., Latest Collections, Best Sellers) */
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #136b16; /* Green for section titles */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Hero Section */
+.hero {
+  margin-bottom: 30px; /* Less space under hero */
+}
+
+/* Override for Bootstrap Card in Newsletter */
+.card {
+  background-color: #fff8f0 !important;
+  border-radius: 10px !important;
+}
+
+.card h1 {
+  font-size: 30px;
+  font-weight: 800;
+  color: #100c1f; /* Heading color */
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.text-muted {
+  color: #100c1f !important; /* Change subtext color */
+}
+
+.btn-primary {
+  background-color: #100c1f !important;
+  border-color: #100c1f !important;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.btn-primary:hover {
+  background-color: #2e2e3a !important;
+  border-color: #2e2e3a !important;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .latest-collections,
+  .bestsellers,
+  .all-products {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .section-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #4CAF50; /* Green for section titles */
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 24px;
   }
-  
-  .hero {
-    /* Hero section styling (you can add more styles here if needed) */
-    margin-bottom: 40px;
+
+  .welcome-marquee {
+    font-size: 22px;
   }
-  
-    
-  .newsletter-section {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 40px;
-    text-align: center;
-  }
-  
+
   .newsletter-section h3 {
-    margin-bottom: 20px;
+    font-size: 24px;
   }
-  
-  @media (max-width: 768px) {
-    .latest-collections,
-    .bestsellers,
-    .all-products {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .section-title {
-      font-size: 24px;
-    }
-  
-    .welcome-message {
-      font-size: 22px;
-    }
-  }
-  
+}

@@ -6,7 +6,7 @@
 
 /* Navbar container */
 .navbar {
-  background-color: #8989e6; /* Background color of navbar */
+  background-color: #1a4db0; 
   padding: 0.5rem 1rem;
 }
 
@@ -30,30 +30,31 @@
 /* Navbar anchor tags */
 .navbar a {
   text-decoration: none;
-  color: #100c1f; /* New color for navbar a */
+  color: #0b0b4b; /* New color for navbar a */
   font-size: 17px !important;
   font-weight: 30px; /* Ensure proper font weight */
 }
 
 /* Cart icon */
-.cart {
-  color: orange;
-  font-size: 2.0rem !important; /* Bigger cart icon */
+.navbar .cart-icon {
+  color: orange !important; /* Cart icon color */
+  font-size: 2.2rem !important; /* Bigger cart icon */
+  margin-left: 10px;
+  transition: transform 0.3s ease; /* Smooth hover animation */
+}
+
+.navbar .cart-icon:hover {
+  transform: scale(1.2); /* Slight bounce effect on hover */
 }
 
 /* Cart badge or number */
-.cartnumber {
+.cart-number {
   color: #100c1f;
   font-weight: bold;
+  margin-left: 2px;
 }
 
-/* Navbar branding text */
-.navbar h5 {
-  color: #100c1f; /* Branding text color */
-  font-size: 2.0rem !important; /* Increased font size for "Leye Flower Shop" */
-  margin-left: 10px;
-  font-weight: 700; /* Bolder font for navbar branding */
-}
+
 
 /* User info section (name and icon) */
 .user-info {
