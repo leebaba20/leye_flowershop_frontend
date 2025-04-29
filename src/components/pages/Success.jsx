@@ -1,47 +1,52 @@
 // src/components/pages/Success.jsx
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Success.css';
 
 const Success = () => {
-  // Define order state
   const [order, setOrder] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // Retrieve order info from localStorage
     const data = localStorage.getItem('orderComplete');
     if (data) {
-      setOrder(JSON.parse(data));  // Set order state
-      toast.success('🎉 Order completed successfully!', {
+      const parsed = JSON.parse(data);
+      setOrder(parsed);
+
+      toast.success('🎉 Payment successful! Your order is confirmed.', {
         className: 'custom-toast',
         bodyClassName: 'custom-toast-body',
         progressClassName: 'custom-toast-progress',
       });
 
-      // Don't clear immediately so user sees info
       const timer = setTimeout(() => {
         localStorage.removeItem('orderComplete');
         localStorage.removeItem('shipping');
-      }, 3000);
+      }, 4000);
 
-      // Cleanup on unmount
       return () => clearTimeout(timer);
+    } else {
+      toast.error('⚠️ No recent order found. Redirecting...');
+      const fallbackTimer = setTimeout(() => {
+        navigate('/');
+      }, 3000);
+      return () => clearTimeout(fallbackTimer);
     }
-  }, []);
+  }, [navigate]);
 
   if (!order) {
     return (
       <div className="text-center mt-5">
-        <h3>Loading your order details...</h3>
+        <ToastContainer />
+        <h4>Checking for order details...</h4>
       </div>
     );
   }
 
-  // Calculate total order price
   const total = order.cartItems.reduce(
     (sum, item) => sum + item.new_price * (item.quantity || 1),
     0

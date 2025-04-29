@@ -3,8 +3,8 @@ import { useCart } from '../../hooks/UseCart';
 import useUser from '../../hooks/UseUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Button, Spinner } from 'react-bootstrap'; // Spinner import
-import axios from 'axios'; // Import axios
+import { Button, Spinner } from 'react-bootstrap';
+import axios from 'axios';
 import './Shipping.css';
 
 const Shipping = () => {
@@ -18,7 +18,7 @@ const Shipping = () => {
 
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const { cart } = useCart();
   const { user } = useUser();
 
@@ -51,41 +51,41 @@ const Shipping = () => {
   const totalAmount = cart.reduce(
     (acc, item) => acc + item.quantity * item.new_price,
     0
-  ) * 100;
+  ) * 100; // Paystack expects amount in kobo (₦)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Validate the form fields
+
     const validationErrors = validate();
     setErrors(validationErrors);
     const valid = Object.keys(validationErrors).length === 0;
     setIsFormValid(valid);
-  
+
     if (!valid) {
       toast.error('Please fix the errors before proceeding.');
       return;
     }
-  
-    setLoading(true); // Start loading
-  
+
+    setLoading(true);
+
     try {
-      // Send the amount in USD (frontend handles it as dollars)
-      const response = await axios.post('/api/initialize-payment', {
-        email: user?.email || 'guest@example.com',
-        amount: totalAmount, // Total amount is in dollars
-      });
-  
+      const response = await axios.post(
+        'https://leye-flowershop-backend.onrender.com/api/initialize-payment',
+        {
+          email: user?.email || 'guest@example.com',
+          amount: totalAmount,
+        }
+      );
+
       const { authorization_url } = response.data;
-      window.location.href = authorization_url; // Redirect to Paystack payment page
+      window.location.href = authorization_url;
     } catch (error) {
       toast.error('Error initializing payment. Please try again.');
       console.error('Payment initialization failed:', error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
-  
 
   return (
     <div className="shipping-container">
@@ -105,7 +105,7 @@ const Shipping = () => {
                 value={form[field]}
                 onChange={handleChange}
                 className={`form-control ${errors[field] ? 'is-invalid' : ''}`}
-                disabled={loading} // Disable while loading
+                disabled={loading}
               />
               {errors[field] && <div className="invalid-feedback">{errors[field]}</div>}
             </div>
@@ -114,11 +114,11 @@ const Shipping = () => {
           <Button
             type="submit"
             className={`btn w-100 ${isFormValid ? 'btn-success' : 'btn-primary'}`}
-            disabled={loading} // Disable while loading
+            disabled={loading}
           >
             {loading ? (
               <>
-                <Spinner animation="border" size="sm" className="mr-2" /> {/* Spinner here */}
+                <Spinner animation="border" size="sm" className="me-2" />
                 Processing...
               </>
             ) : (
