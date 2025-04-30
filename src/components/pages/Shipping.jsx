@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useCart } from '../../hooks/UseCart'; 
-import useUser from '../../hooks/UseUser';
+import { useCart } from '../../hooks/useCart'; 
+import UseUser from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Spinner } from 'react-bootstrap';
@@ -20,7 +20,7 @@ const Shipping = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const { cart } = useCart();
-  const { user } = useUser();
+  const { user } = UseUser();
 
   useEffect(() => {
     window.scrollTo(0, 0);

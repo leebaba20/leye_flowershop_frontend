@@ -1,10 +1,10 @@
 // src/components/navbarfiles/Navbar.jsx
 import React, { useContext } from 'react';
 import LOGO from '../../assets/image/page-loader.gif';
-import './Navbar.css';  // Import external CSS
+import './navbar.css';  // Import external CSS
 import { Link, useNavigate } from 'react-router-dom';
 import { BsCart4 } from "react-icons/bs";
-import { useCart } from '../../hooks/UseCart';
+import { useCart } from '../../hooks/useCart';
 import { FaUserCircle } from "react-icons/fa";  // User icon import
 import { UserContext } from '../../context/UserContext';
 
