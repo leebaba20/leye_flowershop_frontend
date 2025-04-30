@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Spinner } from 'react-bootstrap';
 import axios from 'axios';
-import './Shipping.css';
+import './shipping.css';
 
 const Shipping = () => {
   const [form, setForm] = useState({
