@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap'; // Optional, if you're using Bootstrap
 import { Link } from 'react-router-dom'; // Import Link for navigation
-import './success.css'
+
 
 const SignupSuccess = () => {
   const navigate = useNavigate();
