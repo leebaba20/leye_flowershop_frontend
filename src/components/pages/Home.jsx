@@ -5,7 +5,7 @@ import Bestseller from '../Bestseller/Bestseller';
 import AllProducts from './AllProducts';
 import Newsletter from '../forms/Newsletter';
 import { UserContext } from '../../context/UserContext';
-import './Home.css'; // External CSS
+import './home.css'; // External CSS
 
 const Home = () => {
   const { user } = useContext(UserContext);
