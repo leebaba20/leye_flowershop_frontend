@@ -1,76 +1,77 @@
 /* Base styles */
 .shipping-container {
-    max-width: 800px;
-    margin: auto;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 100px auto 0 auto; /* Added top margin to avoid overlap with navbar */
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}
+
+.shipping-container h2 {
+  font-weight: bold;
+  color: #2d572c;
+}
+
+.shipping-container .form-label {
+  font-weight: 500;
+}
+
+.shipping-container .form-control {
+  padding: 0.6rem;
+  border-radius: 6px;
+}
+
+.shipping-container .btn {
+  padding: 0.75rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 6px;
+}
+
+.shipping-container .btn-success {
+  background-color: #28a745;
+  border: none;
+}
+
+.shipping-container .btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .shipping-container {
+    padding: 1.2rem;
+    margin-top: 80px; /* Reduced margin for smaller screens */
   }
-  
+
   .shipping-container h2 {
-    font-weight: bold;
-    color: #2d572c;
+    font-size: 1.5rem;
+    text-align: center;
   }
-  
-  .shipping-container .form-label {
-    font-weight: 500;
-  }
-  
-  .shipping-container .form-control {
-    padding: 0.6rem;
-    border-radius: 6px;
-  }
-  
+
   .shipping-container .btn {
-    padding: 0.75rem;
-    font-weight: bold;
-    font-size: 1rem;
-    border-radius: 6px;
+    font-size: 0.95rem;
   }
-  
-  .shipping-container .btn-success {
-    background-color: #28a745;
-    border: none;
+}
+
+@media (max-width: 480px) {
+  .shipping-container {
+    padding: 1rem;
+    margin-top: 70px; /* Further reduced margin */
   }
-  
-  .shipping-container .btn-primary {
-    background-color: #007bff;
-    border: none;
+
+  .shipping-container h2 {
+    font-size: 1.25rem;
   }
-  
-  /* Media queries for responsiveness */
-  @media (max-width: 768px) {
-    .shipping-container {
-      padding: 1.2rem;
-    }
-  
-    .shipping-container h2 {
-      font-size: 1.5rem;
-      text-align: center;
-    }
-  
-    .shipping-container .btn {
-      font-size: 0.95rem;
-    }
+
+  .shipping-container .form-control {
+    font-size: 0.9rem;
   }
-  
-  @media (max-width: 480px) {
-    .shipping-container {
-      padding: 1rem;
-    }
-  
-    .shipping-container h2 {
-      font-size: 1.25rem;
-    }
-  
-    .shipping-container .form-control {
-      font-size: 0.9rem;
-    }
-  
-    .shipping-container .btn {
-      padding: 0.6rem;
-      font-size: 0.9rem;
-    }
+
+  .shipping-container .btn {
+    padding: 0.6rem;
+    font-size: 0.9rem;
   }
-  
+}

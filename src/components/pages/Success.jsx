@@ -1,47 +1,80 @@
-// src/components/pages/Success.jsx
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Success = () => {
   const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    const data = localStorage.getItem('orderComplete');
-    if (data) {
-      const parsed = JSON.parse(data);
-      setOrder(parsed);
+    // Extract the reference from URL query parameters
+    const params = new URLSearchParams(location.search);
+    const reference = params.get('reference');
 
-      toast.success('🎉 Payment successful! Your order is confirmed.', {
-        className: 'custom-toast',
-        bodyClassName: 'custom-toast-body',
-        progressClassName: 'custom-toast-progress',
-      });
-
-      const timer = setTimeout(() => {
-        localStorage.removeItem('orderComplete');
-        localStorage.removeItem('shipping');
-      }, 4000);
-
-      return () => clearTimeout(timer);
-    } else {
-      toast.error('⚠️ No recent order found. Redirecting...');
-      const fallbackTimer = setTimeout(() => {
+    if (!reference) {
+      toast.error('⚠️ No payment reference found. Redirecting...');
+      setTimeout(() => {
         navigate('/');
       }, 3000);
-      return () => clearTimeout(fallbackTimer);
+      return;
     }
-  }, [navigate]);
+
+    // Call backend to verify payment
+    const verifyPayment = async () => {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/verify-payment`,
+          { reference }
+        );
+
+        const { message, data } = response.data;
+        if (message === 'Payment successful') {
+          setOrder(data);
+          toast.success('🎉 Payment successful! Your order is confirmed.', {
+            className: 'custom-toast',
+            bodyClassName: 'custom-toast-body',
+            progressClassName: 'custom-toast-progress',
+          });
+        } else {
+          toast.error('⚠️ Payment verification failed. Please try again.');
+          setTimeout(() => {
+            navigate('/');
+          }, 3000);
+        }
+      } catch (error) {
+        console.error('Error verifying payment:', error);
+        toast.error('⚠️ Something went wrong. Please try again.');
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    verifyPayment();
+  }, [location.search, navigate]);
+
+  if (loading) {
+    return (
+      <div className="text-center mt-5">
+        <ToastContainer />
+        <h4>Verifying payment...</h4>
+      </div>
+    );
+  }
 
   if (!order) {
     return (
       <div className="text-center mt-5">
         <ToastContainer />
-        <h4>Checking for order details...</h4>
+        <h4>Payment verification failed. Redirecting...</h4>
       </div>
     );
   }

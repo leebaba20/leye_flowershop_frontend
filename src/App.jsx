@@ -23,6 +23,7 @@ import Notfound from './components/pages/Notfound';
 // Components
 import Navbar from './components/navbarfiles/Navbar';
 import Footer from './components/footerfiles/Footer';
+import ApiComponent from './components/ApiComponent'
 
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -51,6 +52,7 @@ function App() {
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/all-products" element={<AllProducts />} />
             <Route path="*" element={<Notfound />} />
+            <Route path="/api-test" element={<ApiComponent />} /> {/* Add route for ApiComponent */}
           </Routes>
           <Footer />
         </CartProvider>

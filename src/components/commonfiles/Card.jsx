@@ -1,6 +1,6 @@
 // src/components/Card.jsx
 import React from 'react';
-import { useCart } from '../../hooks/UseCart';
+import { useCart } from '../../hooks/useCart'; // Import the custom hook for cart functionality
 import { Link } from 'react-router-dom';
 import './card.css';
 

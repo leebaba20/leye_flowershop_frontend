@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart } from '../../hooks/useCart'
+import { useCart } from '../../hooks/useCart';
 import { Link } from "react-router-dom";
 import "./cart.css";
 
@@ -14,11 +14,13 @@ const Cart = () => {
     clearCart();
   };
 
-  if (cart.length === 0) {
+  // Guard in case cart is not yet initialized
+  if (!cart || cart.length === 0) {
     return (
       <div className="empty-cart">
+        <br />
         <h2>Your Cart is Empty</h2>
-        <Link to="/" className="btn-primary">
+        <Link to="/all-products" className="btn-primary">
           Continue Shopping
         </Link>
       </div>
@@ -59,7 +61,7 @@ const Cart = () => {
         <button className="btn-clear" onClick={handleClearCart}>
           Clear Cart
         </button>
-        <Link to="/checkout" className="btn-primary">
+        <Link to="/shipping" className="btn-primary">
           Proceed to Checkout
         </Link>
       </div>
