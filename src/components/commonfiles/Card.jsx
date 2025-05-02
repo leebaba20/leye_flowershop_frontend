@@ -27,8 +27,8 @@ const Card = ({ id, name, img, new_price, old_price, description }) => {
         <h3 className="item-title">{name}</h3>
         <div className="item-prices">
           {/* Conditionally render prices if they exist */}
-          <span className="item-price-new">{new_price ? `$${new_price}` : 'N/A'}</span>
-          {old_price && <span className="item-price-old">{old_price && `$${old_price}`}</span>}
+          <span className="item-price-new">{new_price ? `₦${new_price}` : 'N/A'}</span>
+          {old_price && <span className="item-price-old">{old_price && `₦${old_price}`}</span>}
         </div>
         <p className="item-description">{productDescription}</p>
         <button className="add-to-cart" onClick={handleAddToCart}>
