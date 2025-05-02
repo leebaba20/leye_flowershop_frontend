@@ -4,7 +4,7 @@ import Products from '../../assets/products';
 import latest_collections from '../../assets/New_collections';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext'; 
-import './allProducts.css';
+import './allproducts.css';
 
 const AllProducts = ({ showLimited = false }) => {
   const [searchTerm, setSearchTerm] = useState('');
