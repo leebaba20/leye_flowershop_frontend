@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useCart } from '../../hooks/useCart';
+import useCart from '../../hooks/useCart';
 import UseUser from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
 import { Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { initializePayment } from '../../api/api';
+import { initializePayment } from '../../utils/Api';
 import 'react-toastify/dist/ReactToastify.css';
 import './shipping.css';
 
