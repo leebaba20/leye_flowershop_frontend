@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from '../../hooks/useCart';
 import UseUser from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { initializePayment } from '../../api/api'; // ✅ Correct import
+import { initializePayment } from '../../api/api';
+import 'react-toastify/dist/ReactToastify.css';
 import './shipping.css';
 
 const Shipping = () => {
@@ -24,6 +24,7 @@ const Shipping = () => {
   const { user } = UseUser();
   const navigate = useNavigate();
 
+  // ✅ Validate form input
   const validate = () => {
     const newErrors = {};
     if (!form.name.trim()) newErrors.name = 'Name is required';
@@ -34,6 +35,7 @@ const Shipping = () => {
     return newErrors;
   };
 
+  // ✅ Redirect if cart is empty
   useEffect(() => {
     if (cart.length === 0) {
       toast.warn('Your cart is empty. Redirecting...');
@@ -41,12 +43,10 @@ const Shipping = () => {
     }
   }, [cart, navigate]);
 
+  // ✅ Load and persist form data in localStorage
   useEffect(() => {
-    window.scrollTo(0, 0);
     const savedForm = localStorage.getItem('shipping');
-    if (savedForm) {
-      setForm(JSON.parse(savedForm));
-    }
+    if (savedForm) setForm(JSON.parse(savedForm));
   }, []);
 
   useEffect(() => {
@@ -57,13 +57,7 @@ const Shipping = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const totalAmountUSD = cart.reduce(
-    (acc, item) => acc + item.quantity * item.new_price,
-    0
-  );
-
-  const totalInNaira = Math.round(totalAmountUSD * 1400); // 💰 Convert USD to NGN here
-
+  // ✅ Handle payment
   const handlePayment = async () => {
     const validationErrors = validate();
     setErrors(validationErrors);
@@ -73,6 +67,12 @@ const Shipping = () => {
     }
 
     setLoading(true);
+
+    const totalAmountUSD = cart.reduce(
+      (acc, item) => acc + item.quantity * item.new_price,
+      0
+    );
+    const totalInNaira = Math.round(totalAmountUSD * 1400); // Convert to NGN
 
     const paymentData = {
       email: user?.email || 'princeleeoye@gmail.com',
@@ -90,7 +90,11 @@ const Shipping = () => {
     try {
       const response = await initializePayment(paymentData);
       console.log('Redirecting to Paystack with URL:', response.authorization_url);
-      window.location.href = response.authorization_url;
+      if (response.authorization_url) {
+        window.location.href = response.authorization_url;
+      } else {
+        toast.error('No authorization URL returned from server.');
+      }
     } catch (error) {
       toast.error('Payment initialization failed.');
       console.error('Payment init error:', error);
@@ -120,12 +124,17 @@ const Shipping = () => {
                 className={`form-control ${errors[field] ? 'is-invalid' : ''}`}
                 disabled={loading}
               />
-              {errors[field] && <div className="invalid-feedback">{errors[field]}</div>}
+              {errors[field] && (
+                <div className="invalid-feedback">{errors[field]}</div>
+              )}
             </div>
           ))}
 
           <div className="mb-3 text-end fw-bold">
-            Total Amount (NGN): ₦{totalInNaira.toLocaleString()}
+            Total Amount (NGN): ₦
+            {Math.round(
+              cart.reduce((acc, item) => acc + item.quantity * item.new_price, 0) * 1400
+            ).toLocaleString()}
           </div>
 
           <Button
