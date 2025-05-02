@@ -1,5 +1,3 @@
-// src/utils/Api.js
-
 import axios from 'axios';
 
 // Create an Axios instance with the base URL from .env
@@ -23,8 +21,10 @@ export const subscribeToNewsletter = async (email) => {
 
 // Payment Initialization
 export const initializePayment = async (paymentData) => {
+  console.log("Initializing payment with data:", paymentData); // Log payment data being sent
   try {
     const response = await API.post('/api/initialize-payment', paymentData);
+    console.log("Payment initialization response:", response.data); // Log the response from backend
     return response.data;
   } catch (error) {
     console.error('Error initializing payment:', error.response?.data || error.message);
