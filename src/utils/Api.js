@@ -1,3 +1,5 @@
+// src/utils/Api.js
+
 import axios from 'axios';
 
 // Create an Axios instance with the base URL from .env
@@ -72,6 +74,10 @@ export const ApiLogout = async () => {
   }
 };
 
+// Export `ApiLogout` as the default export
+export { ApiLogout as default };
+
+// Fetch Data API
 export const fetchData = async (endpoint) => {
   try {
     const response = await API.get(endpoint);  // Use the Axios instance to fetch data
@@ -81,7 +87,5 @@ export const fetchData = async (endpoint) => {
     throw error;
   }
 };
-
-
 
 export { API }; // Only export the named functions

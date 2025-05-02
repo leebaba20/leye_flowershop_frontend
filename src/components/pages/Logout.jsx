@@ -1,7 +1,9 @@
+// src/components/pages/Logout.jsx
+
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext'; // Import UserContext
-import Api from '../../utils/Api'
+import Api from '../../utils/Api'; // Import the default Api (which is ApiLogout)
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,8 +14,8 @@ const Logout = () => {
   useEffect(() => {
     const handleLogout = async () => {
       try {
-        // Perform mock logout (can replace with real API call)
-        await Api.logout(); // Replace with actual API call
+        // Perform logout using ApiLogout (default export)
+        await Api();
 
         // Clear user from context
         logout();
