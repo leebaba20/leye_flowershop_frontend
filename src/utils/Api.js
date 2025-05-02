@@ -3,9 +3,6 @@ import axios from 'axios';
 // Create an Axios instance with the base URL from .env
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 // Subscribe to newsletter
@@ -25,7 +22,7 @@ export const initializePayment = async (paymentData) => {
   try {
     const response = await API.post('/api/initialize-payment', paymentData);
     console.log("Payment initialization response:", response.data); // Log the response from backend
-    return response.data;
+    return response.data; // This contains the Paystack authorization_url
   } catch (error) {
     console.error('Error initializing payment:', error.response?.data || error.message);
     throw error;
@@ -80,7 +77,7 @@ export { ApiLogout as default };
 // Fetch Data API
 export const fetchData = async (endpoint) => {
   try {
-    const response = await API.get(endpoint);  // Use the Axios instance to fetch data
+    const response = await API.get(endpoint);
     return response.data;
   } catch (error) {
     console.error('Fetch data error:', error.response?.data || error.message);
@@ -88,4 +85,4 @@ export const fetchData = async (endpoint) => {
   }
 };
 
-export { API }; // Only export the named functions
+export { API }; // Export the Axios instance

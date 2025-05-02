@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { initializePayment } from '../../utils/Api';
+import { initializePayment } from '../../api/api'; // ✅ Correct import
 import './shipping.css';
 
 const Shipping = () => {
@@ -21,7 +21,7 @@ const Shipping = () => {
   const [loading, setLoading] = useState(false);
 
   const { cart } = useCart();
-  const { user } = UseUser();  // Retrieve user information
+  const { user } = UseUser();
   const navigate = useNavigate();
 
   const validate = () => {
@@ -62,43 +62,49 @@ const Shipping = () => {
     0
   );
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
+  const totalInNaira = Math.round(totalAmountUSD * 1400); // 💰 Convert USD to NGN here
+
+  const handlePayment = async () => {
     const validationErrors = validate();
     setErrors(validationErrors);
-    const isFormValid = Object.keys(validationErrors).length === 0; // Validation logic
-    if (!isFormValid) {
+    if (Object.keys(validationErrors).length > 0) {
       toast.error('Please fix the errors before proceeding.');
       return;
     }
-  
+
     setLoading(true);
-  
+
+    const paymentData = {
+      email: user?.email || 'princeleeoye@gmail.com',
+      amount: totalInNaira,
+      shippingDetails: {
+        name: form.name,
+        address: form.address,
+        city: form.city,
+        postalCode: form.postalCode,
+        country: form.country,
+        phone: user?.phone || ''
+      }
+    };
+
     try {
-      const paymentData = {
-        email: user?.email || 'princeleeoye@gmail.com',
-        amount: totalAmountUSD, // ✅ Send in USD (e.g., 35.5)
-        shippingDetails: form,
-      };
       const response = await initializePayment(paymentData);
-  
-      const { authorization_url } = response;
-      window.location.href = authorization_url;
+      console.log('Redirecting to Paystack with URL:', response.authorization_url);
+      window.location.href = response.authorization_url;
     } catch (error) {
-      toast.error('Error initializing payment. Please try again.');
-      console.error('Payment initialization failed:', error);
+      toast.error('Payment initialization failed.');
+      console.error('Payment init error:', error);
     } finally {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="shipping-container">
       <ToastContainer />
       <h2 className="mb-4 text-center">Shipping Details</h2>
 
-      <form className="row justify-content-center" noValidate onSubmit={handleSubmit}>
+      <form className="row justify-content-center" noValidate>
         <div className="col-md-8 col-lg-6">
           {["name", "address", "city", "postalCode", "country"].map((field) => (
             <div key={field} className="mb-3">
@@ -119,13 +125,13 @@ const Shipping = () => {
           ))}
 
           <div className="mb-3 text-end fw-bold">
-            Total Amount (USD): ₦{totalAmountUSD.toFixed(2)}
+            Total Amount (NGN): ₦{totalInNaira.toLocaleString()}
           </div>
 
           <Button
-            type="submit"
-            className={`btn w-100 ${Object.keys(errors).length === 0 ? 'btn-success' : 'btn-primary'}`}
-            disabled={loading || Object.keys(errors).length > 0}
+            onClick={handlePayment}
+            className="btn w-100 btn-success"
+            disabled={loading}
           >
             {loading ? (
               <>
@@ -133,7 +139,7 @@ const Shipping = () => {
                 Processing...
               </>
             ) : (
-              'Proceed to Payment'
+              'Proceed to Paystack'
             )}
           </Button>
         </div>
