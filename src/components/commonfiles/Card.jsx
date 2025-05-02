@@ -2,7 +2,7 @@ import React from 'react';
 import { useCart } from '../../hooks/useCart'; // Import the custom hook for cart functionality
 import { Link } from 'react-router-dom';
 import './card.css';
-import API from '../../utils/Api';  // Import the default export
+import { API } from '../../utils/Api';
 import { toast } from 'react-toastify'; // For error handling and notifications
 
 const Card = ({ id, name, img, new_price, old_price, description }) => {
