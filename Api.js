@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: '/api', // Vite proxy forwards to http://localhost:5000
+  baseURL: import.meta.env.VITE_API_BASE_URL, // Use the VITE_API_BASE_URL from .env
   headers: {
     'Content-Type': 'application/json',
   },
@@ -9,7 +9,7 @@ const API = axios.create({
 
 // Send USD amount directly — backend handles conversion
 export const initializePayment = (paymentData) => {
-  return API.post('/initialize-payment', paymentData)
+  return API.post('/api/initialize-payment', paymentData)
     .then(res => res.data)
     .catch(err => {
       console.error('Error initializing payment:', err.response?.data || err.message);
