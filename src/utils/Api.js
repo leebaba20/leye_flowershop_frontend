@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-// Create an Axios instance with the base URL from .env
+// Hardcoded base URL (replace with your backend URL)
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: 'https://leye-flowershop-backend.onrender.com',
 });
 
-// Optional: Global response error interceptor
+// Global response error interceptor (optional but helpful)
 API.interceptors.response.use(
   response => response,
   error => {
@@ -29,9 +29,12 @@ export const subscribeToNewsletter = async (email) => {
 export const initializePayment = async (paymentData) => {
   console.log('Initializing payment with data:', paymentData);
   try {
-    const response = await API.post('/api/initialize-payment', paymentData);
+    const response = await axios.post(
+      'https://leye-flowershop-backend.onrender.com/api/initialize-payment',
+      paymentData
+    );
     console.log('Payment initialization response:', response.data);
-    return response.data; // { authorization_url, ... }
+    return response.data;
   } catch (error) {
     console.error('❌ Error initializing payment:', error.response?.data || error.message);
     throw error;
@@ -82,4 +85,3 @@ export const fetchData = async (endpoint) => {
 
 // ========== Exports ==========
 export { API };
-export default ApiLogout;
