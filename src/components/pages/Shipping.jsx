@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useCart } from '../../hooks/useCart';
-import UseUser from '../../hooks/useUser';
+import { useCart } from '../../../hooks/useCart';
+import UseUser from '../../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Spinner } from 'react-bootstrap';
