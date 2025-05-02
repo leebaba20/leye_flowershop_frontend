@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import API from '../utils/Api';
+import { API } from '../utils/Api';
 
 export default function ApiComponent() {
   useEffect(() => {
