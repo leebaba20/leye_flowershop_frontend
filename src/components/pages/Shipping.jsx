@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useCart from '../../hooks/useCart';
+import { useCart } from '../../hooks/useCart';
 import UseUser from '../../hooks/useUser';
 import { ToastContainer, toast } from 'react-toastify';
 import { Button, Spinner } from 'react-bootstrap';
@@ -19,7 +19,6 @@ const Shipping = () => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
   const { cart } = useCart();
   const { user } = UseUser();
   const navigate = useNavigate();
