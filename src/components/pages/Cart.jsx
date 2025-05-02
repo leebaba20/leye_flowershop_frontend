@@ -36,9 +36,9 @@ const Cart = () => {
             <img src={item.img} alt={item.name} className="cart-item-img" />
             <div className="cart-item-details">
               <h3>{item.name}</h3>
-              <p>Price: ${item.new_price.toFixed(2)}</p>
+              <p>Price: ₦{item.new_price.toFixed(2)}</p>
               <p>Quantity: {item.quantity}</p>
-              <p>Total: ${(item.new_price * item.quantity).toFixed(2)}</p>
+              <p>Total: ₦{(item.new_price * item.quantity).toFixed(2)}</p>
             </div>
             <button
               className="remove-item-btn"
@@ -51,7 +51,7 @@ const Cart = () => {
       </div>
       <div className="cart-total">
         <h3>
-          Total: $
+          Total: ₦
           {cart
             .reduce((acc, item) => acc + item.new_price * item.quantity, 0)
             .toFixed(2)}

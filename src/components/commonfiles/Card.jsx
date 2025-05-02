@@ -1,4 +1,3 @@
-// src/components/Card.jsx
 import React from 'react';
 import { useCart } from '../../hooks/useCart'; // Import the custom hook for cart functionality
 import { Link } from 'react-router-dom';
@@ -6,6 +5,11 @@ import './card.css';
 
 const Card = ({ id, name, img, new_price, old_price, description }) => {
   const { addToCart } = useCart();
+
+  // Format price with commas and Naira symbol (₦)
+  const formatPrice = (price) => {
+    return price ? `₦${parseFloat(price).toLocaleString()}` : 'N/A';
+  };
 
   // Handle adding product to the cart
   const handleAddToCart = () => {
@@ -27,8 +31,8 @@ const Card = ({ id, name, img, new_price, old_price, description }) => {
         <h3 className="item-title">{name}</h3>
         <div className="item-prices">
           {/* Conditionally render prices if they exist */}
-          <span className="item-price-new">{new_price ? `₦${new_price}` : 'N/A'}</span>
-          {old_price && <span className="item-price-old">{old_price && `₦${old_price}`}</span>}
+          <span className="item-price-new">{new_price ? formatPrice(new_price) : 'N/A'}</span>
+          {old_price && <span className="item-price-old">{old_price && formatPrice(old_price)}</span>}
         </div>
         <p className="item-description">{productDescription}</p>
         <button className="add-to-cart" onClick={handleAddToCart}>

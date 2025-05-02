@@ -26,7 +26,7 @@ const AllProducts = ({ showLimited = false }) => {
   return (
     <div className="new_collections all-products">
       <h1 className="explore-heading">
-        {user ? `Welcome back, ${user.name} 🌸` : (showLimited ? 'Explore More...' : 'All Products')}
+        {user ? `Welcome back, ₦{user.name} 🌸` : (showLimited ? 'Explore More...' : 'All Products')}
       </h1>
 
       <p className="description-text">

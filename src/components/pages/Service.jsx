@@ -6,7 +6,7 @@ const Service = () => {
     {
       id: 1,
       title: 'Free Delivery',
-      description: 'We offer free delivery within the city for all orders above $50.',
+      description: 'We offer free delivery within the city for all orders above ₦50.',
     },
     {
       id: 2,

@@ -116,7 +116,7 @@ const Shipping = () => {
                 name={field}
                 value={form[field]}
                 onChange={handleChange}
-                className={`form-control ${errors[field] ? 'is-invalid' : ''}`}
+                className={`form-control ₦{errors[field] ? 'is-invalid' : ''}`}
                 disabled={loading}
               />
               {errors[field] && <div className="invalid-feedback">{errors[field]}</div>}
@@ -124,12 +124,12 @@ const Shipping = () => {
           ))}
 
           <div className="mb-3 text-end fw-bold">
-            Total Amount (USD): ${totalAmountUSD.toFixed(2)}
+            Total Amount (USD): ₦{totalAmountUSD.toFixed(2)}
           </div>
 
           <Button
             type="submit"
-            className={`btn w-100 ${isFormValid ? 'btn-success' : 'btn-primary'}`}
+            className={`btn w-100 ₦{isFormValid ? 'btn-success' : 'btn-primary'}`}
             disabled={loading}
           >
             {loading ? (

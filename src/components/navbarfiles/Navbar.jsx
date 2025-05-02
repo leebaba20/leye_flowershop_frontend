@@ -18,7 +18,7 @@ const Navbar = () => {
     const value = e.target.elements.category.value.trim();
 
     if (value) {
-      navigate(`/search?category=${value}`);
+      navigate(`/search?category=₦{value}`);
     }
   };
 

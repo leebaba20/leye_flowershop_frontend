@@ -42,8 +42,8 @@ const ProductDetails = () => {
             ))}
           </div>
           <div className="price-section">
-            <span className="price-new">${product.new_price.toFixed(2)}</span>
-            <span className="price-old">${product.old_price.toFixed(2)}</span>
+            <span className="price-new">₦{product.new_price.toFixed(2)}</span>
+            <span className="price-old">₦{product.old_price.toFixed(2)}</span>
           </div>
           <p className="description">
             {product.description || 'This is a beautiful product you should have. Buy now!'}

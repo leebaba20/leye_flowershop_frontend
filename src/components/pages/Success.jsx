@@ -29,7 +29,7 @@ const Success = () => {
     const verifyPayment = async () => {
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/api/verify-payment`,
+          `₦{process.env.REACT_APP_API_URL}/api/verify-payment`,
           { reference }
         );
 
@@ -110,12 +110,12 @@ const Success = () => {
             {order.cartItems.map((item) => (
               <div key={item.id} className="d-flex justify-content-between border-bottom py-2">
                 <div>{item.name} × {item.quantity || 1}</div>
-                <div>${(item.new_price * (item.quantity || 1)).toFixed(2)}</div>
+                <div>₦{(item.new_price * (item.quantity || 1)).toFixed(2)}</div>
               </div>
             ))}
             <div className="d-flex justify-content-between mt-3 fw-bold">
               <div>Total</div>
-              <div>${total.toFixed(2)}</div>
+              <div>₦{total.toFixed(2)}</div>
             </div>
           </div>
 

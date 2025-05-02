@@ -12,7 +12,7 @@ const SearchBar = () => {
     console.log("Search query:", trimmedQuery); // Check if the query is valid
   
     if (trimmedQuery) {
-      navigate(`/search?category=${trimmedQuery}`);
+      navigate(`/search?category=₦{trimmedQuery}`);
     } else {
       console.log("Search query is empty, not navigating.");
     }
