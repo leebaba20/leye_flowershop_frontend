@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext'; // Import UserContext
-import { mockLogout } from '../../mocks/mocksApi'
+import { Api } from '../../utils/Api'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,7 +13,7 @@ const Logout = () => {
     const handleLogout = async () => {
       try {
         // Perform mock logout (can replace with real API call)
-        await mockLogout();
+        await Api.logout(); // Replace with actual API call
 
         // Clear user from context
         logout();

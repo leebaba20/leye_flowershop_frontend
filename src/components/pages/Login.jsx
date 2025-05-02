@@ -4,7 +4,9 @@ import { useNavigate, Link } from 'react-router-dom'; // <-- Added Link import
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/UserContext';
-import { mockLogin } from '../../mocks/mocksApi';
+import { ApiLogin } from '../../utils/Api'; // ✅ Correct
+
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  });
+  }); // Added missing closing brace
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,8 +35,11 @@ const Login = () => {
     }
 
     try {
-      // Call the mockLogin function to simulate the login process
-      const user = await mockLogin(formData.email, formData.password);
+      const user = await ApiLogin({
+        email: formData.email,
+        password: formData.password,
+      
+      });
 
       // Login the user after successful login
       login(user);

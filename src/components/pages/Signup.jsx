@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom'; // <-- Added Link import
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/UserContext';
-import { mockSignup } from '../../mocks/mocksApi';
+import { ApiSignup } from '../../utils/Api';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const Signup = () => {
 
     try {
       // Call the mockSignup function to simulate the signup process
-      const user = await mockSignup({
+      const user = await ApiSignup({
         name: formData.name,
         email: formData.email,
         password: formData.password,

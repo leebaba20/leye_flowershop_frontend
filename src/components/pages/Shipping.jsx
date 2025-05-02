@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { initializePayment } from '../../../Api';
+import { initializePayment } from '../../utils/Api';
 import './shipping.css';
 
 const Shipping = () => {
@@ -18,7 +18,6 @@ const Shipping = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [isFormValid, setIsFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { cart } = useCart();
@@ -63,17 +62,13 @@ const Shipping = () => {
     0
   );
 
-  // const totalAmountNGN = Math.round(totalAmountUSD * 1500 * 100); // In kobo for Paystack
-
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     const validationErrors = validate();
     setErrors(validationErrors);
-    const valid = Object.keys(validationErrors).length === 0;
-    setIsFormValid(valid);
-  
-    if (!valid) {
+    const isFormValid = Object.keys(validationErrors).length === 0; // Validation logic
+    if (!isFormValid) {
       toast.error('Please fix the errors before proceeding.');
       return;
     }
@@ -116,7 +111,7 @@ const Shipping = () => {
                 name={field}
                 value={form[field]}
                 onChange={handleChange}
-                className={`form-control ₦{errors[field] ? 'is-invalid' : ''}`}
+                className={`form-control ${errors[field] ? 'is-invalid' : ''}`}
                 disabled={loading}
               />
               {errors[field] && <div className="invalid-feedback">{errors[field]}</div>}
@@ -129,8 +124,8 @@ const Shipping = () => {
 
           <Button
             type="submit"
-            className={`btn w-100 ₦{isFormValid ? 'btn-success' : 'btn-primary'}`}
-            disabled={loading}
+            className={`btn w-100 ${Object.keys(errors).length === 0 ? 'btn-success' : 'btn-primary'}`}
+            disabled={loading || Object.keys(errors).length > 0}
           >
             {loading ? (
               <>

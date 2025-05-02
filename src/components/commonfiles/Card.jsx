@@ -2,6 +2,8 @@ import React from 'react';
 import { useCart } from '../../hooks/useCart'; // Import the custom hook for cart functionality
 import { Link } from 'react-router-dom';
 import './card.css';
+import API from '../utils/Api';  // Import the default export
+import { toast } from 'react-toastify'; // For error handling and notifications
 
 const Card = ({ id, name, img, new_price, old_price, description }) => {
   const { addToCart } = useCart();
@@ -15,6 +17,32 @@ const Card = ({ id, name, img, new_price, old_price, description }) => {
   const handleAddToCart = () => {
     const product = { id, name, img, new_price, old_price, description };
     addToCart(product);
+  };
+
+  // Handle payment initialization
+  const handlePayment = () => {
+    if (!new_price) {
+      toast.error('Product price is missing. Unable to proceed with payment.');
+      return;
+    }
+
+    const paymentData = {
+      email: 'princeleeoye@gmail.com', // Paystack email added here
+      amount: new_price, // Pass the amount (in Naira) to the backend
+      shippingDetails: 'Some shipping details', // Optional shipping details (modify as needed)
+    };
+
+    // Call the backend API to initialize the payment
+    API.post('/api/initialize-payment', paymentData)
+      .then((response) => {
+        const { authorization_url } = response.data;
+        // Redirect to Paystack's payment page
+        window.location.href = authorization_url;
+      })
+      .catch((error) => {
+        console.error('Error initializing payment:', error);
+        toast.error('Error initializing payment. Please try again.');
+      });
   };
 
   // Add default values in case some props are missing
@@ -37,6 +65,9 @@ const Card = ({ id, name, img, new_price, old_price, description }) => {
         <p className="item-description">{productDescription}</p>
         <button className="add-to-cart" onClick={handleAddToCart}>
           Add to cart
+        </button>
+        <button className="pay-now" onClick={handlePayment}>
+          Pay Now
         </button>
       </div>
     </div>
