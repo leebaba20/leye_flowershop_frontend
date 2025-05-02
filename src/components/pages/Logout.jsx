@@ -3,7 +3,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext'; // Import UserContext
-import Api from '../../utils/Api'; // Import the default Api (which is ApiLogout)
+import { ApiLogout } from '../../utils/Api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,7 +15,7 @@ const Logout = () => {
     const handleLogout = async () => {
       try {
         // Perform logout using ApiLogout (default export)
-        await Api();
+        await ApiLogout();
 
         // Clear user from context
         logout();
