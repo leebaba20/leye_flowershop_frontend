@@ -13,46 +13,35 @@ const Success = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // Extract the reference from URL query parameters
     const params = new URLSearchParams(location.search);
     const reference = params.get('reference');
 
     if (!reference) {
       toast.error('⚠️ No payment reference found. Redirecting...');
-      setTimeout(() => {
-        navigate('/');
-      }, 3000);
+      setTimeout(() => navigate('/'), 3000);
       return;
     }
 
-    // Call backend to verify payment
     const verifyPayment = async () => {
       try {
         const response = await axios.post(
-          `₦{process.env.REACT_APP_API_URL}/api/verify-payment`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/verify-payment`,
           { reference }
         );
 
         const { message, data } = response.data;
+
         if (message === 'Payment successful') {
           setOrder(data);
-          toast.success('🎉 Payment successful! Your order is confirmed.', {
-            className: 'custom-toast',
-            bodyClassName: 'custom-toast-body',
-            progressClassName: 'custom-toast-progress',
-          });
+          toast.success('🎉 Payment successful! Your order is confirmed.');
         } else {
-          toast.error('⚠️ Payment verification failed. Please try again.');
-          setTimeout(() => {
-            navigate('/');
-          }, 3000);
+          toast.error('⚠️ Payment verification failed. Redirecting...');
+          setTimeout(() => navigate('/'), 3000);
         }
       } catch (error) {
         console.error('Error verifying payment:', error);
         toast.error('⚠️ Something went wrong. Please try again.');
-        setTimeout(() => {
-          navigate('/');
-        }, 3000);
+        setTimeout(() => navigate('/'), 3000);
       } finally {
         setLoading(false);
       }
@@ -90,7 +79,9 @@ const Success = () => {
 
       <div className="text-center mb-5">
         <h2 className="text-success">🎉 Payment Successful!</h2>
-        <p>Thank you, <strong>{order.Shipping?.name || 'Customer'}</strong>! Your order is confirmed.</p>
+        <p>
+          Thank you, <strong>{order.Shipping?.name || 'Customer'}</strong>! Your order is confirmed.
+        </p>
       </div>
 
       <div className="row justify-content-center">

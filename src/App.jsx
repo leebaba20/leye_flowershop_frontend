@@ -23,7 +23,9 @@ import Notfound from './components/pages/Notfound';
 // Components
 import Navbar from './components/navbarfiles/Navbar';
 import Footer from './components/footerfiles/Footer';
-import ApiComponent from './components/ApiComponent'
+import ApiComponent from './components/ApiComponent';
+import Bestseller from './components/Bestseller/Bestseller';
+import LatestCollectionPage from './components/latest_collections/Latestcollections';
 
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -38,6 +40,8 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/bestsellers" element={<Bestseller />} />
+            <Route path="/latest-collections" element={<LatestCollectionPage />} />
             <Route path="/about" element={<About />} />
             <Route path="/service" element={<Service />} />
             <Route path="/contact" element={<Contact />} />
