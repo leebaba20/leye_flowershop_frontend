@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import Card from '../commonfiles/Card';
-import Products from '../../assets/Products';
+import Products from '../../assets/products';
 import latest_collections from '../../assets/New_collections';
 import { UserContext } from '../../context/UserContext';
 import { FaSearch } from 'react-icons/fa';
