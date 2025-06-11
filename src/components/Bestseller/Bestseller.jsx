@@ -5,7 +5,7 @@ import latestCollections from '../../assets/New_collections';
 import allProducts from '../../assets/New_collections'; // You may want to import a different file if this is intentional
 import { UserContext } from '../../context/UserContext';
 import { FaSearch } from 'react-icons/fa';
-import './bestseller.css';
+import './Bestseller.css';
 
 const Bestseller = () => {
   const [searchTerm, setSearchTerm] = useState('');
