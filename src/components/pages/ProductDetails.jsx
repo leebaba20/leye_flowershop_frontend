@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Products from '../../assets/Products';
+import Products from '../../assets/products';
 import latest_collections from '../../assets/New_collections';
 import './productdetails.css';
 import { FaStar } from 'react-icons/fa';
