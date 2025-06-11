@@ -1,53 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Products from '../../assets/products';
-import latest_collections from '../../assets/New_collections';
 import Card from '../commonfiles/Card';
 
 const Search = () => {
   const [searchParams] = useSearchParams();
   const categoryQuery = searchParams.get('category')?.trim().toLowerCase() || '';
   const [results, setResults] = useState([]);
-  const [searchPerformed, setSearchPerformed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log('Search query:', categoryQuery);
-
     if (!categoryQuery) {
       setResults([]);
-      setSearchPerformed(false);
       return;
     }
 
-    const matchesCategory = (item) =>
-      Array.isArray(item.category) &&
-      item.category.some(cat => cat.toLowerCase() === categoryQuery);
+    setLoading(true);
 
-    const filteredProducts = [
-      ...Products.filter(matchesCategory),
-      ...latest_collections.filter(matchesCategory),
-    ];
-
-    console.log('Filtered Results:', filteredProducts);
-
-    setResults(filteredProducts);
-    setSearchPerformed(true);
+    fetch(`/api/products?category=${encodeURIComponent(categoryQuery)}`)
+      .then(res => res.json())
+      .then(data => {
+        setResults(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching products:', err);
+        setResults([]);
+        setLoading(false);
+      });
   }, [categoryQuery]);
 
   return (
     <div className="new_collections">
-      {searchPerformed && <h1>Search result for '{categoryQuery}'</h1>}
+      {categoryQuery && <h1>Search results for '{categoryQuery}'</h1>}
 
       <div className="collections">
-        {!searchPerformed ? (
+        {loading ? (
           <p>Loading...</p>
         ) : results.length === 0 ? (
           <p>No products found for '{categoryQuery}'</p>
         ) : (
-          results.map((card) => (
+          results.map(card => (
             <Card
-              key={card.id}
-              id={card.id}
+              key={card._id || card.id}
+              id={card._id || card.id}
               name={card.name}
               img={card.img}
               new_price={card.new_price}

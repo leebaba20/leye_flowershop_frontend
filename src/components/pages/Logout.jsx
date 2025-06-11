@@ -1,44 +1,40 @@
-// src/components/pages/Logout.jsx
 
-import React, { useContext, useEffect } from 'react';
+// logout.jsx
+import React, { useContext, useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext'; // Import UserContext
-import { ApiLogout } from '../../utils/Api';
+import { UserContext } from '../../context/UserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ApiLogout } from '../../utils/Api';
+import './logout.css';
 
 const Logout = () => {
-  const { logout } = useContext(UserContext); // Use the logout function from UserContext
+  const { logout } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleLogout = async () => {
       try {
-        // Perform logout using ApiLogout (default export)
         await ApiLogout();
-
-        // Clear user from context
         logout();
 
-        // Show success message
-        toast.success('Successfully logged out!', {
-          autoClose: 2000,
-          onClose: () => navigate('/login'), // Redirect to login page after successful logout
-        });
+        toast.success('Successfully logged out! Redirecting...');
+        setTimeout(() => navigate('/login'), 2000);
       } catch (error) {
-        // Handle any errors during the logout process
-        console.error(error);  // Optionally log the error
+        console.error('Logout error:', error);
         toast.error('An error occurred during logout. Please try again.');
       }
     };
 
-    handleLogout(); // Call the logout function when the component is mounted
+    handleLogout();
   }, [logout, navigate]);
 
   return (
     <div className="logout-page">
       <ToastContainer />
-      <h2 className="text-center">Logging out...</h2>
+      <div className="loader"></div>
+      <h2>Logging you out...</h2>
+      <p>Thank you for visiting. See you again soon!</p>
     </div>
   );
 };

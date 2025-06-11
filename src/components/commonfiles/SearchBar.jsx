@@ -8,16 +8,15 @@ const SearchBar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     const trimmedQuery = query.trim().toLowerCase();
-  
-    console.log("Search query:", trimmedQuery); // Check if the query is valid
-  
+
+    console.log("Search query:", trimmedQuery);
+
     if (trimmedQuery) {
-      navigate(`/search?category=₦{trimmedQuery}`);
+      navigate(`/search?category=${encodeURIComponent(trimmedQuery)}`);
     } else {
       console.log("Search query is empty, not navigating.");
     }
   };
-  
 
   return (
     <form onSubmit={handleSearch} className="search-bar" role="search" aria-label="Search form">

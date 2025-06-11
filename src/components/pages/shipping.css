@@ -1,77 +1,67 @@
-/* Base styles */
 .shipping-container {
-  max-width: 800px;
-  margin: 100px auto 0 auto; /* Added top margin to avoid overlap with navbar */
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 30px;
+  background-color: orangered;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  color: whitesmoke; /* Default text color */
 }
 
 .shipping-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #100c1f;
+}
+
+label {
+  color: whitesmoke;
   font-weight: bold;
-  color: #2d572c;
+  margin-bottom: 5px;
+  display: block;
 }
 
-.shipping-container .form-label {
-  font-weight: 500;
-}
-
-.shipping-container .form-control {
-  padding: 0.6rem;
+/* Form inputs using Bootstrap's form-control class */
+.form-control {
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 6px;
-}
-
-.shipping-container .btn {
-  padding: 0.75rem;
-  font-weight: bold;
   font-size: 1rem;
-  border-radius: 6px;
+  background-color: #2c2c2c; /* Dark background for contrast */
+  color: whitesmoke;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
-.shipping-container .btn-success {
-  background-color: #28a745;
-  border: none;
+.form-control:focus {
+  border-color: #007bff;
+  background-color: #333;
+  color: whitesmoke;
 }
 
-.shipping-container .btn-primary {
-  background-color: #007bff;
-  border: none;
+/* Button styling */
+.btn-primary {
+  padding: 12px !important;
+  background-color: #100c1f !important;
+  color: white !important;
+  font-weight: bold !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 1.1rem !important;
+  transition: background-color 0.3s ease, transform 0.2s ease !important;
 }
 
-/* Media queries for responsiveness */
-@media (max-width: 768px) {
-  .shipping-container {
-    padding: 1.2rem;
-    margin-top: 80px; /* Reduced margin for smaller screens */
-  }
-
-  .shipping-container h2 {
-    font-size: 1.5rem;
-    text-align: center;
-  }
-
-  .shipping-container .btn {
-    font-size: 0.95rem;
-  }
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3 !important; /* Darker blue */
+  transform: scale(1.02) !important; /* Slight zoom */
 }
 
-@media (max-width: 480px) {
-  .shipping-container {
-    padding: 1rem;
-    margin-top: 70px; /* Further reduced margin */
-  }
 
-  .shipping-container h2 {
-    font-size: 1.25rem;
-  }
-
-  .shipping-container .form-control {
-    font-size: 0.9rem;
-  }
-
-  .shipping-container .btn {
-    padding: 0.6rem;
-    font-size: 0.9rem;
+/* Responsive form rows (optional) */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
   }
 }

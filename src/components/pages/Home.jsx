@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import Hero from '../herosection/Hero';
-import LatestCollections from '../latest_collections/Latestcollections';
-import Bestseller from '../Bestseller/Bestseller';
-import AllProducts from './AllProducts';
+import LatestCollections from '../../components/latest_collections/Latestcollections';
+import Bestseller from '../../components/Bestseller/Bestseller';
+import AllProducts from '../../components/pages/AllProducts';
 import Newsletter from '../forms/Newsletter';
 import { UserContext } from '../../context/UserContext';
-import './home.css'; // External CSS
+import './home.css';
 
 const Home = () => {
   const { user } = useContext(UserContext);
@@ -15,20 +15,20 @@ const Home = () => {
       <Hero />
 
       <div className="welcome-section">
-        {user ? (
+        {user?.username ? (
           <marquee behavior="scroll" direction="left" scrollamount="6" className="welcome-marquee">
-            WELCOME BACK, <span className="user-name">{user.name.toUpperCase()}</span> 🌸
+            WELCOME BACK, <span className="user-name">{user.username.toUpperCase()}</span> 🌸
           </marquee>
         ) : (
-          <marquee behavior="scroll" direction="left" scrollamount="6" className="welcome-marquee">
+          <marquee behavior="scroll" direction="left" scrollamount="10" className="welcome-marquee">
             WELCOME TO OUR FLOWER SHOP! EXPLORE OUR COLLECTIONS
           </marquee>
         )}
       </div>
 
-      <LatestCollections showLimited={true} />
-      <Bestseller showLimited={true} />
-      <AllProducts showLimited={true} />
+      <LatestCollections />
+      <Bestseller />
+      <AllProducts />
       <Newsletter />
     </div>
   );

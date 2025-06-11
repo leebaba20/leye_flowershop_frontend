@@ -3,19 +3,14 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/', // ✅ Keep this as '/' for Netlify
+  base: '/',
   server: {
-    hmr: {
-      protocol: 'ws',
-      host: 'localhost',
-      port: 3000,
-    },
     port: 3000,
     strictPort: true,
     open: true,
     proxy: {
       '/api': {
-        target: 'https://leye-flowershop-backend.onrender.com', // ✅ use your Render backend
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
       },

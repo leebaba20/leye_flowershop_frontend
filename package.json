@@ -3,16 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "proxy": "http://localhost:5000",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "predeploy": "npm run build",
     "deploy": "netlify deploy --prod",
-    "start": "vite",
     "start:mock-api": "json-server --watch db.json --port 5000",
-    "start:server": "node server.js"
+    "start:server": "node server.js",
+    "format": "prettier --write \"**/*.{js,jsx,json,css,md}\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -42,6 +44,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "json-server": "^0.16.3",
+    "prettier": "^3.5.3",
     "vite": "^6.3.4"
   }
 }

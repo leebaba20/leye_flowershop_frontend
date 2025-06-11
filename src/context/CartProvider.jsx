@@ -1,6 +1,6 @@
 // src/context/CartProvider.jsx
 import React, { useState } from 'react';
-import { CartContext } from './CartContextDefinition';  // Import the context definition
+import { CartContext } from './CartContextDefinition';
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
@@ -28,14 +28,13 @@ export const CartProvider = ({ children }) => {
     setCart([]);
   };
 
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); // ✅ Calculate total quantity
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart, totalItems }} // ✅ Add totalItems
+      value={{ cart, addToCart, removeFromCart, clearCart, totalItems }}
     >
       {children}
     </CartContext.Provider>
   );
 };
-

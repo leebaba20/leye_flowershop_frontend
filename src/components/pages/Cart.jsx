@@ -1,6 +1,7 @@
 import React from "react";
 import { useCart } from '../../hooks/useCart';
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
 import "./cart.css";
 
 const Cart = () => {
@@ -8,14 +9,24 @@ const Cart = () => {
 
   const handleRemoveItem = (id) => {
     removeFromCart(id);
+    toast.info('Item removed from cart.');
   };
 
   const handleClearCart = () => {
     clearCart();
+    toast.success('Cart cleared.');
   };
 
-  // Guard in case cart is not yet initialized
-  if (!cart || cart.length === 0) {
+  const calculateTotal = () => {
+    return cart?.reduce((acc, item) => {
+      const price = Number(item.new_price);
+      const quantity = Number(item.quantity);
+      const itemTotal = isNaN(price * quantity) ? 0 : price * quantity;
+      return acc + itemTotal;
+    }, 0) || 0;
+  };
+
+  if (!cart?.length) {
     return (
       <div className="empty-cart">
         <br />
@@ -36,11 +47,12 @@ const Cart = () => {
             <img src={item.img} alt={item.name} className="cart-item-img" />
             <div className="cart-item-details">
               <h3>{item.name}</h3>
-              <p>Price: ₦{item.new_price.toFixed(2)}</p>
+              <p>Price: ₦{Number(item.new_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
               <p>Quantity: {item.quantity}</p>
-              <p>Total: ₦{(item.new_price * item.quantity).toFixed(2)}</p>
+              <p>Total: ₦{(item.new_price * item.quantity).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
             </div>
             <button
+              type="button"
               className="remove-item-btn"
               onClick={() => handleRemoveItem(item.id)}
             >
@@ -49,16 +61,13 @@ const Cart = () => {
           </div>
         ))}
       </div>
+
       <div className="cart-total">
-        <h3>
-          Total: ₦
-          {cart
-            .reduce((acc, item) => acc + item.new_price * item.quantity, 0)
-            .toFixed(2)}
-        </h3>
+        <h3>Total: ₦{calculateTotal().toLocaleString(undefined, { minimumFractionDigits: 2 })}</h3>
       </div>
+
       <div className="cart-actions">
-        <button className="btn-clear" onClick={handleClearCart}>
+        <button type="button" className="btn-clear" onClick={handleClearCart}>
           Clear Cart
         </button>
         <Link to="/shipping" className="btn-primary">

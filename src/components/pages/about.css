@@ -1,34 +1,45 @@
 .about-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #fff0f6;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    color: #444;
-    font-family: 'Segoe UI', sans-serif;
-    line-height: 1.8;
+  max-width: 800px;
+  margin: 5rem auto 2rem auto; /* Increased top margin for spacing below navbar */
+  padding: 3rem 2rem; /* Extra padding for better spacing */
+  background-color: #fff0f6;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #444;
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.8;
+}
+
+.about-container h1 {
+  color: #e91e63;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.about-container p {
+  margin-bottom: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+/* ✅ Mobile Responsiveness */
+@media (max-width: 600px) {
+  .about-container {
+    padding: 2rem 1rem;
+    margin: 4rem 1rem 1rem 1rem; /* Adjusted top margin for fixed nav on small screens */
   }
-  
+
   .about-container h1 {
-    color: #e91e63;
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #d81b60; /* Softer pink */
   }
-  
-  /* ✅ Add this for mobile responsiveness */
-  @media (max-width: 600px) {
-    .about-container {
-      padding: 1rem;
-      margin: 1rem;
-    }
-  
-    .about-container h1 {
-      font-size: 1.5rem;
-    }
-  
-    .about-container p {
-      font-size: 0.95rem;
-    }
+
+  .about-container p {
+    font-size: 0.95rem;
   }
-  
+}
+
+.about-container h1:hover {
+  color: #d81b60; /* Softer pink on hover */
+}

@@ -1,18 +1,16 @@
-import React from 'react'
+import React from 'react';
+import './notfound.css'; // create and link a CSS file
 
 const Notfound = () => {
   return (
-    <div>
-        <div className="container-fluid notfound" style={{'backgroundColor': 'red'}}> 
-            <div className="row">
-                <div className="col-md-10 text-center text-light">
-                    <h1 style={{'fontSize' : '50px'}}>404</h1>
-                    <p>Page Not Found</p>
-                </div>
-            </div>
-        </div>
+    <div className="notfound-page">
+      <div className="content">
+        <h1>404</h1>
+        <p>Oops! The page you're looking for doesn't exist.</p>
+        <a href="/" className="btn-home">Go Home</a>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default Notfound;

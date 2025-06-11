@@ -1,92 +1,98 @@
-import React, { useState, useEffect } from 'react';
-import './Bestseller.css';
-import Card from '../commonfiles/Card'; // Import your Card component
-import latest_collections from '../../assets/New_collections'; // Mock API for latest collections
+import React, { useState, useContext, useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Card from '../commonfiles/Card';
+import latestCollections from '../../assets/New_collections';
+import allProducts from '../../assets/New_collections'; // You may want to import a different file if this is intentional
+import { UserContext } from '../../context/UserContext';
+import { FaSearch } from 'react-icons/fa';
+import './bestseller.css';
 
 const Bestseller = () => {
-  const [bestsellers, setBestsellers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const { user } = useContext(UserContext);
+  const location = useLocation();
+  const isHomepage = location.pathname === '/';
 
-  // Fetch bestsellers (can be similar to how you fetch latest collections)
-  const fetchBestsellers = async () => {
-    try {
-      setLoading(true);
-      setError(null); // Reset any previous errors
-      // Simulating the API call (replace this with your actual API call)
-      const data = latest_collections;  // Assuming 'latest_collections' has the bestsellers data
-      setBestsellers(data); // Set fetched data to state
-    } catch (err) {
-      setError('Failed to fetch bestsellers');
-      console.error('Error fetching bestsellers:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchBestsellers(); // Fetch data when the component mounts
-  }, []); // Empty dependency array ensures it only runs once
-
-  // Filter bestsellers based on search term
-  const filteredBestsellers = bestsellers.filter(item => {
-    const lowerSearch = searchTerm.toLowerCase();
-    return (
-      item.name.toLowerCase().includes(lowerSearch) ||
-      (item.category && item.category.some(cat => cat.toLowerCase().includes(lowerSearch))) ||
-      (item.description && item.description.toLowerCase().includes(lowerSearch))
+  // Merge and filter bestseller items
+  const bestsellerCollections = useMemo(() => {
+    const mergedProducts = [...latestCollections, ...allProducts];
+    return mergedProducts.filter(product =>
+      product.category?.includes('bestseller')
     );
-  });
+  }, []);
 
-  // Limit to first 4 cards
-  const displayedBestsellers = filteredBestsellers.slice(0, 4);
+  // Filter based on search term
+  const filteredBestsellers = useMemo(() => {
+    const lowerSearch = searchTerm.toLowerCase();
+    return bestsellerCollections.filter((item) => {
+      return (
+        item.name.toLowerCase().includes(lowerSearch) ||
+        (item.category && item.category.some((cat) => cat.toLowerCase().includes(lowerSearch))) ||
+        (item.description && item.description.toLowerCase().includes(lowerSearch))
+      );
+    });
+  }, [searchTerm, bestsellerCollections]);
+
+  // Limit on homepage
+  const bestsellersToDisplay = isHomepage
+    ? filteredBestsellers.slice(0, 4)
+    : filteredBestsellers;
 
   return (
-    <div className="new_collections bestseller">
-      <h1>Top Rated Picks</h1>
-      <p>Curated by our shoppers. Trusted, loved, and re-ordered continuously.</p>
+    <section className="bestseller-wrapper">
+      <div className="bestseller-container">
+        <div className="new_collections bestseller-products">
+          <h1 className="explore-heading">
+            {user ? `Our Best Picks for You, ${user.name} 🌟` : (isHomepage ? 'Top Picks for You' : 'Bestsellers')}
+          </h1>
 
-      {/* Search Form */}
-      <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="text"
-          placeholder="Search for flowers..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-bar"
-        />
-      </form>
+          <p className="description-text">
+            These are the most loved flowers by our customers.
+          </p>
 
-      {/* Display loading or error messages */}
-      {loading && <p>Loading bestsellers...</p>}
-      {error && <p>{error}</p>}
+          {!isHomepage && (
+            <form className="search-form" onSubmit={(e) => e.preventDefault()}>
+              <div className="search-input-wrapper">
+                <FaSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search for bestselling flowers"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-bar"
+                />
+              </div>
+            </form>
+          )}
 
-      {/* Display Bestsellers */}
-      <div className="collections">
-        {displayedBestsellers.length > 0 ? (
-          displayedBestsellers.map((card) => (
-            <Card
-              key={card.id}
-              id={card.id}
-              name={card.name}
-              img={card.img}
-              new_price={card.new_price}
-              old_price={card.old_price}
-              description={card.description}
-            />
-          ))
-        ) : (
-          <p>No bestsellers found for '{searchTerm}'</p>
-        )}
+          <div className="bestseller-products-grid">
+            {bestsellersToDisplay.length > 0 ? (
+              bestsellersToDisplay.map((card, index) => (
+                <Card
+                  key={`${card.id}-${index}`} // ✅ Unique key using ID + index
+                  id={card.id}
+                  name={card.name}
+                  img={card.img}
+                  new_price={card.new_price}
+                  old_price={card.old_price}
+                  description={card.description}
+                />
+              ))
+            ) : (
+              <p>No bestselling products found for '{searchTerm}'</p>
+            )}
+          </div>
+
+          {isHomepage && (
+            <div className="view-more-container">
+              <Link to="/bestsellers" className="view-more-button">
+                Show More →
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
-
-      <div className="view-more-container">
-        <a href="/bestsellers" className="view-more-button">
-          Show More
-        </a>
-      </div>
-    </div>
+    </section>
   );
 };
 

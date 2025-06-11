@@ -1,97 +1,69 @@
-/* src/components/pages/Home.css */
-
-.home-container {
-  font-family: 'Roboto', sans-serif; /* Using Roboto for a clean look */
-  margin: 0;
-  padding: 0;
-  color: #333;
-  background-color: #100c1f /* Cool brown background */
+.welcome-marquee{
+  font-weight: bolder;
+  color: green;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-style: oblique;
+}
+/* Grid layout for LatestCollections */
+.latest-collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 0 10px;
 }
 
-/* Welcome Section */
-.welcome-section {
-  text-align: center;
-  margin: 20px 0 10px; /* Reduced spacing */
-  padding: 10px;
+/* Grid layout for Bestseller */
+.bestseller-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 0 10px;
 }
 
-.welcome-marquee {
-  color: #c9c2c2; /* Dark brown text */
-  font-size: 28px;
-  font-weight: bold;
-  text-transform: uppercase; /* ALL CAPITALS */
-  letter-spacing: 1.5px;
+/* Grid layout for AllProducts */
+.all-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 0 10px;
 }
 
-/* Username inside the welcome message */
-.user-name {
-  color: whitesmoke; /* Deeper brown for the user's name */
-}
-
-/* Section Titles (e.g., Latest Collections, Best Sellers) */
-.section-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #136b16; /* Green for section titles */
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Hero Section */
-.hero {
-  margin-bottom: 30px; /* Less space under hero */
-}
-
-/* Override for Bootstrap Card in Newsletter */
-.card {
-  background-color: #fff8f0 !important;
-  border-radius: 10px !important;
-}
-
-.card h1 {
-  font-size: 30px;
-  font-weight: 800;
-  color: #100c1f; /* Heading color */
-  margin-bottom: 10px;
-  font-family: 'Roboto', sans-serif;
-}
-
-.text-muted {
-  color: #100c1f !important; /* Change subtext color */
-}
-
-.btn-primary {
-  background-color: #100c1f !important;
-  border-color: #100c1f !important;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 6px;
-}
-
-.btn-primary:hover {
-  background-color: #2e2e3a !important;
-  border-color: #2e2e3a !important;
-}
-
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .latest-collections,
-  .bestsellers,
-  .all-products {
-    flex-direction: column;
-    align-items: center;
+/* Responsive layout */
+@media (min-width: 1024px) {
+  .latest-collections-grid,
+  .bestseller-products-grid,
+  .allproducts-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
+}
 
-  .section-title {
-    font-size: 24px;
+@media (max-width: 1023px) and (min-width: 768px) {
+  .latest-collections-grid,
+  .bestseller-products-grid,
+  .allproducts-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
+}
 
-  .welcome-marquee {
-    font-size: 22px;
+@media (max-width: 767px) and (min-width: 480px) {
+  .latest-collections-grid,
+  .bestseller-products-grid,
+  .allproducts-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .newsletter-section h3 {
-    font-size: 24px;
+@media (max-width: 479px) {
+  .latest-collections-grid,
+  .bestseller-products-grid,
+  .allproducts-grid {
+    grid-template-columns: 1fr;
   }
+}
+
+/* Product description color for all three sections */
+.latest-collections-grid .item-description,
+.bestseller-products-grid .item-description,
+.allproducts-grid .item-description {
+  color: #100c1f;
 }

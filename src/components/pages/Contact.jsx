@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './contact.css'; // optional CSS file for styling
+import './contact.css';
+import { sendContactMessage } from '../../utils/Api';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -8,19 +9,42 @@ const Contact = () => {
     message: '',
   });
 
+  const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // You can add a form submission logic here, like sending data to an API
-    alert('Form submitted!'); // Placeholder for now
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setErrorMessage('');
+  setLoading(true);
+
+  try {
+    const { name, email, message } = formData;
+
+    // Basic client-side email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      throw new Error('Please enter a valid email address.');
+    }
+
+    await sendContactMessage({ name, email, message });
+
+    setSubmitted(true); // Show success message
+    setFormData({ name: '', email: '', message: '' });
+  } catch (error) {
+    setSubmitted(false); // Hide success message if error occurs
+    setErrorMessage(
+      error?.detail || error?.message || 'Failed to send message. Please try again.'
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="contact-container">
@@ -46,31 +70,49 @@ const Contact = () => {
       <div className="contact-form">
         <h2>Send Us a Message</h2>
         <form onSubmit={handleSubmit}>
+          <label htmlFor="name">Your Name</label>
           <input
+            id="name"
             type="text"
             name="name"
             placeholder="Your Name"
             value={formData.name}
             onChange={handleChange}
             required
+            disabled={loading}
           />
+
+          <label htmlFor="email">Your Email</label>
           <input
+            id="email"
             type="email"
             name="email"
             placeholder="Your Email"
             value={formData.email}
             onChange={handleChange}
             required
+            disabled={loading}
           />
+
+          <label htmlFor="message">Your Message</label>
           <textarea
+            id="message"
             name="message"
             placeholder="Your Message"
             value={formData.message}
             onChange={handleChange}
             required
+            disabled={loading}
           ></textarea>
-          <button type="submit" className="btn-submit">Submit</button>
+
+          <button type="submit" className="btn-submit" disabled={loading}>
+            {loading ? 'Sending...' : 'Submit'}
+          </button>
         </form>
+
+        {submitted && <p className="success-msg">Thank you! Your message has been sent. 📩</p>}
+
+        {errorMessage && <p className="error-msg text-danger mt-2">{errorMessage}</p>}
       </div>
     </div>
   );

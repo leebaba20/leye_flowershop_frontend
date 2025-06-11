@@ -1,5 +1,7 @@
+// src/context/UserContext.jsx
 import { createContext } from 'react';
 
-// Create the UserContext
-export const UserContext = createContext();
-
+export const UserContext = createContext({
+  user: null,
+  isLoading: true,
+});

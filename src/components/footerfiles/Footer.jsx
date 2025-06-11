@@ -4,7 +4,7 @@ import './footer.css'
 
 const Footer = () => {
   return (
-    <footer className="footer-custom">
+    <footer className="footer-custom" aria-label="Site footer">
       <div className="container">
         <div className="footer-grid">
           {/* About Our Store Section */}

@@ -1,95 +1,136 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './login.css';
-import { useNavigate, Link } from 'react-router-dom'; // <-- Added Link import
+import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/UserContext';
-import { ApiLogin } from '../../utils/Api'; // ✅ Correct
-
-
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(UserContext); // Use login from context
+  const { login, user } = useContext(UserContext);
 
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  }); // Added missing closing brace
+  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    } else {
+      document.getElementById('username')?.focus();
+    }
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { username, password } = formData;
 
-    // Validate form
-    if (!formData.email || !formData.password) {
-      toast.error('All fields are required');
+    if (!username || !password) {
+      toast.error('⚠️ All fields are required');
       return;
     }
 
     try {
-      const user = await ApiLogin({
-        email: formData.email,
-        password: formData.password,
-      
-      });
+      setLoading(true);
 
-      // Login the user after successful login
-      login(user);
+      // ✅ Call only the context login function
+      await login({ username, password });
 
-      // Show success message and redirect to homepage
-      toast.success('Login successful! Redirecting...', {
-        autoClose: 2000,
-        onClose: () => navigate('/'), // Redirect to homepage or another page
-      });
+      toast.success('✅ Login successful! Redirecting...');
+      setFormData({ username: '', password: '' });
+
+      setTimeout(() => navigate('/'), 1500);
     } catch (error) {
-      console.error(error);
-      toast.error('Invalid credentials. Please try again.');
-    }
+      setFormData((prev) => ({ ...prev, password: '' }));
 
-    // Clear the form after submission
-    setFormData({
-      email: '',
-      password: '',
-    });
+      const errDetail =
+        error?.detail ||
+        error?.password?.[0] ||
+        error?.non_field_errors?.[0] ||
+        '❌ Login failed. Please check your credentials.';
+
+      toast.error(errDetail);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-container">
-      <ToastContainer />
-      <h1 className="text-center mb-4">Login</h1>
+      <ToastContainer position="top-center" autoClose={3000} />
+      <h1 className="text-center mb-4">Login to Your Account</h1>
       <div className="login-form">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
+          <label htmlFor="username">Username</label>
           <input
-            type="email"
-            name="email"
-            placeholder="Enter your Email"
-            value={formData.email}
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter your username"
+            value={formData.username}
             onChange={handleChange}
             required
+            disabled={loading}
+            autoComplete="username"
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <button type="submit" className="btn-submit">Login</button>
+
+          <label htmlFor="password">Password</label>
+          <div style={{ position: 'relative' }}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              id="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              disabled={loading}
+              style={{ paddingRight: '40px' }}
+              autoComplete="current-password"
+            />
+            <span
+              onClick={() => setShowPassword((prev) => !prev)}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+                color: '#555',
+                userSelect: 'none',
+              }}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setShowPassword((prev) => !prev);
+                }
+              }}
+            >
+              {showPassword ? '🙈' : '👁️'}
+            </span>
+          </div>
+
+          <button
+            type="submit"
+            className="btn-submit"
+            disabled={loading || !formData.username || !formData.password}
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
 
-        {/* Link to the Signup page */}
         <p className="text-center mt-3">
           Don't have an account?{' '}
-          <Link to="/signup" className="signup-link">Sign up here</Link>
+          <Link to="/signup" className="signup-link">
+            Sign up here
+          </Link>
         </p>
       </div>
     </div>

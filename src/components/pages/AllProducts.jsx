@@ -1,32 +1,45 @@
 import React, { useState, useContext } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import Card from '../commonfiles/Card';
-import Products from '../../assets/products';
+import Products from '../../assets/Products';
 import latest_collections from '../../assets/New_collections';
-import { Link } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext'; 
+import { UserContext } from '../../context/UserContext';
+import { FaSearch } from 'react-icons/fa';
 import './allproducts.css';
 
 const AllProducts = ({ showLimited = false }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const { user } = useContext(UserContext);
+  const location = useLocation();
+  const isHomepage = location.pathname === '/';
 
-  const allProducts = [...Products, ...latest_collections];
+  const combinedProducts = [...Products, ...latest_collections];
+  const uniqueProducts = Array.from(new Map(combinedProducts.map(item => [item.id, item])).values());
 
-  const filteredProducts = allProducts.filter((item) => {
+  const filteredProducts = uniqueProducts.filter((item) => {
     const lowerSearch = searchTerm.toLowerCase();
     return (
       item.name.toLowerCase().includes(lowerSearch) ||
-      (item.category && item.category.some((cat) => cat.toLowerCase().includes(lowerSearch))) ||
+      (item.category &&
+        Array.isArray(item.category) &&
+        item.category.some((cat) => cat.toLowerCase().includes(lowerSearch))) ||
       (item.description && item.description.toLowerCase().includes(lowerSearch))
     );
   });
 
-  const productsToDisplay = showLimited ? filteredProducts.slice(0, 8) : filteredProducts;
+  // Show 4 on homepage, 8 if showLimited is passed, else show all
+  const productsToDisplay = isHomepage
+    ? filteredProducts.slice(0, 4)
+    : showLimited
+    ? filteredProducts.slice(0, 8)
+    : filteredProducts;
 
   return (
-    <div className="new_collections all-products">
+    <section className="allproducts-wrapper">
+      <div className='allproducts-container'>
+        <div className='new_collections'>
       <h1 className="explore-heading">
-        {user ? `Welcome back, ₦{user.name} 🌸` : (showLimited ? 'Explore More...' : 'All Products')}
+        {user ? `Welcome back, ${user.name} 🌸` : showLimited || isHomepage ? 'Explore More...' : 'All Products'}
       </h1>
 
       <p className="description-text">
@@ -34,16 +47,20 @@ const AllProducts = ({ showLimited = false }) => {
       </p>
 
       <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="text"
-          placeholder="Search for flowers..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-bar"
-        />
+        <div className="search-input-wrapper">
+          <FaSearch className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search for flowers..."
+            aria-label="Search flowers"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-bar"
+          />
+        </div>
       </form>
 
-      <div className="collections">
+      <div className="all-products-grid">
         {productsToDisplay.length > 0 ? (
           productsToDisplay.map((card) => (
             <Card
@@ -61,14 +78,16 @@ const AllProducts = ({ showLimited = false }) => {
         )}
       </div>
 
-      {showLimited && (
+      {(showLimited || isHomepage) && (
         <div className="view-more-container">
           <Link to="/all-products" className="view-more-button">
-            Show More
+            Show More →
           </Link>
         </div>
       )}
-    </div>
+      </div>
+      </div>
+    </section>
   );
 };
 

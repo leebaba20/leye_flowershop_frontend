@@ -1,129 +1,157 @@
-/* Main container for New Collections (Bestseller section) */
-.new_collections {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 0px;
-  background-color: rgb(216, 210, 210);
-  padding: 20px;
+/* Shared structure for all wrappers */
+
+.bestseller-wrapper{
+  background-color: #100c1f;
+  padding: 40px 20px;
 }
 
-/* Header Styling */
+.bestseller-container{
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 30px 20px;
+}
+
+.bestseller-wrapper .description-text {
+  text-align: center;
+  font-size: 20px !important;
+  margin-bottom: 20px;
+  color: #70270c !important;
+  font-weight: 500;
+}
+
+
+.new_collections.bestseller-products {
+  padding: 40px 20px;
+  background-color: #9696b6 !important;
+}
+
 .new_collections h1 {
-  color: green;
-  font-size: 3rem; /* Adjusted for large screens */
-  font-weight: 600;
-  margin-top: 50px;
+  font-size: 2rem;
+  color: #100c1f;
   text-align: center;
+  margin-bottom: 10px;
 }
 
-/* Paragraph Styling */
 .new_collections p {
-  font-size: 1.25rem;
-  color: #301111;
-  font-weight: 600;
   text-align: center;
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 
-/* Horizontal rule (divider) */
 .new_collections hr {
-  width: 200px;
-  height: 5px;
-  border-radius: 10px;
-  background: rgb(43, 41, 41);
-  margin-bottom: 20px;
+  border: none;
+  border-top: 2px solid #ddd;
+  width: 60%;
+  margin: 0 auto 30px auto;
 }
 
-/* Collections grid layout */
-.collections {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-  margin-top: 50px;
+.search-form {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input-wrapper {
+  position: relative;
   width: 100%;
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 0 20px;
+  max-width: 450px;
+  box-shadow: 0 4px 8px rgba(26, 77, 176, 0.15);
+  border-radius: 30px;
+  background-color: #ffffff;
+  transition: box-shadow 0.3s ease;
 }
 
-/* Responsive adjustments for tablet screens (up to 992px) */
-@media (max-width: 992px) {
-  .collections {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .new_collections h1 {
-    font-size: 2.5rem;
-  }
-
-  .new_collections p {
-    font-size: 1.1rem;
-  }
+.search-input-wrapper:focus-within {
+  box-shadow: 0 6px 14px rgba(26, 77, 176, 0.4);
 }
 
-/* Responsive adjustments for mobile screens (up to 576px) */
-@media (max-width: 576px) {
-  .collections {
-    grid-template-columns: 1fr;
-  }
-
-  .new_collections h1 {
-    font-size: 2rem;
-  }
-
-  .new_collections p {
-    font-size: 1rem;
-  }
-
-  .new_collections hr {
-    width: 150px;
-  }
-}
-
-/* Styling for the Bestseller section */
-.bestseller {
-  background-color: #bce0ee;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  width: 100%; /* Ensure it stretches fully across the container */
-  margin-top: 50px;
-}
-
-/* Card component for each bestseller item */
-.bestseller .card {
-  flex: 1 0 calc(25% - 20px);
-  margin-bottom: 20px;
-  background: #fff;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.bestseller .card img {
+.search-bar {
   width: 100%;
-  border-radius: 8px;
-  height: 200px;
-  object-fit: cover;
+  padding: 14px 50px 14px 45px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  outline: none;
+  background-color: transparent;
+  color: #100c1f;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
 }
 
-/* View More Button */
+.search-bar::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.search-bar:focus {
+  background-color: #f0f7ff;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #1a4db0;
+  font-size: 1.25rem;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.search-bar:focus + .search-icon,
+.search-input-wrapper:focus-within .search-icon {
+  color: #0b1d5a;
+}
+
 .view-more-container {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .view-more-button {
-  padding: 10px 20px;
-  background-color: #f1c40f;
-  color: white;
-  border-radius: 5px;
+  background-color: #1a4db0;
+  color: #fff;
+  padding: 10px 25px;
+  font-weight: 600;
+  border-radius: 25px;
   text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
+  display: inline-block;
 }
 
 .view-more-button:hover {
-  background-color: #e67e22;
+  background-color: #1a1a2e;
+}
+
+
+/* Product Grid */
+.bestseller-products-grid {
+  display: grid;
+  gap: 25px;
+  padding: 0 10px;
+}
+
+@media screen and (min-width: 1024px) {
+  .latest-collections-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .latest-collections-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .latest-collections-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .latest-collections-grid {
+    grid-template-columns: 1fr;
+  }
 }

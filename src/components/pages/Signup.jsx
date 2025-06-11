@@ -1,17 +1,21 @@
-import React, { useState, useContext } from 'react';
-import './signup.css';
-import { useNavigate, Link } from 'react-router-dom'; // <-- Added Link import
+// signup.jsx
+import React, { useState, useContext } from 'react'; 
+import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/UserContext';
 import { ApiSignup } from '../../utils/Api';
+import './signup.css';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { login } = useContext(UserContext);  // Use login from context
+  const { login } = useContext(UserContext);
+
+  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -27,46 +31,47 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
 
-    // Validate form
-    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-      toast.error('All fields are required');
+    const { username, email, password, confirmPassword } = formData;
+
+    if (!username || !email || !password || !confirmPassword) {
+      toast.error('Please fill in all required fields.');
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match.');
       return;
     }
+
+    setLoading(true);
+    setIsSubmitting(true);
 
     try {
-      // Call the mockSignup function to simulate the signup process
-      const user = await ApiSignup({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
-
-      // Login the user after successful signup
-      login(user);
-
-      // Show success message
-      toast.success('Signup successful! Redirecting to login...', {
-        autoClose: 2000,
-        onClose: () => navigate('/login'), // Redirect to login page
-      });
+      const data = await ApiSignup({ username, email, password });
+      toast.success('Account created successfully!');
+      setTimeout(() => {
+        navigate('/login');
+      }, 1500);
     } catch (error) {
-      console.error(error);
-      toast.error('Signup failed. Please try again.');
+      if (error?.email?.[0]) {
+        toast.error(error.email[0]);
+      } else if (error?.username?.[0]) {
+        toast.error(error.username[0]);
+      } else if (error?.password?.[0]) {
+        toast.error(error.password[0]);
+      } else if (error?.detail) {
+        toast.error(error.detail);
+      } else if (typeof error === 'string') {
+        toast.error(error);
+      } else {
+        toast.error('❌ Signup failed. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+      setIsSubmitting(false);
     }
-
-    // Clear the form after submission
-    setFormData({
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    });
   };
 
   return (
@@ -75,15 +80,20 @@ const Signup = () => {
       <h1 className="text-center mb-4">Sign Up</h1>
       <div className="signup-form">
         <form onSubmit={handleSubmit}>
+          <label htmlFor="username" className="sr-only">Username</label>
           <input
+            id="username"
             type="text"
-            name="name"
-            placeholder="Enter your Name"
-            value={formData.name}
+            name="username"
+            placeholder="Enter your Username"
+            value={formData.username}
             onChange={handleChange}
             required
           />
+
+          <label htmlFor="email" className="sr-only">Email</label>
           <input
+            id="email"
             type="email"
             name="email"
             placeholder="Enter your Email"
@@ -91,7 +101,10 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
+
+          <label htmlFor="password" className="sr-only">Password</label>
           <input
+            id="password"
             type="password"
             name="password"
             placeholder="Enter your Password"
@@ -99,7 +112,10 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
+
+          <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
           <input
+            id="confirmPassword"
             type="password"
             name="confirmPassword"
             placeholder="Confirm your Password"
@@ -107,10 +123,19 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
-          <button type="submit" className="btn-submit">Sign Up</button>
+
+          <button type="submit" className="btn-submit" disabled={loading}>
+            {loading ? 'Signing up...' : 'Sign Up'}
+          </button>
         </form>
 
-        {/* Link to the Login page */}
+        <p className="text-center mt-2">
+          Forgot your password?{' '}
+          <Link to="/forgot-password" className="forgot-password-link">
+            Reset it here
+          </Link>
+        </p>
+
         <p className="text-center mt-3">
           Already have an account?{' '}
           <Link to="/login" className="login-link">Login here</Link>

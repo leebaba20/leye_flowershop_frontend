@@ -12,9 +12,10 @@
 
 /* Navbar links */
 .nav-link {
-  color: #100c1f !important; /* New color for nav-link */
+  color: #100c1f;
   font-size: 17px;
-  font-weight: 30px; /* Bolder font for links */
+  font-weight: 600; /* Fixed invalid font-weight */
+  text-decoration: none;
 }
 
 /* Toggler icon for small screens */
@@ -25,36 +26,33 @@
 /* Toggler button */
 .navbar-toggler {
   margin-right: 1rem; /* responsive-friendly spacing */
-}
-
-/* Navbar anchor tags */
-.navbar a {
-  text-decoration: none;
-  color: #0b0b4b; /* New color for navbar a */
-  font-size: 17px !important;
-  font-weight: 30px; /* Ensure proper font weight */
+  color: #100c1f;
 }
 
 /* Cart icon */
-.navbar .cart-icon {
+.cart-link .cart-icon {
   color: orange !important; /* Cart icon color */
   font-size: 2.2rem !important; /* Bigger cart icon */
   margin-left: 10px;
   transition: transform 0.3s ease; /* Smooth hover animation */
 }
 
-.navbar .cart-icon:hover {
+.cart-link .cart-icon:hover {
   transform: scale(1.2); /* Slight bounce effect on hover */
 }
 
 /* Cart badge or number */
 .cart-number {
-  color: #100c1f;
+  background-color: orange;
+  color: white;
   font-weight: bold;
-  margin-left: 2px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  margin-left: 4px;
+  position: relative;
+  top: -10px;
 }
-
-
 
 /* User info section (name and icon) */
 .user-info {
@@ -63,8 +61,8 @@
   margin-left: auto; /* Move to the right */
   margin-right: 10px; /* Space from the right edge */
   font-size: 1rem;
-  font-weight: bold; /* Bolder font for user info */
-  color: whitesmoke !important; /* Change text color to smokewhite */
+  font-weight: bold;
+  color: whitesmoke !important;
 }
 
 .user-name {
@@ -80,17 +78,17 @@
 /* Responsive tweaks for smaller screens */
 @media (max-width: 576px) {
   /* Navbar link font-size */
-  .navbar a {
-    font-size: 15px !important;
+  .nav-link {
+    font-size: 15px;
   }
 
   /* Branding text font-size */
   .navbar h5 {
-    font-size: 1.2rem !important; /* Adjusted font size for smaller screens */
+    font-size: 1.2rem;
   }
 
   /* Cart icon font-size */
-  .cart {
+  .cart-link .cart-icon {
     font-size: 1.5rem !important;
   }
 
