@@ -38,14 +38,15 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 function App() {
   return (
     <>
-      <h1>🚀 Hello from Production!</h1>
+      
       <BrowserRouter>
         <UserProvider>
           <CartProvider>
+            {/* ✅ Show Navbar on all pages */}
+            <Navbar />
+
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/navbar" element={<Navbar />} />
-              <Route path="/footer" element={<Footer />} />
               <Route path="/about" element={<About />} />
               <Route path="/service" element={<Service />} />
               <Route path="/contact" element={<Contact />} />
@@ -90,11 +91,13 @@ function App() {
               {/* 404 Not Found */}
               <Route path="*" element={<Notfound />} />
             </Routes>
+
+            {/* ✅ Show Footer globally as well */}
+            <Footer />
           </CartProvider>
         </UserProvider>
       </BrowserRouter>
     </>
   );
 }
-
 export default App;
