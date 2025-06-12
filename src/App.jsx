@@ -37,60 +37,63 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
   return (
-    <BrowserRouter>
-      <UserProvider>
-        <CartProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/navbar" element={<Navbar />} />
-            <Route path="/footer" element={<Footer />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/service" element={<Service />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup-success" element={<SignupSuccess />} />
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/all-products" element={<AllProducts />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/payment-callback" element={<PaymentCallback />} />
-            <Route path="/api-test" element={<ApiComponent />} />
-            <Route path="/bestsellers" element={<Bestseller showLimited={false} />} />
-            <Route path="/latest-collections" element={<LatestCollection showLimited={false} />} />
+    <>
+      <h1>🚀 Hello from Production!</h1>
+      <BrowserRouter>
+        <UserProvider>
+          <CartProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/navbar" element={<Navbar />} />
+              <Route path="/footer" element={<Footer />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/service" element={<Service />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup-success" element={<SignupSuccess />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/all-products" element={<AllProducts />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/payment-callback" element={<PaymentCallback />} />
+              <Route path="/api-test" element={<ApiComponent />} />
+              <Route path="/bestsellers" element={<Bestseller showLimited={false} />} />
+              <Route path="/latest-collections" element={<LatestCollection showLimited={false} />} />
 
-            {/* Protected Routes */}
-            <Route
-              path="/logout"
-              element={
-                <ProtectedRoute>
-                  <Logout />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/shipping"
-              element={
-                <ProtectedRoute>
-                  <Shipping />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/cart"
-              element={
-                <ProtectedRoute>
-                  <Cart />
-                </ProtectedRoute>
-              }
-            />
+              {/* Protected Routes */}
+              <Route
+                path="/logout"
+                element={
+                  <ProtectedRoute>
+                    <Logout />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/shipping"
+                element={
+                  <ProtectedRoute>
+                    <Shipping />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <ProtectedRoute>
+                    <Cart />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* 404 Not Found */}
-            <Route path="*" element={<Notfound />} />
-          </Routes>
-        </CartProvider>
-      </UserProvider>
-    </BrowserRouter>
+              {/* 404 Not Found */}
+              <Route path="*" element={<Notfound />} />
+            </Routes>
+          </CartProvider>
+        </UserProvider>
+      </BrowserRouter>
+    </>
   );
 }
 
