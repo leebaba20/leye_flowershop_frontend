@@ -4,6 +4,7 @@ import axios from 'axios';
 export const API = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: false,
+  timeout: 10000, // 10s timeout
 });
 
 // === TOKEN REFRESH HANDLER ===
@@ -90,7 +91,9 @@ export const ApiSignup = async (data) => {
     const response = await API.post('/api/auth/signup/', data);
     return response.data;
   } catch (err) {
-    console.error("Signup error:", err);
+    if (import.meta.env.MODE !== 'production') {
+      console.error("Signup error:", err);
+    }
     throw err.response?.data || { detail: 'Signup failed' };
   }
 };
@@ -102,7 +105,9 @@ export const ApiLogin = async ({ username, password }) => {
     localStorage.setItem('refresh_token', res.data.refresh);
     return res.data;
   } catch (error) {
-    console.error("Login error:", error);
+    if (import.meta.env.MODE !== 'production') {
+      console.error("Login error:", error);
+    }
     throw error.response?.data || { detail: 'Login failed' };
   }
 };
@@ -147,11 +152,15 @@ export const initializePayment = async (paymentData) => {
       metadata,
     };
 
-    console.log("📤 Sending payment init payload:", payload);
+    if (import.meta.env.MODE !== 'production') {
+      console.log("📤 Sending payment init payload:", payload);
+    }
 
     const response = await API.post('/api/auth/paystack/init/', payload);
 
-    console.log("✅ Payment init response:", response.data);
+    if (import.meta.env.MODE !== 'production') {
+      console.log("✅ Payment init response:", response.data);
+    }
 
     if (!response.data.authorization_url) {
       throw new Error("Missing authorization_url in payment response.");
@@ -159,7 +168,9 @@ export const initializePayment = async (paymentData) => {
 
     return response.data;
   } catch (error) {
-    console.error("❌ Payment Init Error:", error.response?.data || error.message || error);
+    if (import.meta.env.MODE !== 'production') {
+      console.error("❌ Payment Init Error:", error.response?.data || error.message || error);
+    }
     throw error.response?.data || { detail: 'Payment initialization failed' };
   }
 };
@@ -168,24 +179,20 @@ export const initializePayment = async (paymentData) => {
 
 export const subscribeNewsletter = async (email) => {
   try {
-    // Send POST request with { email } in request body
     const response = await API.post('/api/auth/newsletter/', { email });
 
-    // Debug: Check what's being sent
-    console.log("📨 Sending:", { email });
+    if (import.meta.env.MODE !== 'production') {
+      console.log("📨 Sending:", { email });
+    }
 
-    // Return response data on success
     return response.data;
-
   } catch (error) {
-    // Log error details clearly
-    console.error("❌ Newsletter Subscription Error:", error.response?.data || error);
-
-    // Throw the error to be caught by the caller (e.g., in the component)
+    if (import.meta.env.MODE !== 'production') {
+      console.error("❌ Newsletter Subscription Error:", error.response?.data || error);
+    }
     throw error.response?.data || { detail: 'Newsletter subscription failed' };
   }
 };
-
 
 // === CONTACT FORM ===
 
@@ -194,7 +201,9 @@ export const sendContactMessage = async (data) => {
     const response = await API.post('/api/auth/contact/', data);
     return response.data;
   } catch (error) {
-    console.error("Contact Form Error:", error.response?.data || error);
+    if (import.meta.env.MODE !== 'production') {
+      console.error("Contact Form Error:", error.response?.data || error);
+    }
     throw error.response?.data || { detail: 'Sending contact message failed' };
   }
 };
