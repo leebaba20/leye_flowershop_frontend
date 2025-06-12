@@ -22,6 +22,8 @@ import Notfound from './components/pages/Notfound';
 import PaymentCallback from './components/pages/Paymentcallback';
 
 // Components
+import Navbar from './components/navbarfiles/Navbar';
+import Footer from './components/footerfiles/Footer';
 import ApiComponent from './components/ApiComponent';
 import Bestseller from './components/Bestseller/Bestseller';
 import LatestCollection from './components/latest_collections/Latestcollections';
@@ -29,10 +31,7 @@ import LatestCollection from './components/latest_collections/Latestcollections'
 // Utils
 import ProtectedRoute from './utils/ProtectedRoute';
 
-// Layout
-import Layout from './components/layout/Layout';
-
-// Bootstrap CSS & JS
+// Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
@@ -42,53 +41,52 @@ function App() {
       <UserProvider>
         <CartProvider>
           <Routes>
-            {/* Wrap routes that share navbar/footer inside Layout */}
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="bestsellers" element={<Bestseller showLimited={false} />} />
-              <Route path="latest-collections" element={<LatestCollection showLimited={false} />} />
-              <Route path="about" element={<About />} />
-              <Route path="service" element={<Service />} />
-              <Route path="contact" element={<Contact />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="login" element={<Login />} />
-              <Route path="signup-success" element={<SignupSuccess />} />
-              <Route path="payment-success" element={<PaymentSuccess />} />
-              <Route path="all-products" element={<AllProducts />} />
-              <Route path="search" element={<Search />} />
-              <Route path="product/:id" element={<ProductDetails />} />
-              <Route path="api-test" element={<ApiComponent />} />
-              <Route path="payment-callback" element={<PaymentCallback />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/navbar" element={<Navbar />} />
+            <Route path="/footer" element={<Footer />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/service" element={<Service />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup-success" element={<SignupSuccess />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/all-products" element={<AllProducts />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/payment-callback" element={<PaymentCallback />} />
+            <Route path="/api-test" element={<ApiComponent />} />
+            <Route path="/bestsellers" element={<Bestseller showLimited={false} />} />
+            <Route path="/latest-collections" element={<LatestCollection showLimited={false} />} />
 
-              {/* Protected Routes */}
-              <Route
-                path="logout"
-                element={
-                  <ProtectedRoute>
-                    <Logout />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="shipping"
-                element={
-                  <ProtectedRoute>
-                    <Shipping />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="cart"
-                element={
-                  <ProtectedRoute>
-                    <Cart />
-                  </ProtectedRoute>
-                }
-              />
+            {/* Protected Routes */}
+            <Route
+              path="/logout"
+              element={
+                <ProtectedRoute>
+                  <Logout />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/shipping"
+              element={
+                <ProtectedRoute>
+                  <Shipping />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
 
-              {/* Catch all unmatched routes */}
-              <Route path="*" element={<Notfound />} />
-            </Route>
+            {/* 404 Not Found */}
+            <Route path="*" element={<Notfound />} />
           </Routes>
         </CartProvider>
       </UserProvider>
