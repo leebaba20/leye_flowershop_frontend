@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: '/', // or '/subdir/' if hosted in a subfolder
+    base: '/',
     server: {
       port: 3000,
       strictPort: true,
