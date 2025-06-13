@@ -148,7 +148,7 @@ export const initializePayment = async (paymentData) => {
 
     const payload = {
       email,
-      amount: Math.round(amountInNaira * 100), // Convert to Kobo
+      amount: amountInNaira, // ✅ Pass amount in Naira only
       metadata,
     };
 

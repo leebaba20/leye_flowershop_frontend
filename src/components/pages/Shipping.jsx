@@ -4,7 +4,7 @@ import { useCart } from '../../hooks/useCart';
 import { useUser } from '../../hooks/useUser';
 import { saveShippingInfo, initializePayment } from '../../utils/Api';
 import { toast } from 'react-toastify';
-import './shipping.css'
+import './shipping.css';
 
 const Shipping = () => {
   const navigate = useNavigate();
@@ -12,14 +12,21 @@ const Shipping = () => {
   const { cart } = useCart();
 
   const defaultForm = {
-    fullName: '', address: '', city: '', state: '', postalCode: '', country: '', phoneNumber: ''
+    fullName: '',
+    address: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: '',
+    phoneNumber: '',
   };
   const [form, setForm] = useState(defaultForm);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  const toSnake = obj => ({
+  const toSnake = (obj) => ({
     full_name: obj.fullName,
     address: obj.address,
     city: obj.city,
@@ -29,9 +36,12 @@ const Shipping = () => {
     phone_number: obj.phoneNumber,
   });
 
-  const total = cart.reduce((sum, item) => sum + Number(item.new_price) * Number(item.quantity), 0);
+  const total = cart.reduce(
+    (sum, item) => sum + Number(item.new_price) * Number(item.quantity),
+    0
+  );
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLoading) return toast.info('Loading user...');
 
@@ -39,19 +49,26 @@ const Shipping = () => {
       toast.error('Please log in first.');
       return navigate('/login');
     }
+
     if (cart.length === 0) {
       toast.error('Cart is empty.');
       return navigate('/');
     }
 
     if (
-      !form.fullName || !form.address || !form.city ||
-      !form.state || !form.postalCode || !form.country
+      !form.fullName ||
+      !form.address ||
+      !form.city ||
+      !form.state ||
+      !form.postalCode ||
+      !form.country
     ) {
       return toast.error('Please fill all required fields.');
     }
 
-    const proceed = window.confirm(`Confirm shipping:\n${form.fullName}, ${form.address}, ${form.city}, ${form.state}, ${form.postalCode}, ${form.country}\nProceed to payment?`);
+    const proceed = window.confirm(
+      `Confirm shipping:\n${form.fullName}, ${form.address}, ${form.city}, ${form.state}, ${form.postalCode}, ${form.country}\nProceed to payment?`
+    );
 
     if (!proceed) return;
 
@@ -60,20 +77,27 @@ const Shipping = () => {
     try {
       await saveShippingInfo(toSnake(form));
 
-      if (total <= 0 || isNaN(total)) throw new Error('Invalid cart total.');
+      if (total <= 0 || isNaN(total))
+        throw new Error('Invalid cart total.');
 
       const { authorization_url } = await initializePayment({
         email: user.email,
-        amount: Math.round(total * 100),
-        metadata: { shipping: toSnake(form), cart }
+        amount: total, // ✅ No multiplication here
+        metadata: { shipping: toSnake(form), cart },
       });
 
-      if (!authorization_url) throw new Error('No pay link received.');
+      if (!authorization_url)
+        throw new Error('No pay link received.');
 
       window.location.href = authorization_url;
     } catch (err) {
       console.error(err);
-      toast.error(err.error || err.detail || err.message || 'Payment initiation failed.');
+      toast.error(
+        err.error ||
+          err.detail ||
+          err.message ||
+          'Payment initiation failed.'
+      );
     } finally {
       setLoading(false);
     }
@@ -94,23 +118,30 @@ const Shipping = () => {
           <div key={key} className="mb-3">
             <label>{label}</label>
             <input
-              name={key} value={form[key]}
-              onChange={handleChange} className="form-control"
-              required disabled={loading}
+              name={key}
+              value={form[key]}
+              onChange={handleChange}
+              className="form-control"
+              required
+              disabled={loading}
             />
           </div>
         ))}
         <div className="mb-3">
           <label>Phone Number</label>
           <input
-            name="phoneNumber" value={form.phoneNumber}
-            onChange={handleChange} className="form-control"
+            name="phoneNumber"
+            value={form.phoneNumber}
+            onChange={handleChange}
+            className="form-control"
             disabled={loading}
           />
         </div>
 
         <button className="btn btn-primary" disabled={loading}>
-          {loading ? 'Processing…' : `Pay ₦${total.toLocaleString()} Now`}
+          {loading
+            ? 'Processing…'
+            : `Pay ₦${total.toLocaleString()} Now`}
         </button>
       </form>
     </div>
