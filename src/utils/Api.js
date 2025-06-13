@@ -179,7 +179,10 @@ export const initializePayment = async (paymentData) => {
 
 export const subscribeNewsletter = async (email) => {
   try {
-    const response = await API.post('/api/auth/newsletter/', { email });
+    const response = await axios.post(
+      'https://leye-flowershop-backend.onrender.com/api/auth/newsletter/',
+      { email }
+    );
 
     if (import.meta.env.MODE !== 'production') {
       console.log("📨 Sending:", { email });
@@ -194,11 +197,12 @@ export const subscribeNewsletter = async (email) => {
   }
 };
 
+
 // === CONTACT FORM ===
 
 export const sendContactMessage = async (data) => {
   try {
-    const response = await API.post('/api/auth/contact/', data);
+    const response = await API.post('https://leye-flowershop-backend.onrender.com/api/auth/contact/', data);
     return response.data;
   } catch (error) {
     if (import.meta.env.MODE !== 'production') {
