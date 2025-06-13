@@ -176,7 +176,6 @@ export const initializePayment = async (paymentData) => {
 };
 
 // === NEWSLETTER ===
-
 export const subscribeNewsletter = async (email) => {
   try {
     const response = await axios.post(
@@ -199,7 +198,6 @@ export const subscribeNewsletter = async (email) => {
 
 
 // === CONTACT FORM ===
-
 export const sendContactMessage = async (data) => {
   try {
     const response = await API.post('https://leye-flowershop-backend.onrender.com/api/auth/contact/', data);
