@@ -22,15 +22,16 @@ const Newsletter = () => {
       setSubscribed(true);
       setEmail('');
     } catch (error) {
+      console.error('Newsletter error:', error);
+
       let message = 'Subscription failed. Try again.';
 
-      if (error?.response?.data) {
-        const data = error.response.data;
-        if (data?.email && Array.isArray(data.email)) {
-          message = data.email[0];
-        } else if (typeof data === 'string') {
-          message = data;
-        }
+      if (error?.email && Array.isArray(error.email)) {
+        message = error.email[0];
+      } else if (typeof error?.detail === 'string') {
+        message = error.detail;
+      } else if (typeof error === 'string') {
+        message = error;
       } else if (error?.message) {
         message = error.message;
       }
