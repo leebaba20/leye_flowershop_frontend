@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchData } from '../../utils/Api';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     const trimmedQuery = query.trim().toLowerCase();
 
-    console.log("Search query:", trimmedQuery);
+    if (!trimmedQuery) {
+      console.log("Search query is empty.");
+      return;
+    }
 
-    if (trimmedQuery) {
-      navigate(`/search?category=${encodeURIComponent(trimmedQuery)}`);
-    } else {
-      console.log("Search query is empty, not navigating.");
+    try {
+      const results = await fetchData(`/auth/search/?q=${encodeURIComponent(trimmedQuery)}`);
+
+      // Navigate to search page and pass results (or re-fetch them on that page)
+      navigate(`/search?q=${encodeURIComponent(trimmedQuery)}`, { state: { results } });
+
+    } catch (error) {
+      console.error("❌ Search API error:", error);
     }
   };
 
@@ -24,9 +32,9 @@ const SearchBar = () => {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search by category..."
+        placeholder="Search for products or categories..."
         className="search-input"
-        aria-label="Search category"
+        aria-label="Search"
       />
       <button type="submit" className="search-button">Search</button>
     </form>

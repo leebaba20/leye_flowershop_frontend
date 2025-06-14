@@ -1,8 +1,8 @@
 import React, { useState, useContext, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Card from '../commonfiles/Card';
-import latestCollections from '../../assets/New_collections';
-import allProducts from '../../assets/New_collections'; // You may want to import a different file if this is intentional
+import Products from '../../assets/products';
+import NewCollections from '../../assets/New_collections';
 import { UserContext } from '../../context/UserContext';
 import { FaSearch } from 'react-icons/fa';
 import './Bestseller.css';
@@ -13,27 +13,31 @@ const Bestseller = () => {
   const location = useLocation();
   const isHomepage = location.pathname === '/';
 
-  // Merge and filter bestseller items
-  const bestsellerCollections = useMemo(() => {
-    const mergedProducts = [...latestCollections, ...allProducts];
-    return mergedProducts.filter(product =>
-      product.category?.includes('bestseller')
-    );
+  // Merge and deduplicate products
+  const combinedProducts = useMemo(() => {
+    const merged = [...Products, ...NewCollections];
+    return Array.from(new Map(merged.map((item) => [item.id, item])).values());
   }, []);
 
-  // Filter based on search term
+  // Filter for bestseller category
+  const bestsellerCollections = useMemo(() => {
+    return combinedProducts.filter(product =>
+      product.category?.includes('bestseller')
+    );
+  }, [combinedProducts]);
+
+  // Filter by search input
   const filteredBestsellers = useMemo(() => {
     const lowerSearch = searchTerm.toLowerCase();
-    return bestsellerCollections.filter((item) => {
-      return (
-        item.name.toLowerCase().includes(lowerSearch) ||
-        (item.category && item.category.some((cat) => cat.toLowerCase().includes(lowerSearch))) ||
-        (item.description && item.description.toLowerCase().includes(lowerSearch))
-      );
-    });
+    return bestsellerCollections.filter((item) =>
+      item.name.toLowerCase().includes(lowerSearch) ||
+      (item.category && item.category.some((cat) =>
+        cat.toLowerCase().includes(lowerSearch)
+      )) ||
+      (item.description && item.description.toLowerCase().includes(lowerSearch))
+    );
   }, [searchTerm, bestsellerCollections]);
 
-  // Limit on homepage
   const bestsellersToDisplay = isHomepage
     ? filteredBestsellers.slice(0, 4)
     : filteredBestsellers;
@@ -43,7 +47,11 @@ const Bestseller = () => {
       <div className="bestseller-container">
         <div className="new_collections bestseller-products">
           <h1 className="explore-heading">
-            {user ? `Our Best Picks for You, ${user.name} 🌟` : (isHomepage ? 'Top Picks for You' : 'Bestsellers')}
+            {user?.username
+              ? `Our Best Picks for You, ${user.username} 🌟`
+              : isHomepage
+              ? 'Top Picks for You'
+              : 'Bestsellers'}
           </h1>
 
           <p className="description-text">
@@ -67,9 +75,9 @@ const Bestseller = () => {
 
           <div className="bestseller-products-grid">
             {bestsellersToDisplay.length > 0 ? (
-              bestsellersToDisplay.map((card, index) => (
+              bestsellersToDisplay.map((card) => (
                 <Card
-                  key={`${card.id}-${index}`} // ✅ Unique key using ID + index
+                  key={card.id}
                   id={card.id}
                   name={card.name}
                   img={card.img}

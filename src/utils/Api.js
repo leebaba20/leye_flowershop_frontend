@@ -1,56 +1,54 @@
 import axios from 'axios';
 
-// === AXIOS INSTANCE ===
+// =================== AXIOS INSTANCE ===================
 export const API = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: false,
-  timeout: 10000, // 10s timeout
+  timeout: 10000,
 });
 
-// === TOKEN REFRESH HANDLER ===
+// =================== TOKEN REFRESH HANDLER ===================
 let isRefreshing = false;
 let failedQueue = [];
 
 const processQueue = (error, token = null) => {
   failedQueue.forEach(prom => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
+    error ? prom.reject(error) : prom.resolve(token);
   });
   failedQueue = [];
 };
 
-// === REQUEST INTERCEPTOR ===
-API.interceptors.request.use((config) => {
+// =================== REQUEST INTERCEPTOR ===================
+API.interceptors.request.use(config => {
   const token = localStorage.getItem('access_token');
   if (token) {
-    config.headers = config.headers || {};
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers = {
+      ...config.headers,
+      Authorization: `Bearer ${token}`,
+    };
   }
   return config;
 });
 
-// === RESPONSE INTERCEPTOR (Auto Refresh JWT) ===
+// =================== RESPONSE INTERCEPTOR ===================
 API.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
-        }).then((token) => {
+        }).then(token => {
           originalRequest.headers.Authorization = `Bearer ${token}`;
           return API(originalRequest);
-        }).catch((err) => Promise.reject(err));
+        }).catch(Promise.reject);
       }
 
-      originalRequest._retry = true;
       isRefreshing = true;
-
       const refreshToken = localStorage.getItem('refresh_token');
 
       if (!refreshToken) {
@@ -84,16 +82,13 @@ API.interceptors.response.use(
   }
 );
 
-// === AUTH ===
-
+// =================== AUTH ===================
 export const ApiSignup = async (data) => {
   try {
     const response = await API.post('/api/auth/signup/', data);
     return response.data;
   } catch (err) {
-    if (import.meta.env.MODE !== 'production') {
-      console.error("Signup error:", err);
-    }
+    console.error("Signup error:", err);
     throw err.response?.data || { detail: 'Signup failed' };
   }
 };
@@ -104,11 +99,9 @@ export const ApiLogin = async ({ username, password }) => {
     localStorage.setItem('access_token', res.data.access);
     localStorage.setItem('refresh_token', res.data.refresh);
     return res.data;
-  } catch (error) {
-    if (import.meta.env.MODE !== 'production') {
-      console.error("Login error:", error);
-    }
-    throw error.response?.data || { detail: 'Login failed' };
+  } catch (err) {
+    console.error("Login error:", err);
+    throw err.response?.data || { detail: 'Login failed' };
   }
 };
 
@@ -127,88 +120,61 @@ export const getCurrentUser = async () => {
   return response.data;
 };
 
-// === SHIPPING ===
-
+// =================== SHIPPING ===================
 export const saveShippingInfo = async (shippingData) => {
   const response = await API.post('/api/auth/shipping/', shippingData);
   return response.data;
 };
 
-// === PAYSTACK PAYMENT INITIALIZATION ===
-
+// =================== PAYMENT ===================
 export const initializePayment = async (paymentData) => {
   try {
     const email = String(paymentData.email || "").trim();
     const amountInNaira = Number(paymentData.amount);
     const metadata = paymentData.metadata || {};
 
-    if (!email || !amountInNaira || isNaN(amountInNaira) || amountInNaira <= 0) {
-      throw new Error('Invalid email or amount provided for payment initialization.');
+    if (!email || isNaN(amountInNaira) || amountInNaira <= 0) {
+      throw new Error('Invalid email or amount.');
     }
 
-    const payload = {
-      email,
-      amount: amountInNaira, // ✅ Pass amount in Naira only
-      metadata,
-    };
-
-    if (import.meta.env.MODE !== 'production') {
-      console.log("📤 Sending payment init payload:", payload);
-    }
+    const payload = { email, amount: amountInNaira, metadata };
 
     const response = await API.post('/api/auth/paystack/init/', payload);
-
-    if (import.meta.env.MODE !== 'production') {
-      console.log("✅ Payment init response:", response.data);
-    }
 
     if (!response.data.authorization_url) {
       throw new Error("Missing authorization_url in payment response.");
     }
 
     return response.data;
-  } catch (error) {
-    if (import.meta.env.MODE !== 'production') {
-      console.error("❌ Payment Init Error:", error.response?.data || error.message || error);
-    }
-    throw error.response?.data || { detail: 'Payment initialization failed' };
+  } catch (err) {
+    console.error("Payment Init Error:", err);
+    throw err.response?.data || { detail: 'Payment initialization failed' };
   }
 };
 
-// === NEWSLETTER ===
+// =================== NEWSLETTER ===================
 export const subscribeNewsletter = async (email) => {
   try {
-    const response = await API.post('/auth/newsletter/', { email });
-
-    if (import.meta.env.MODE !== 'production') {
-      console.log("📨 Sending:", { email });
-    }
-
+    const response = await API.post('/api/auth/newsletter/', { email });
     return response.data;
-  } catch (error) {
-    if (import.meta.env.MODE !== 'production') {
-      console.error("❌ Newsletter Subscription Error:", error.response?.data || error);
-    }
-    throw error.response?.data || { detail: 'Newsletter subscription failed' };
+  } catch (err) {
+    console.error("Newsletter Subscription Error:", err);
+    throw err.response?.data || { detail: 'Newsletter subscription failed' };
   }
 };
 
-
-// === CONTACT FORM ===
+// =================== CONTACT ===================
 export const sendContactMessage = async (data) => {
   try {
-    const response = await API.post('/auth/contact/', data);
+    const response = await API.post('/api/auth/contact/', data);
     return response.data;
-  } catch (error) {
-    if (import.meta.env.MODE !== 'production') {
-      console.error("Contact Form Error:", error.response?.data || error);
-    }
-    throw error.response?.data || { detail: 'Sending contact message failed' };
+  } catch (err) {
+    console.error("Contact Form Error:", err);
+    throw err.response?.data || { detail: 'Sending contact message failed' };
   }
 };
 
-// === GENERIC REQUESTS ===
-
+// =================== GENERIC REQUESTS ===================
 export const fetchData = async (endpoint) => {
   const response = await API.get(`/api${endpoint}`);
   return response.data;

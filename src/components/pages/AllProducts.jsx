@@ -13,21 +13,24 @@ const AllProducts = ({ showLimited = false }) => {
   const location = useLocation();
   const isHomepage = location.pathname === '/';
 
+  // Merge product arrays and remove duplicates by ID
   const combinedProducts = [...Products, ...latest_collections];
-  const uniqueProducts = Array.from(new Map(combinedProducts.map(item => [item.id, item])).values());
+  const uniqueProducts = Array.from(
+    new Map(combinedProducts.map((item) => [item.id, item])).values()
+  );
 
+  // Filter products by search term
   const filteredProducts = uniqueProducts.filter((item) => {
     const lowerSearch = searchTerm.toLowerCase();
     return (
       item.name.toLowerCase().includes(lowerSearch) ||
-      (item.category &&
-        Array.isArray(item.category) &&
+      (Array.isArray(item.category) &&
         item.category.some((cat) => cat.toLowerCase().includes(lowerSearch))) ||
       (item.description && item.description.toLowerCase().includes(lowerSearch))
     );
   });
 
-  // Show 4 on homepage, 8 if showLimited is passed, else show all
+  // Determine how many products to show
   const productsToDisplay = isHomepage
     ? filteredProducts.slice(0, 4)
     : showLimited
@@ -36,56 +39,60 @@ const AllProducts = ({ showLimited = false }) => {
 
   return (
     <section className="allproducts-wrapper">
-      <div className='allproducts-container'>
-        <div className='new_collections'>
-      <h1 className="explore-heading">
-        {user ? `Welcome back, ${user.name} 🌸` : showLimited || isHomepage ? 'Explore More...' : 'All Products'}
-      </h1>
+      <div className="allproducts-container">
+        <div className="new_collections">
+          <h1 className="explore-heading">
+            {user?.username
+              ? `Welcome back, ${user.username} 🌸`
+              : showLimited || isHomepage
+              ? 'Explore More...'
+              : 'All Products'}
+          </h1>
 
-      <p className="description-text">
-        Discover all our latest products and bestsellers in one place.
-      </p>
+          <p className="description-text">
+            Discover all our latest products and bestsellers in one place.
+          </p>
 
-      <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-        <div className="search-input-wrapper">
-          <FaSearch className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search for flowers..."
-            aria-label="Search flowers"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-bar"
-          />
+          <form className="search-form" onSubmit={(e) => e.preventDefault()}>
+            <div className="search-input-wrapper">
+              <FaSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search for flowers..."
+                aria-label="Search flowers"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-bar"
+              />
+            </div>
+          </form>
+
+          <div className="all-products-grid">
+            {productsToDisplay.length > 0 ? (
+              productsToDisplay.map((card) => (
+                <Card
+                  key={card.id}
+                  id={card.id}
+                  name={card.name}
+                  img={card.img}
+                  new_price={card.new_price}
+                  old_price={card.old_price}
+                  description={card.description}
+                />
+              ))
+            ) : (
+              <p>No products found for '{searchTerm}'</p>
+            )}
+          </div>
+
+          {(showLimited || isHomepage) && (
+            <div className="view-more-container">
+              <Link to="/all-products" className="view-more-button">
+                Show More →
+              </Link>
+            </div>
+          )}
         </div>
-      </form>
-
-      <div className="all-products-grid">
-        {productsToDisplay.length > 0 ? (
-          productsToDisplay.map((card) => (
-            <Card
-              key={card.id}
-              id={card.id}
-              name={card.name}
-              img={card.img}
-              new_price={card.new_price}
-              old_price={card.old_price}
-              description={card.description}
-            />
-          ))
-        ) : (
-          <p>No products found for '{searchTerm}'</p>
-        )}
-      </div>
-
-      {(showLimited || isHomepage) && (
-        <div className="view-more-container">
-          <Link to="/all-products" className="view-more-button">
-            Show More →
-          </Link>
-        </div>
-      )}
-      </div>
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { subscribeNewsletter } from '../../utils/Api';
 
 const Newsletter = () => {
@@ -6,6 +6,15 @@ const Newsletter = () => {
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // ✅ Check if already subscribed on page load
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('subscribed_email');
+    if (savedEmail) {
+      setSubscribed(true);
+      setEmail(savedEmail); // optional: preload the email
+    }
+  }, []);
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
@@ -19,6 +28,10 @@ const Newsletter = () => {
       }
 
       await subscribeNewsletter(email);
+
+      // ✅ Save email to localStorage
+      localStorage.setItem('subscribed_email', email);
+
       setSubscribed(true);
       setEmail('');
     } catch (error) {
@@ -60,6 +73,17 @@ const Newsletter = () => {
                     You’re now part of the Leye Flower Shop family. Watch out for exclusive offers,
                     fresh collections, and floral inspirations — straight to your inbox!
                   </p>
+                  {/* Optional: Dev-only reset button */}
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('subscribed_email');
+                      setSubscribed(false);
+                      setEmail('');
+                    }}
+                    className="btn btn-sm btn-outline-secondary mt-3"
+                  >
+                    Unsubscribe (dev only)
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubscribe} className="row g-2">
