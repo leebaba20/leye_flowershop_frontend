@@ -12,7 +12,7 @@ import Signup from './components/pages/Signup';
 import Login from './components/pages/Login';
 import Logout from './components/pages/Logout';
 import Cart from './components/pages/Cart';
-import Search from './components/pages/Search';
+import SearchResults from './components/pages/SearchResults';
 import ProductDetails from './components/pages/ProductDetails';
 import SignupSuccess from './components/pages/SignupSuccess';
 import PaymentSuccess from './components/pages/PaymentSuccess';
@@ -20,6 +20,7 @@ import Shipping from './components/pages/Shipping';
 import AllProducts from './components/pages/AllProducts';
 import Notfound from './components/pages/Notfound';
 import PaymentCallback from './components/pages/Paymentcallback';
+
 
 // Components
 import Navbar from './components/navbarfiles/Navbar';
@@ -55,7 +56,7 @@ function App() {
               <Route path="/signup-success" element={<SignupSuccess />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="/all-products" element={<AllProducts />} />
-              <Route path="/search" element={<Search />} />
+              <Route path="/search-result" element={<SearchResults />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/payment-callback" element={<PaymentCallback />} />
               <Route path="/api-test" element={<ApiComponent />} />

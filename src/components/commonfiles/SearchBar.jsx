@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchData } from '../../utils/Api';
+import { searchProducts } from '../../utils/Api';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -8,7 +8,8 @@ const SearchBar = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const trimmedQuery = query.trim().toLowerCase();
+    const trimmedQuery = query.trim();
+
 
     if (!trimmedQuery) {
       console.log("Search query is empty.");
@@ -16,10 +17,12 @@ const SearchBar = () => {
     }
 
     try {
-      const results = await fetchData(`/auth/search/?q=${encodeURIComponent(trimmedQuery)}`);
+      const results = await searchProducts(trimmedQuery);
 
-      // Navigate to search page and pass results (or re-fetch them on that page)
-      navigate(`/search?q=${encodeURIComponent(trimmedQuery)}`, { state: { results } });
+      // Navigate to search results page with the results in state
+      navigate(`/search?q=${encodeURIComponent(trimmedQuery)}`, {
+        state: { results }
+      });
 
     } catch (error) {
       console.error("❌ Search API error:", error);
