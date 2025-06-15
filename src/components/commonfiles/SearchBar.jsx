@@ -10,7 +10,6 @@ const SearchBar = () => {
     e.preventDefault();
     const trimmedQuery = query.trim();
 
-
     if (!trimmedQuery) {
       console.log("Search query is empty.");
       return;
@@ -23,23 +22,34 @@ const SearchBar = () => {
       navigate(`/search?q=${encodeURIComponent(trimmedQuery)}`, {
         state: { results }
       });
-
     } catch (error) {
       console.error("❌ Search API error:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSearch} className="search-bar" role="search" aria-label="Search form">
+    <form
+      onSubmit={handleSearch}
+      className="search-bar d-flex align-items-center gap-2 my-3"
+      role="search"
+      aria-label="Search for products"
+    >
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search for products or categories..."
-        className="search-input"
-        aria-label="Search"
+        placeholder="Search products or categories..."
+        className="form-control rounded-pill px-3 py-2"
+        aria-label="Search input"
+        disabled={false}
       />
-      <button type="submit" className="search-button">Search</button>
+      <button
+        type="submit"
+        className="btn btn-dark rounded-pill px-4 py-2"
+        disabled={!query.trim()}
+      >
+        Search
+      </button>
     </form>
   );
 };

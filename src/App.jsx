@@ -21,7 +21,6 @@ import AllProducts from './components/pages/AllProducts';
 import Notfound from './components/pages/Notfound';
 import PaymentCallback from './components/pages/Paymentcallback';
 
-
 // Components
 import Navbar from './components/navbarfiles/Navbar';
 import Footer from './components/footerfiles/Footer';
@@ -39,7 +38,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 function App() {
   return (
     <>
-      
       <BrowserRouter>
         <UserProvider>
           <CartProvider>
@@ -56,7 +54,7 @@ function App() {
               <Route path="/signup-success" element={<SignupSuccess />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="/all-products" element={<AllProducts />} />
-              <Route path="/search-result" element={<SearchResults />} />
+              <Route path="/search" element={<SearchResults />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/payment-callback" element={<PaymentCallback />} />
               <Route path="/api-test" element={<ApiComponent />} />
@@ -101,4 +99,5 @@ function App() {
     </>
   );
 }
+
 export default App;

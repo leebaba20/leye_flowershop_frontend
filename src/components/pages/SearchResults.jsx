@@ -15,8 +15,8 @@ const SearchResults = () => {
       if (!results.length && query) {
         try {
           const data = await searchProducts(query);
-          if (data.length === 0) setNotFound(true);
           setResults(data);
+          setNotFound(data.length === 0);
         } catch {
           setNotFound(true);
         } finally {
@@ -29,19 +29,38 @@ const SearchResults = () => {
   }, [query]);
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Results for: "{query}"</h2>
+    <div className="container py-5">
+      <h2 className="mb-4 fw-bold text-center">
+        Results for: <span className="text-danger">"{query}"</span>
+      </h2>
 
-      {loading && <p>Loading...</p>}
-      {!loading && notFound && <p>No products found.</p>}
+      {loading && <p className="text-center">Loading...</p>}
+      {!loading && notFound && (
+        <p className="text-center text-muted">No products found matching your search.</p>
+      )}
 
       {!loading && results.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {results.map(product => (
-            <div key={product.id} className="border p-3 rounded shadow">
-              <h3 className="font-semibold">{product.name}</h3>
-             <p className="text-green-700 font-bold">₦{product.new_price}</p>
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+          {results.map((product) => (
+            <div key={product.id} className="col">
+              <div className="card h-100 shadow-sm">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="card-img-top"
+                  style={{ height: '200px', objectFit: 'cover' }}
+                />
+                <div className="card-body text-center">
+                  <h5 className="card-title">{product.name}</h5>
+                  <p className="text-success fw-bold">₦{Number(product.new_price).toLocaleString()}</p>
+                  {product.old_price && (
+                    <p className="text-muted text-decoration-line-through">
+                      ₦{Number(product.old_price).toLocaleString()}
+                    </p>
+                  )}
+                </div>
               </div>
+            </div>
           ))}
         </div>
       )}

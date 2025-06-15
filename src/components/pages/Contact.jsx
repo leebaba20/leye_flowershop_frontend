@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './contact.css';
 import { sendContactMessage } from '../../utils/Api';
 
@@ -19,32 +19,39 @@ const Contact = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setErrorMessage('');
-  setLoading(true);
+    e.preventDefault();
+    setErrorMessage('');
+    setLoading(true);
 
-  try {
-    const { name, email, message } = formData;
+    try {
+      const { name, email, message } = formData;
 
-    // Basic client-side email format check
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      throw new Error('Please enter a valid email address.');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        throw new Error('Please enter a valid email address.');
+      }
+
+      await sendContactMessage({ name, email, message });
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      setSubmitted(false);
+      setErrorMessage(
+        error?.detail || error?.message || 'Failed to send message. Please try again.'
+      );
+    } finally {
+      setLoading(false);
     }
+  };
 
-    await sendContactMessage({ name, email, message });
-
-    setSubmitted(true); // Show success message
-    setFormData({ name: '', email: '', message: '' });
-  } catch (error) {
-    setSubmitted(false); // Hide success message if error occurs
-    setErrorMessage(
-      error?.detail || error?.message || 'Failed to send message. Please try again.'
-    );
-  } finally {
-    setLoading(false);
-  }
-};
+  // Auto-hide success message after 5 seconds
+  useEffect(() => {
+    if (submitted) {
+      const timer = setTimeout(() => setSubmitted(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitted]);
 
   return (
     <div className="contact-container">
@@ -56,7 +63,7 @@ const Contact = () => {
 
         <div className="contact-info">
           <div>
-            <strong>Phone:</strong> +2348142408571, +234705461888
+            <strong>Phone:</strong> +2348142408571, +2347054618881
           </div>
           <div>
             <strong>Email:</strong> princeleeoye@gmail.com
@@ -110,9 +117,13 @@ const Contact = () => {
           </button>
         </form>
 
-        {submitted && <p className="success-msg">Thank you! Your message has been sent. 📩</p>}
+        {submitted && (
+          <p className="success-msg">Thank you! Your message has been sent. 📩</p>
+        )}
 
-        {errorMessage && <p className="error-msg text-danger mt-2">{errorMessage}</p>}
+        {errorMessage && (
+          <p className="error-msg text-danger mt-2">{errorMessage}</p>
+        )}
       </div>
     </div>
   );
