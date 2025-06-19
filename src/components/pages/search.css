@@ -1,7 +1,7 @@
 /* Search page container */
 .collections {
   max-width: 1200px;
-  margin: 2rem auto;
+  margin: 6rem auto 2rem; /* Increased top margin to avoid navbar overlap */
   padding: 2rem;
   background-color: #f9f9f9;
   border-radius: 12px;
@@ -84,6 +84,7 @@ h1 {
 @media (max-width: 600px) {
   .collections {
     padding: 1rem;
+    margin-top: 4rem; /* slightly smaller margin on mobile */
   }
 
   h1 {

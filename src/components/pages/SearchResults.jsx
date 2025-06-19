@@ -52,12 +52,7 @@ const SearchResults = () => {
                 />
                 <div className="card-body text-center">
                   <h5 className="card-title">{product.name}</h5>
-                  <p className="text-success fw-bold">₦{Number(product.new_price).toLocaleString()}</p>
-                  {product.old_price && (
-                    <p className="text-muted text-decoration-line-through">
-                      ₦{Number(product.old_price).toLocaleString()}
-                    </p>
-                  )}
+                  <p className="text-success fw-bold">₦{Number(product.price).toLocaleString()}</p>
                 </div>
               </div>
             </div>
