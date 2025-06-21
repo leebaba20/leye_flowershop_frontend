@@ -171,30 +171,8 @@ export const sendContactMessage = async (data) => {
   }
 };
 
-// =================== SEARCH (Optional) ===================
-export const searchProducts = async (searchTerm) => {
-  try {
-    const trimmedQuery = String(searchTerm).trim();
-
-    if (!trimmedQuery) {
-      throw new Error("Search term is empty.");
-    }
-
-    const response = await API.get('/api/auth/search/', {
-      params: { q: trimmedQuery }
-    });
-
-    return response.data;
-  } catch (err) {
-    console.error("🔍 Search API Error:", err);
-    throw err.response?.data || { detail: 'Search failed' };
-  }
-};
-
-
 // =================== GENERIC ===================
 export const fetchData = async (endpoint) => {
   const response = await API.get(`/api${endpoint}`);
   return response.data;
 };
-

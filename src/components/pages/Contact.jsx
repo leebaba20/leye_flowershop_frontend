@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './contact.css';
 import { sendContactMessage } from '../../utils/Api';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -9,8 +10,6 @@ const Contact = () => {
     message: '',
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -20,7 +19,6 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
     setLoading(true);
 
     try {
@@ -31,32 +29,23 @@ const Contact = () => {
         throw new Error('Please enter a valid email address.');
       }
 
-      await sendContactMessage({ name, email, message });
+      const res = await sendContactMessage({ name, email, message });
 
-      setSubmitted(true);
+      toast.success(res.message || '📩 Your message has been sent!');
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
-      setSubmitted(false);
-      setErrorMessage(
-        error?.detail || error?.message || 'Failed to send message. Please try again.'
+      toast.error(
+        error?.detail || error?.message || '❌ Failed to send message. Please try again.'
       );
     } finally {
       setLoading(false);
     }
   };
 
-  // Auto-hide success message after 5 seconds
-  useEffect(() => {
-    if (submitted) {
-      const timer = setTimeout(() => setSubmitted(false), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [submitted]);
-
   return (
     <div className="contact-container">
       <h1>Contact Us</h1>
-      
+
       <div className="contact-details">
         <h2>Get in Touch</h2>
         <p>If you have any questions or need assistance, feel free to reach out to us.</p>
@@ -116,14 +105,6 @@ const Contact = () => {
             {loading ? 'Sending...' : 'Submit'}
           </button>
         </form>
-
-        {submitted && (
-          <p className="success-msg">Thank you! Your message has been sent. 📩</p>
-        )}
-
-        {errorMessage && (
-          <p className="error-msg text-danger mt-2">{errorMessage}</p>
-        )}
       </div>
     </div>
   );

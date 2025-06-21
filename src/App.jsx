@@ -35,13 +35,16 @@ import ProtectedRoute from './utils/ProtectedRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+// Toast
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <>
       <BrowserRouter>
         <UserProvider>
           <CartProvider>
-            {/* ✅ Show Navbar on all pages */}
             <Navbar />
 
             <Routes>
@@ -87,12 +90,13 @@ function App() {
                 }
               />
 
-              {/* 404 Not Found */}
               <Route path="*" element={<Notfound />} />
             </Routes>
 
-            {/* ✅ Show Footer globally as well */}
             <Footer />
+
+            {/* ✅ Global Toast Container for notifications */}
+            <ToastContainer position="top-right" autoClose={4000} />
           </CartProvider>
         </UserProvider>
       </BrowserRouter>

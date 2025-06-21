@@ -1,0 +1,83 @@
+/* === Search Results Page === */
+.search-results {
+  max-width: 1200px;
+  margin: 6rem auto 2rem; /* To avoid navbar overlap */
+  padding: 2rem;
+  background-color: #fff7fb;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(233, 30, 99, 0.06);
+  width: 90%;
+}
+
+/* Heading */
+.search-results h2 {
+  font-size: 2.2rem;
+  color: #e91e63;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* Product Grid (Bootstrap override) */
+.search-results .row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+/* Card column */
+.search-results .col-md-4 {
+  padding: 0;
+}
+
+/* Empty state text */
+.search-results p {
+  font-size: 1.1rem;
+  color: #888;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* Optional: style Card component if needed */
+/* Add here if your Card isn't pre-styled */
+.search-results .card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(233, 30, 99, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-results .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(233, 30, 99, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .search-results {
+    padding: 1rem;
+    margin-top: 4rem;
+  }
+
+  .search-results h2 {
+    font-size: 1.6rem;
+  }
+
+  .search-results .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .search-results .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+}

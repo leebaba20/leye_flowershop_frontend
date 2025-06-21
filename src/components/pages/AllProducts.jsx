@@ -1,8 +1,8 @@
+// src/components/pages/AllProducts.jsx
 import React, { useState, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import Card from '../commonfiles/Card';
-import Products from '../../assets/products';
-import latest_collections from '../../assets/New_collections';
+import allProducts from '../../assets/AllProductData'; // ✅ corrected import
 import { UserContext } from '../../context/UserContext';
 import { FaSearch } from 'react-icons/fa';
 import './allproducts.css';
@@ -13,24 +13,16 @@ const AllProducts = ({ showLimited = false }) => {
   const location = useLocation();
   const isHomepage = location.pathname === '/';
 
-  // Merge product arrays and remove duplicates by ID
-  const combinedProducts = [...Products, ...latest_collections];
-  const uniqueProducts = Array.from(
-    new Map(combinedProducts.map((item) => [item.id, item])).values()
-  );
-
-  // Filter products by search term
-  const filteredProducts = uniqueProducts.filter((item) => {
+  const filteredProducts = allProducts.filter((item) => {
     const lowerSearch = searchTerm.toLowerCase();
     return (
       item.name.toLowerCase().includes(lowerSearch) ||
+      (item.description && item.description.toLowerCase().includes(lowerSearch)) ||
       (Array.isArray(item.category) &&
-        item.category.some((cat) => cat.toLowerCase().includes(lowerSearch))) ||
-      (item.description && item.description.toLowerCase().includes(lowerSearch))
+        item.category.some((cat) => cat.toLowerCase().includes(lowerSearch)))
     );
   });
 
-  // Determine how many products to show
   const productsToDisplay = isHomepage
     ? filteredProducts.slice(0, 4)
     : showLimited
@@ -59,7 +51,6 @@ const AllProducts = ({ showLimited = false }) => {
               <input
                 type="text"
                 placeholder="Search for flowers..."
-                aria-label="Search flowers"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-bar"
@@ -74,7 +65,7 @@ const AllProducts = ({ showLimited = false }) => {
                   key={card.id}
                   id={card.id}
                   name={card.name}
-                  img={card.img}
+                  img={card.img || card.image} // fallback for image source
                   new_price={card.new_price}
                   old_price={card.old_price}
                   description={card.description}
