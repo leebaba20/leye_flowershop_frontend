@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Card from '../commonfiles/Card';
-import './searchResults.css'; 
+import './searchresults.css'; 
 
 const SearchResults = () => {
   const location = useLocation();
