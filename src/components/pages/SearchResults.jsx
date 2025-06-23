@@ -1,3 +1,4 @@
+// src/components/pages/SearchResults.jsx
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Card from '../commonfiles/Card';
@@ -12,6 +13,8 @@ const SearchResults = () => {
     const params = new URLSearchParams(location.search);
     const query = params.get('q')?.toLowerCase().trim();
 
+    console.log('🔍 Search query:', query); // log query
+
     if (!query) {
       setResults([]);
       return;
@@ -20,10 +23,11 @@ const SearchResults = () => {
     const filtered = allProducts.filter(product =>
       product.name.toLowerCase().includes(query) ||
       (product.description && product.description.toLowerCase().includes(query)) ||
-      (Array.isArray(product.category)
-        ? product.category.some(cat => cat.toLowerCase().includes(query))
-        : product.category?.toLowerCase().includes(query))
+      (Array.isArray(product.category) &&
+        product.category.some(cat => cat.toLowerCase().includes(query)))
     );
+
+    console.log('✅ Matched results:', filtered); // log matched results
 
     setResults(filtered);
   }, [location.search]);

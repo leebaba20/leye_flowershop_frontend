@@ -8,11 +8,9 @@ const SearchBar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     const trimmedQuery = query.trim().toLowerCase();
-
     if (!trimmedQuery) return;
 
-    // Navigate using the query string only (state removed)
-    navigate(`/search?q=${encodeURIComponent(query)}`);
+    navigate(`/search?q=${encodeURIComponent(trimmedQuery)}`);
   };
 
   return (

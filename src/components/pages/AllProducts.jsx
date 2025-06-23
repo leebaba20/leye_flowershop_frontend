@@ -1,8 +1,7 @@
-// src/components/pages/AllProducts.jsx
 import React, { useState, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import Card from '../commonfiles/Card';
-import allProducts from '../../assets/AllProductData'; // ✅ corrected import
+import allProducts from '../../assets/AllProductData'; // Corrected import
 import { UserContext } from '../../context/UserContext';
 import { FaSearch } from 'react-icons/fa';
 import './allproducts.css';
@@ -13,15 +12,24 @@ const AllProducts = ({ showLimited = false }) => {
   const location = useLocation();
   const isHomepage = location.pathname === '/';
 
-  const filteredProducts = allProducts.filter((item) => {
-    const lowerSearch = searchTerm.toLowerCase();
-    return (
-      item.name.toLowerCase().includes(lowerSearch) ||
-      (item.description && item.description.toLowerCase().includes(lowerSearch)) ||
-      (Array.isArray(item.category) &&
-        item.category.some((cat) => cat.toLowerCase().includes(lowerSearch)))
-    );
-  });
+  // DEBUG logs
+  console.log('✅ Loaded products:', allProducts);
+  console.log('🔍 Current search term:', searchTerm);
+
+  // Filter products based on search
+  const filteredProducts = searchTerm
+    ? allProducts.filter((item) => {
+        const lowerSearch = searchTerm.toLowerCase();
+        return (
+          item.name.toLowerCase().includes(lowerSearch) ||
+          (item.description && item.description.toLowerCase().includes(lowerSearch)) ||
+          (Array.isArray(item.category) &&
+            item.category.some((cat) => cat.toLowerCase().includes(lowerSearch)))
+        );
+      })
+    : allProducts;
+
+  console.log('🔎 Filtered products:', filteredProducts);
 
   const productsToDisplay = isHomepage
     ? filteredProducts.slice(0, 4)
@@ -65,7 +73,7 @@ const AllProducts = ({ showLimited = false }) => {
                   key={card.id}
                   id={card.id}
                   name={card.name}
-                  img={card.img || card.image} // fallback for image source
+                  img={card.img || card.image} // fallback image support
                   new_price={card.new_price}
                   old_price={card.old_price}
                   description={card.description}
