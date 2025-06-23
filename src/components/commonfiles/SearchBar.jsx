@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import allProducts from '../../assets/allProductData';
+import allProducts from '../../assets/AllProductData';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -19,6 +19,10 @@ const SearchBar = () => {
         product.category.some(cat => cat.toLowerCase().includes(trimmedQuery)))
     );
 
+    // Store in localStorage
+    localStorage.setItem('searchResults', JSON.stringify(results));
+
+    // Navigate with results in state too
     navigate(`/search?q=${encodeURIComponent(query)}`, { state: { results } });
   };
 

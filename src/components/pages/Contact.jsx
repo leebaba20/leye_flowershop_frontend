@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './contact.css';
 import { sendContactMessage } from '../../utils/Api';
 import { toast } from 'react-toastify';
@@ -10,6 +10,8 @@ const Contact = () => {
     message: '',
   });
 
+  const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -19,6 +21,7 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
     setLoading(true);
 
     try {
@@ -29,18 +32,30 @@ const Contact = () => {
         throw new Error('Please enter a valid email address.');
       }
 
-      const res = await sendContactMessage({ name, email, message });
+      await sendContactMessage({ name, email, message });
 
-      toast.success(res.message || '📩 Your message has been sent!');
+      setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
+
+      toast.success('Message sent successfully! 📩');
     } catch (error) {
-      toast.error(
-        error?.detail || error?.message || '❌ Failed to send message. Please try again.'
-      );
+      setSubmitted(false);
+      const message =
+        error?.detail || error?.message || 'Failed to send message. Please try again.';
+      setErrorMessage(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
   };
+
+  // Auto-hide success message after 5 seconds
+  useEffect(() => {
+    if (submitted) {
+      const timer = setTimeout(() => setSubmitted(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitted]);
 
   return (
     <div className="contact-container">
@@ -51,15 +66,9 @@ const Contact = () => {
         <p>If you have any questions or need assistance, feel free to reach out to us.</p>
 
         <div className="contact-info">
-          <div>
-            <strong>Phone:</strong> +2348142408571, +2347054618881
-          </div>
-          <div>
-            <strong>Email:</strong> princeleeoye@gmail.com
-          </div>
-          <div>
-            <strong>Address:</strong> 11 Peace Ayomikun Street, Gbelero, Ikola Road, Ipaja, Lagos
-          </div>
+          <div><strong>Phone:</strong> +2348142408571, +2347054618881</div>
+          <div><strong>Email:</strong> princeleeoye@gmail.com</div>
+          <div><strong>Address:</strong> 11 Peace Ayomikun Street, Gbelero, Ikola Road, Ipaja, Lagos</div>
         </div>
       </div>
 
@@ -105,6 +114,14 @@ const Contact = () => {
             {loading ? 'Sending...' : 'Submit'}
           </button>
         </form>
+
+        {submitted && (
+          <p className="success-msg">Thank you! Your message has been sent. 📩</p>
+        )}
+
+        {errorMessage && (
+          <p className="error-msg text-danger mt-2">{errorMessage}</p>
+        )}
       </div>
     </div>
   );

@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Card from '../commonfiles/Card';
-import './searchresults.css'; 
+import './searchresults.css';
 
 const SearchResults = () => {
   const location = useLocation();
-  const results = location.state?.results || [];
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    const searchResults =
+      location.state?.results || JSON.parse(localStorage.getItem('searchResults')) || [];
+    setResults(searchResults);
+  }, [location.state]);
 
   return (
     <div className="search-results container py-4">
