@@ -20,8 +20,9 @@ const SearchResults = () => {
     const filtered = allProducts.filter(product =>
       product.name.toLowerCase().includes(query) ||
       (product.description && product.description.toLowerCase().includes(query)) ||
-      (Array.isArray(product.category) &&
-        product.category.some(cat => cat.toLowerCase().includes(query)))
+      (Array.isArray(product.category)
+        ? product.category.some(cat => cat.toLowerCase().includes(query))
+        : product.category?.toLowerCase().includes(query))
     );
 
     setResults(filtered);
