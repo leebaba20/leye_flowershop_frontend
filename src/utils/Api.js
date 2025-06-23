@@ -1,15 +1,14 @@
 import axios from 'axios';
 
-// ============== AXIOS INSTANCE ==============
+// ========== AXIOS INSTANCE ==========
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://leye-flowershop-backend.onrender.com';
 
 export const API = axios.create({
   baseURL: BASE_URL,
-  withCredentials: false,
   timeout: 10000,
 });
 
-// ============== TOKEN REFRESH HANDLER ==============
+// ========== TOKEN REFRESH HANDLER ==========
 let isRefreshing = false;
 let failedQueue = [];
 
@@ -20,35 +19,40 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-// ============== REQUEST INTERCEPTOR ==============
+// ========== REQUEST INTERCEPTOR ==========
 API.interceptors.request.use(config => {
   const token = localStorage.getItem('access_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-});
+}, error => Promise.reject(error));
 
-// ============== RESPONSE INTERCEPTOR ==============
+// ========== RESPONSE INTERCEPTOR ==========
 API.interceptors.response.use(
-  response => response,
+  res => res,
   async error => {
     const originalRequest = error.config;
 
+    // Handle timeout error
     if (error.code === 'ECONNABORTED') {
       return Promise.reject({ detail: 'Request timed out. Please try again.' });
     }
 
+    // Handle 401 token expiration
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        }).then(token => {
-          originalRequest.headers.Authorization = `Bearer ${token}`;
-          return API(originalRequest);
-        }).catch(Promise.reject);
+          failedQueue.push({
+            resolve: token => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              resolve(API(originalRequest));
+            },
+            reject: err => reject(err),
+          });
+        });
       }
 
       isRefreshing = true;
@@ -57,21 +61,24 @@ API.interceptors.response.use(
       if (!refreshToken) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        return Promise.reject(error);
+        return Promise.reject({ detail: 'Session expired. Please login again.' });
       }
 
       try {
-        const res = await axios.post(`${BASE_URL}/api/auth/token/refresh/`, { refresh: refreshToken });
+        const res = await axios.post(`${BASE_URL}/api/auth/token/refresh/`, {
+          refresh: refreshToken,
+        });
+
         const { access } = res.data;
         localStorage.setItem('access_token', access);
-        originalRequest.headers.Authorization = `Bearer ${access}`;
         processQueue(null, access);
+        originalRequest.headers.Authorization = `Bearer ${access}`;
         return API(originalRequest);
       } catch (err) {
         processQueue(err, null);
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        return Promise.reject(err);
+        return Promise.reject({ detail: 'Session expired. Please login again.' });
       } finally {
         isRefreshing = false;
       }
@@ -81,11 +88,11 @@ API.interceptors.response.use(
   }
 );
 
-// ============== ERROR PARSER ==============
+// ========== ERROR PARSER ==========
 const parseError = (err, fallback = 'An error occurred') =>
   err.response?.data || { detail: fallback };
 
-// ============== AUTH ==============
+// ========== AUTH ==========
 export const ApiSignup = async (data) => {
   try {
     const res = await API.post('/api/auth/signup/', data);
@@ -128,13 +135,13 @@ export const getCurrentUser = async () => {
   return res.data;
 };
 
-// ============== SHIPPING ==============
+// ========== SHIPPING ==========
 export const saveShippingInfo = async (shippingData) => {
   const res = await API.post('/api/auth/shipping/', shippingData);
   return res.data;
 };
 
-// ============== PAYMENT ==============
+// ========== PAYMENT ==========
 export const initializePayment = async (paymentData) => {
   try {
     const email = String(paymentData.email || "").trim();
@@ -148,7 +155,7 @@ export const initializePayment = async (paymentData) => {
     const res = await API.post('/api/auth/paystack/init/', {
       email,
       amount,
-      metadata
+      metadata,
     });
 
     if (!res.data.authorization_url) {
@@ -162,7 +169,7 @@ export const initializePayment = async (paymentData) => {
   }
 };
 
-// ============== NEWSLETTER ==============
+// ========== NEWSLETTER ==========
 export const subscribeNewsletter = async (email) => {
   try {
     const res = await API.post('/api/auth/newsletter/', { email });
@@ -173,7 +180,7 @@ export const subscribeNewsletter = async (email) => {
   }
 };
 
-// ============== CONTACT ==============
+// ========== CONTACT ==========
 export const sendContactMessage = async (data) => {
   try {
     const res = await API.post('/api/auth/contact/', data);
@@ -184,7 +191,7 @@ export const sendContactMessage = async (data) => {
   }
 };
 
-// ============== FETCH GENERIC DATA ==============
+// ========== FETCH GENERIC DATA ==========
 export const fetchData = async (endpoint) => {
   const res = await API.get(`/api${endpoint}`);
   return res.data;
