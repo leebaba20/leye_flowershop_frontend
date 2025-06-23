@@ -10,7 +10,9 @@ const SearchBar = () => {
     const trimmedQuery = query.trim().toLowerCase();
     if (!trimmedQuery) return;
 
-    navigate(`/search?q=${encodeURIComponent(trimmedQuery)}`);
+    const targetUrl = `/search?q=${encodeURIComponent(trimmedQuery)}`;
+    console.log('Navigating to:', targetUrl);
+    navigate(targetUrl);
   };
 
   return (

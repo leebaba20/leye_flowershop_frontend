@@ -9,28 +9,30 @@ const SearchResults = () => {
   const location = useLocation();
   const [results, setResults] = useState([]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const query = params.get('q')?.toLowerCase().trim();
+ useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  const query = params.get('q');
 
-    console.log('🔍 Search query:', query); // log query
+  console.log('🔍 Raw query param:', query);
 
-    if (!query) {
-      setResults([]);
-      return;
-    }
+  if (!query) {
+    setResults([]);
+    return;
+  }
 
-    const filtered = allProducts.filter(product =>
-      product.name.toLowerCase().includes(query) ||
-      (product.description && product.description.toLowerCase().includes(query)) ||
-      (Array.isArray(product.category) &&
-        product.category.some(cat => cat.toLowerCase().includes(query)))
-    );
+  const trimmedQuery = query.trim().toLowerCase();
 
-    console.log('✅ Matched results:', filtered); // log matched results
+  const filtered = allProducts.filter(product =>
+    product.name.toLowerCase().includes(trimmedQuery) ||
+    (product.description && product.description.toLowerCase().includes(trimmedQuery)) ||
+    (Array.isArray(product.category) &&
+      product.category.some(cat => cat.toLowerCase().includes(trimmedQuery)))
+  );
 
-    setResults(filtered);
-  }, [location.search]);
+  console.log('✅ Matched results:', filtered);
+  setResults(filtered);
+}, [location.search]);
+
 
   return (
     <div className="search-results container py-4">
