@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import allProducts from '../../assets/AllProductData';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -12,18 +11,8 @@ const SearchBar = () => {
 
     if (!trimmedQuery) return;
 
-    const results = allProducts.filter(product =>
-      product.name.toLowerCase().includes(trimmedQuery) ||
-      (product.description && product.description.toLowerCase().includes(trimmedQuery)) ||
-      (Array.isArray(product.category) &&
-        product.category.some(cat => cat.toLowerCase().includes(trimmedQuery)))
-    );
-
-    // Store in localStorage
-    localStorage.setItem('searchResults', JSON.stringify(results));
-
-    // Navigate with results in state too
-    navigate(`/search?q=${encodeURIComponent(query)}`, { state: { results } });
+    // Navigate using the query string only (state removed)
+    navigate(`/search?q=${encodeURIComponent(query)}`);
   };
 
   return (
