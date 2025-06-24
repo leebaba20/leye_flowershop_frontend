@@ -9,30 +9,32 @@ const SearchResults = () => {
   const location = useLocation();
   const [results, setResults] = useState([]);
 
- useEffect(() => {
-  const params = new URLSearchParams(location.search);
-  const query = params.get('q');
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const query = params.get('q');
 
-  console.log('🔍 Raw query param:', query);
+    console.log('🔍 Raw query param:', query);
 
-  if (!query) {
-    setResults([]);
-    return;
-  }
+    if (!query) {
+      setResults([]);
+      return;
+    }
 
-  const trimmedQuery = query.trim().toLowerCase();
+    const trimmedQuery = query.trim().toLowerCase();
 
-  const filtered = allProducts.filter(product =>
-    product.name.toLowerCase().includes(trimmedQuery) ||
-    (product.description && product.description.toLowerCase().includes(trimmedQuery)) ||
-    (Array.isArray(product.category) &&
-      product.category.some(cat => cat.toLowerCase().includes(trimmedQuery)))
-  );
+    const filtered = allProducts.filter(product =>
+      product.name.toLowerCase().includes(trimmedQuery) ||
+      (product.description && product.description.toLowerCase().includes(trimmedQuery)) ||
+      (
+        Array.isArray(product.category)
+          ? product.category.some(cat => cat.toLowerCase().includes(trimmedQuery))
+          : product.category?.toLowerCase().includes(trimmedQuery)
+      )
+    ); // ✅ This closing parenthesis was missing
 
-  console.log('✅ Matched results:', filtered);
-  setResults(filtered);
-}, [location.search]);
-
+    console.log('✅ Matched results:', filtered);
+    setResults(filtered);
+  }, [location.search]);
 
   return (
     <div className="search-results container py-4">

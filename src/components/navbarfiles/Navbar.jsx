@@ -14,12 +14,13 @@ const Navbar = () => {
   const { user, isLoading, logout } = useContext(UserContext);
 
   const handleSearch = (e) => {
-    e.preventDefault();
-    const value = e.target.elements.category.value.trim();
-    if (value) {
-      navigate(`/search?category=${value}`);
-    }
-  };
+  e.preventDefault();
+  const value = e.target.elements.q.value.trim();
+  if (value) {
+    navigate(`/search?q=${value}`);
+  }
+};
+
 
   const handleLogout = () => {
     logout();
@@ -134,12 +135,13 @@ const Navbar = () => {
 
               <form className="d-flex mt-3" role="search" onSubmit={handleSearch}>
                 <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search category"
-                  aria-label="Search"
-                  name="category"
-                />
+                className="form-control me-2"
+                type="search"
+                placeholder="Search products"
+                aria-label="Search"
+                name="q"
+              />
+
                 <button className="btn btn-success" type="submit">
                   Search
                 </button>
