@@ -30,7 +30,7 @@ const SearchResults = () => {
           ? product.category.some(cat => cat.toLowerCase().includes(trimmedQuery))
           : product.category?.toLowerCase().includes(trimmedQuery)
       )
-    ); // ✅ This closing parenthesis was missing
+    );
 
     console.log('✅ Matched results:', filtered);
     setResults(filtered);
@@ -40,9 +40,9 @@ const SearchResults = () => {
     <div className="search-results container py-4">
       <h2>Search Results</h2>
       {results.length > 0 ? (
-        <div className="row">
+        <div className="product-grid">
           {results.map(product => (
-            <div key={product.id} className="col-md-4 mb-3">
+            <div key={product.id} className="product-card">
               <Card {...product} />
             </div>
           ))}
