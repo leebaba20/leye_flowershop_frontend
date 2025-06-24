@@ -1,7 +1,6 @@
-// src/components/pages/ResetPassword.jsx
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { API } from '../../utils/Api';
+import { confirmPasswordReset } from '../../utils/Api';
 import './resetpassword.css';
 
 const ResetPassword = () => {
@@ -15,16 +14,12 @@ const ResetPassword = () => {
   const handleReset = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post('/api/auth/reset-password-confirm/', {
-        uid,
-        token,
-        new_password: password,
-      });
-      setMessage(res.data.message);
+      const res = await confirmPasswordReset({ uid, token, new_password: password });
+      setMessage(res.message);
       setError('');
-      setTimeout(() => navigate('/login'), 3000); // redirect to login
+      setTimeout(() => navigate('/login'), 3000);
     } catch (err) {
-      setError(err.response?.data?.error || 'Password reset failed');
+      setError(err.detail || 'Password reset failed');
       setMessage('');
     }
   };
