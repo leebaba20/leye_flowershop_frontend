@@ -34,14 +34,21 @@ API.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    // Handle timeout error
+    // Handle timeout
     if (error.code === 'ECONNABORTED') {
       return Promise.reject({ detail: 'Request timed out. Please try again.' });
     }
 
-    // Handle 401 token expiration
+    // Handle 401 from token expiry
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
+      const refreshToken = localStorage.getItem('refresh_token');
+      if (!refreshToken) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        return Promise.reject({ detail: 'Session expired. Please login again.' });
+      }
 
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -56,13 +63,6 @@ API.interceptors.response.use(
       }
 
       isRefreshing = true;
-      const refreshToken = localStorage.getItem('refresh_token');
-
-      if (!refreshToken) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        return Promise.reject({ detail: 'Session expired. Please login again.' });
-      }
 
       try {
         const res = await axios.post(`${BASE_URL}/api/auth/token/refresh/`, {
@@ -118,14 +118,20 @@ export const ApiLogin = async ({ username, password }) => {
 export const ApiLogout = async () => {
   try {
     const refreshToken = localStorage.getItem('refresh_token');
+
     if (refreshToken) {
       await API.post('/api/auth/logout/', { refresh: refreshToken });
     }
+
+    // Always clear tokens even if logout fails
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+
     return true;
   } catch (err) {
     console.error("Logout Error:", err);
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     throw parseError(err, 'Logout failed');
   }
 };
@@ -140,6 +146,33 @@ export const saveShippingInfo = async (shippingData) => {
   const res = await API.post('/api/auth/shipping/', shippingData);
   return res.data;
 };
+
+// ========== PASSWORD RESET ==========
+
+export const requestPasswordReset = async (email) => {
+  try {
+    const res = await API.post('/api/auth/reset-password/', { email });
+    return res.data;
+  } catch (err) {
+    console.error("Reset Password Request Error:", err);
+    throw parseError(err, 'Failed to send password reset email');
+  }
+};
+
+export const confirmPasswordReset = async ({ uid, token, new_password }) => {
+  try {
+    const res = await API.post('/api/auth/reset-password-confirm/', {
+      uid,
+      token,
+      new_password,
+    });
+    return res.data;
+  } catch (err) {
+    console.error("Reset Password Confirm Error:", err);
+    throw parseError(err, 'Password reset failed');
+  }
+};
+
 
 // ========== PAYMENT ==========
 export const initializePayment = async (paymentData) => {
