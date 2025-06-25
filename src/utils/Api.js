@@ -22,9 +22,18 @@ const processQueue = (error, token = null) => {
 // ========== REQUEST INTERCEPTOR ==========
 API.interceptors.request.use(config => {
   const token = localStorage.getItem('access_token');
-  if (token) {
+
+  const anonymousEndpoints = [
+    '/api/auth/reset-password/',
+    '/api/auth/reset-password-confirm/',
+  ];
+
+  const isAnonymous = anonymousEndpoints.some(path => config.url.includes(path));
+
+  if (token && !isAnonymous) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 }, error => Promise.reject(error));
 
@@ -34,12 +43,10 @@ API.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    // Handle timeout
     if (error.code === 'ECONNABORTED') {
       return Promise.reject({ detail: 'Request timed out. Please try again.' });
     }
 
-    // Handle 401 from token expiry
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
@@ -123,7 +130,6 @@ export const ApiLogout = async () => {
       await API.post('/api/auth/logout/', { refresh: refreshToken });
     }
 
-    // Always clear tokens even if logout fails
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
 
@@ -148,7 +154,6 @@ export const saveShippingInfo = async (shippingData) => {
 };
 
 // ========== PASSWORD RESET ==========
-
 export const requestPasswordReset = async (email) => {
   try {
     const res = await API.post('/api/auth/reset-password/', { email });
@@ -172,7 +177,6 @@ export const confirmPasswordReset = async ({ uid, token, new_password }) => {
     throw parseError(err, 'Password reset failed');
   }
 };
-
 
 // ========== PAYMENT ==========
 export const initializePayment = async (paymentData) => {

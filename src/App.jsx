@@ -20,7 +20,7 @@ import Shipping from './components/pages/Shipping';
 import AllProducts from './components/pages/AllProducts';
 import Notfound from './components/pages/Notfound';
 import PaymentCallback from './components/pages/Paymentcallback';
-import ResetPassword from './components/pages/ResetPassword'; // ✅ Added
+import ResetPassword from './components/pages/ResetPassword';
 
 // Components
 import Navbar from './components/navbarfiles/Navbar';
@@ -64,7 +64,7 @@ function App() {
               <Route path="/api-test" element={<ApiComponent />} />
               <Route path="/bestsellers" element={<Bestseller showLimited={false} />} />
               <Route path="/latest-collections" element={<LatestCollection showLimited={false} />} />
-              <Route path="/reset-password/:uid/:token" element={<ResetPassword />} /> {/* ✅ Added */}
+              <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
 
               {/* Protected Routes */}
               <Route
@@ -97,7 +97,6 @@ function App() {
 
             <Footer />
 
-            {/* ✅ Global Toast Container for notifications */}
             <ToastContainer position="top-right" autoClose={4000} />
           </CartProvider>
         </UserProvider>
