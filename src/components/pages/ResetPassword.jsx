@@ -26,7 +26,11 @@ const ResetPassword = () => {
 
   return (
     <div className="reset-password-form">
-      <h2>Reset Your Password</h2>
+      <h2>Reset Password Page Loaded ✅</h2> {/* ✅ Debug Text */}
+      <p><strong>UID:</strong> {uid}</p>
+      <p><strong>Token:</strong> {token}</p>
+
+      <h3>Reset Your Password</h3>
       {message && <p className="success">{message}</p>}
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleReset}>

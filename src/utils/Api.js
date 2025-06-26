@@ -28,7 +28,9 @@ API.interceptors.request.use(config => {
     '/api/auth/reset-password-confirm/',
   ];
 
-  const isAnonymous = anonymousEndpoints.some(path => config.url.includes(path));
+const isAnonymous = anonymousEndpoints.some(path =>
+  config.url.endsWith(path) || config.url.includes(`${path}?`)
+);
 
   if (token && !isAnonymous) {
     config.headers.Authorization = `Bearer ${token}`;
