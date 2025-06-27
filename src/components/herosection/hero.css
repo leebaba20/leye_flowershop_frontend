@@ -131,9 +131,9 @@
 
 /* Latest Collections Section */
 .new_collections {
-  padding: 40px 20px 60px; /* Added bottom padding for spacing */
-  background-color: #f2f6ff; /* Light clean background */
-  margin-top: 0;             /* Removed top margin to avoid pushing down */
+  padding: 40px 20px 60px; 
+  background-color: #f2f6ff;
+  margin-top: 0;             
 }
 
 /* Heading and description styling */

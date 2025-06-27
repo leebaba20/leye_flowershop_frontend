@@ -158,7 +158,7 @@ export const saveShippingInfo = async (shippingData) => {
 // ========== PASSWORD RESET ==========
 export const requestPasswordReset = async (email) => {
   try {
-    const res = await API.post('/api/auth/reset-password/', { email });
+    const res = await API.post('/api/auth/reset-password', { email });
     return res.data;
   } catch (err) {
     console.error("Reset Password Request Error:", err);
@@ -168,11 +168,11 @@ export const requestPasswordReset = async (email) => {
 
 export const confirmPasswordReset = async ({ uid, token, new_password }) => {
   try {
-    const res = await API.post('/api/auth/reset-password-confirm/', {
-      uid,
-      token,
-      new_password,
-    });
+    const res = await API.post('/api/auth/reset-password-confirm', {
+  uid,
+  token,
+  new_password,
+});
     return res.data;
   } catch (err) {
     console.error("Reset Password Confirm Error:", err);

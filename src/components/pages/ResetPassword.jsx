@@ -1,47 +1,57 @@
+// src/components/auth/ResetPassword.jsx
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { confirmPasswordReset } from '../../utils/Api';
-import './resetpassword.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPassword = () => {
   const { uid, token } = useParams();
   const navigate = useNavigate();
 
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleReset = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!newPassword || !confirmPassword) return toast.error('Please fill all fields');
+    if (newPassword !== confirmPassword) return toast.error('Passwords do not match');
+
+    setLoading(true);
     try {
-      const res = await confirmPasswordReset({ uid, token, new_password: password });
-      setMessage(res.message);
-      setError('');
-      setTimeout(() => navigate('/login'), 3000);
+      await confirmPasswordReset({ uid, token, new_password: newPassword });
+      toast.success('Password reset successful! Redirecting...');
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      setError(err.detail || 'Password reset failed');
-      setMessage('');
+      toast.error(err?.detail || 'Failed to reset password');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="reset-password-form">
-      <h2>Reset Password Page Loaded ✅</h2> {/* ✅ Debug Text */}
-      <p><strong>UID:</strong> {uid}</p>
-      <p><strong>Token:</strong> {token}</p>
-
-      <h3>Reset Your Password</h3>
-      {message && <p className="success">{message}</p>}
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleReset}>
+    <div className="reset-password-container">
+      <ToastContainer />
+      <h2>Reset Password</h2>
+      <form onSubmit={handleSubmit}>
         <input
           type="password"
-          placeholder="New password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          placeholder="New Password"
+          value={newPassword}
+          onChange={e => setNewPassword(e.target.value)}
           required
         />
-        <button type="submit">Reset Password</button>
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}
+          required
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Resetting...' : 'Reset Password'}
+        </button>
       </form>
     </div>
   );

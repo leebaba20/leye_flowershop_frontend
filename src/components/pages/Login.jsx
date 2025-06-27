@@ -9,7 +9,11 @@ const Login = () => {
   const navigate = useNavigate();
   const { login, user } = useContext(UserContext);
 
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [formData, setFormData] = useState({
+    username: localStorage.getItem('last_email') || '',
+    password: '',
+  });
+
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -37,9 +41,10 @@ const Login = () => {
 
     try {
       setLoading(true);
-
-      // ✅ Call only the context login function
       await login({ username, password });
+
+      // ✅ Save for future auto-fill
+      localStorage.setItem('last_email', username);
 
       toast.success('✅ Login successful! Redirecting...');
       setFormData({ username: '', password: '' });

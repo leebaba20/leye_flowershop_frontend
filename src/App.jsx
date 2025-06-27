@@ -21,6 +21,7 @@ import AllProducts from './components/pages/AllProducts';
 import Notfound from './components/pages/Notfound';
 import PaymentCallback from './components/pages/Paymentcallback';
 import ResetPassword from './components/pages/ResetPassword';
+import ForgotPassword from './components/pages/ForgetPassword';
 
 // Components
 import Navbar from './components/navbarfiles/Navbar';
@@ -65,6 +66,8 @@ function App() {
               <Route path="/bestsellers" element={<Bestseller showLimited={false} />} />
               <Route path="/latest-collections" element={<LatestCollection showLimited={false} />} />
               <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              
 
               {/* Protected Routes */}
               <Route
