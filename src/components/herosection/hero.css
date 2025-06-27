@@ -30,15 +30,19 @@
 }
 
 .hero p {
-  color:rgb(93, 218, 93); /* Dark wine color */
+  color: rgb(93, 218, 93);
   font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: 1.4rem;
+  font-size: 1.2rem; /* Slightly reduced for better scaling */
   margin-bottom: 30px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  animation: slideLeft 1.5s ease forwards;
-  opacity: 0;
-  max-width: 520px;
+  text-shadow: none; /* Remove blur effect on small screens */
+  line-height: 1.6;
+  opacity: 1;
+  animation: none; /* Remove animation if it causes rendering blur */
+  max-width: 100%; /* Allow it to scale better */
+  word-wrap: break-word;
+  text-align: left;
 }
+
 
 .hero button {
   padding: 12px 30px;
