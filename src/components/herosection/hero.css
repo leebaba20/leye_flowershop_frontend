@@ -30,7 +30,7 @@
 }
 
 .hero p {
-  color: rgb(93, 218, 93);
+  color: #096409;
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 1.2rem; /* Slightly reduced for better scaling */
   margin-bottom: 30px;
@@ -41,6 +41,7 @@
   max-width: 100%; /* Allow it to scale better */
   word-wrap: break-word;
   text-align: left;
+  font-weight: bold;
 }
 
 
